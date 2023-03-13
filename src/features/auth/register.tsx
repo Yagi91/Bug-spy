@@ -22,7 +22,7 @@ export default function Register({ handleSubmit, registerStatus, error }: Props)
                 <input
                     type="password"
                     name="password-check"
-                    placeholder="Re-enter Password"
+                    placeholder="Confirm Password"
                     required
                     minLength={8}
                     maxLength={20}

@@ -19,10 +19,9 @@ export default function LogIn({ handleSubmit, loginStatus, error, handleChange }
                 <legend>Login</legend>
                 <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+                <button type="submit" disabled={isLoading}>{isLoading ? "Loading..." : "Login"}Login</button>
                 <div>{error}</div>
-                <button type="submit" disabled={isLoading}>Login</button>
             </fieldset>
-            <div>{isLoading && "Loading..."}</div>
         </form>
     )
 }

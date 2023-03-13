@@ -2,21 +2,22 @@ import React, { useState, useEffect } from "react";
 import LogIn from "./login";
 import Register from "./register";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { changeAuthType as changeAuthTypeAction, loginUser as loginUserAction, selectAuthType } from "./authSlice";
+import { changeAuthType as changeAuthTypeAction, loginUser as loginUserAction, selectAuthType as authType, selectStatus, error as errorAction } from "./authSlice";
 
 interface Props {
   authType: string;
 }
 
 export default function Login({ authType }: Props) {
-  const [authStatus, setAuthStatus] = useState<string>("Typing");
-  const [error, setError] = useState<string>("");
 
-  const dispatch = useAppDispatch()
+  const authStatus = useAppSelector(selectStatus);
+  const { error } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setError("");
-  }, [authType])
+    console.log("authType", authType);
+    dispatch(errorAction(""));
+  }, [authType, dispatch]);
 
   const emailFormatChecker = (email: string): boolean => {
     const emailFormat =
@@ -36,23 +37,15 @@ export default function Login({ authType }: Props) {
     const isEmailValid = emailFormatChecker(email);
     if (isEmailValid && isPasswordValid) {
       //Hit the backend and submit the form
-      // setAuthStatus("Loading");
-      // const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-      // await delay(2000).then(() => { console.log("authStatus: %s", authStatus); setAuthStatus("Success") });
-      // setError("");
-      // setAuthStatus("Success");
-      dispatch(loginUserAction({ email, password }));
-
+      dispatch(loginUserAction({ email: email.toLocaleLowerCase(), password }));
+      return;
     } else if (!isEmailValid) {
-      setError("Please enter a valid email Format");
-      return console.log("Email format is invalid");
-    } else {
-      setError("Invalid Password");
-      return console.log("Password format is invalid: %s", password);
+      errorAction("Please enter a valid email Format");
+      return;
     }
   };
 
-  const handleRegisterForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email: string = event.currentTarget.email.value;
     const password: string = event.currentTarget.password.value;
@@ -61,24 +54,22 @@ export default function Login({ authType }: Props) {
     const isEmailValid = emailFormatChecker(email);
     if (isEmailValid && isPasswordValid && password === passwordCheck) {
       //Hit the backend and submit the form
-      setAuthStatus("Loading");
       const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-      delay(2000).then(() => setAuthStatus("Success"));
-      setError("");
-      setAuthStatus("Success");
+      await delay(2000);
+      // setError("");
     } else if (!isEmailValid) {
-      setError("Please enter a valid email Format");
+      // setError("Please enter a valid email Format");
       return console.log("Email format is invalid");
     } else if (!isPasswordValid) {
-      setError("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number");
+      // setError("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number");
       return console.log("Password format is invalid: %s", password);
     } else if (password !== passwordCheck) {
-      setError("Passwords do not match");
+      // setError("Passwords do not match");
       return console.log("Passwords do not match");
     }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (error) setError("");
+    dispatch(errorAction(""));
     return;
   }
 

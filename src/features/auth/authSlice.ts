@@ -27,6 +27,9 @@ export const loginUser = createAsyncThunk(
       console.log("in the async thunk");
       return { email };
     } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -58,11 +61,15 @@ export const authSlice = createSlice({
       state.authType = action.payload;
       console.log("New authType is %s", state.authType);
     },
+    error: (state: AuthState, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(loginUser.pending, (state) => {
       state.status = "Loading";
       console.log("Loading");
+      state.error = "";
     });
     builder.addCase(
       loginUser.fulfilled,
@@ -72,13 +79,14 @@ export const authSlice = createSlice({
         console.log("success fulfilled", state.userInfo.email);
       }
     );
-    builder.addCase(loginUser.rejected, (state) => {
+    builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.status = "Typing";
+      state.error = payload as string;
     });
   },
 });
 
-export const { changeAuthType } = authSlice.actions;
+export const { changeAuthType, error } = authSlice.actions;
 
 export const selectAuthType = (state: RootState) => state.auth.authType;
 export const selectStatus = (state: RootState) => state.auth.status;
