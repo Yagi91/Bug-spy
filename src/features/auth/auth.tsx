@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import LogIn from "./login";
 import Register from "./register";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { changeAuthType as changeAuthTypeAction, loginUser as loginUserAction, selectAuthType as authType, selectStatus, error as errorAction } from "./authSlice";
+import { loginUser, registerUser, selectStatus, error as errorAction } from "./authSlice";
 
 interface Props {
   authType: string;
@@ -37,7 +37,7 @@ export default function Login({ authType }: Props) {
     const isEmailValid = emailFormatChecker(email);
     if (isEmailValid && isPasswordValid) {
       //Hit the backend and submit the form
-      dispatch(loginUserAction({ email: email.toLocaleLowerCase(), password }));
+      dispatch(loginUser({ email: email.toLocaleLowerCase(), password }));
       return;
     } else if (!isEmailValid) {
       errorAction("Please enter a valid email Format");
@@ -54,22 +54,21 @@ export default function Login({ authType }: Props) {
     const isEmailValid = emailFormatChecker(email);
     if (isEmailValid && isPasswordValid && password === passwordCheck) {
       //Hit the backend and submit the form
-      const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-      await delay(2000);
-      // setError("");
+      dispatch(registerUser({ email: email.toLocaleLowerCase(), password }));
     } else if (!isEmailValid) {
-      // setError("Please enter a valid email Format");
       return console.log("Email format is invalid");
     } else if (!isPasswordValid) {
-      // setError("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number");
-      return console.log("Password format is invalid: %s", password);
+      errorAction("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number");
+      return;
     } else if (password !== passwordCheck) {
-      // setError("Passwords do not match");
+      errorAction("Passwords do not match");
       return console.log("Passwords do not match");
     }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(errorAction(""));
+    if (error) {
+      dispatch(errorAction(""));
+    }
     return;
   }
 
