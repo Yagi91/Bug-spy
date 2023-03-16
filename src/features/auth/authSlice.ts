@@ -75,6 +75,13 @@ export const authSlice = createSlice({
     error: (state: AuthState, action: PayloadAction<string>) => {//Handle errors
       state.error = action.payload;
     },
+    logout: (state: AuthState) => {
+      state.userInfo.email = null;
+      state.error = "";
+      state.status = "Typing";
+      state.userToken = null;
+      localStorage.removeItem("userToken");
+    },//Handle logout
   },
   extraReducers(builder) {
     //Handle async actions for login and register
