@@ -7,6 +7,8 @@ export interface AuthState {
   error: string;
   authType: "Login" | "Register";
   userToken: JSON | null;
+  name?: string;
+  role?: string;
 }
 const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
 
@@ -16,6 +18,8 @@ export const initialState: AuthState = {
   userInfo: { email: null },
   authType: "Login",
   userToken,
+  name: "",
+  role: "",
 };
 
 // export interface SerializedError {
@@ -28,7 +32,7 @@ export const initialState: AuthState = {
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (
-    { email, password }: { readonly email: string; readonly password: string },
+    { email, password }: { email: string; readonly password: string },
     thunkAPI
   ) => {
     try {
@@ -47,13 +51,13 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (
-    { email, password }: { email: string; password: string },
+    { email, password, name, role }: { email: string; name: string; role: string; password: string },
     thunkAPI
   ) => {
     try {
       const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
       await delay(2000);
-      return { email };
+      return { email, name, role };
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -111,6 +115,8 @@ export const authSlice = createSlice({
       state.status = "Success";
       state.userInfo.email = action.payload.email;
       console.log("success fulfilled", state.userInfo.email);
+      state.name = action.payload.name;
+      state.role = action.payload.role;
     });
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       state.status = "Typing";
