@@ -1,25 +1,22 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../../app/store";
+import { RootState } from "../../app/store";
 
 export interface AuthState {
   status: "Typing" | "Loading" | "Success";
-  userInfo: { email: string | null };
+  userInfo: { email: string | null; name?: string; role?: string };
   error: string;
   authType: "Login" | "Register";
   userToken: JSON | null;
-  name?: string;
-  role?: string;
 }
 const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
 
 const initialState: AuthState = {
   error: "",
   status: "Typing",
-  userInfo: { email: null },
+  userInfo: { email: null, name: "", role: "" },
   authType: "Login",
   userToken,
-  name: "",
-  role: "",
+
 };
 
 // export interface SerializedError {
@@ -115,8 +112,8 @@ export const authSlice = createSlice({
       state.status = "Success";
       state.userInfo.email = action.payload.email;
       console.log("success fulfilled", state.userInfo.email);
-      state.name = action.payload.name;
-      state.role = action.payload.role;
+      state.userInfo.name = action.payload.name;
+      state.userInfo.role = action.payload.role;
     });
     builder.addCase(registerUser.rejected, (state, { payload }) => {
       state.status = "Typing";
