@@ -12,7 +12,7 @@ export interface AuthState {
 }
 const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
 
-export const initialState: AuthState = {
+const initialState: AuthState = {
   error: "",
   status: "Typing",
   userInfo: { email: null },
