@@ -8,7 +8,7 @@ interface Props {
   authType: string;
 }
 
-export default function Login({ authType }: Props) {
+export default function Auth({ authType }: Props) {
 
   const authStatus = useAppSelector(selectStatus);
   const { error } = useAppSelector((state) => state.auth);
