@@ -16,7 +16,7 @@ export default function ProjectsCard({ name, Created, bugs, admin, progress, han
         <li className="project-card" onClick={(e) => handleClick(e, name)}>
             <p className="project-card-name">Name:{name}</p>
             <p>Bugs: {bugs}</p>
-            <p>Admin: {admin}</p>
+            <p>Admin: {admin}</p>{/* admin is the name of the user who created the project*/}
             <div>{Created}</div>
             <p>Progress: {progress}</p>
             <div onClick={(e) => { if (typeof handleEdit === 'function') return handleEdit(e) }} >Edit</div>

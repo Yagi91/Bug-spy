@@ -2,25 +2,34 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 
 
-interface option {
-    value: string;
-    options: string;
+interface Props {
+    options?: option[];
+
 }
 
-export default function AddProject() {
-    const dummyOptions = [
-        { value: "Mary", options: "Mary" }, { value: "John", options: "John" }, { value: "Bob", options: "Bob" }, { value: "Jane", options: "Jane" }, { value: "Joe", options: "Joe" }, { value: "Sally", options: "Sally" }, { value: "Sue", options: "Sue" }, { value: "Tom", options: "Tom" }, { value: "Tim", options: "Tim" }, { value: "Bill", options: "Bill" }, { value: "Jill", options: "Jill" }]
+interface option {
+    value: string;
+    label: string;
+}
 
-    const [selectedOption, setSelectedOption] = useState<readonly option[]>([{ options: "", value: "" }]);
+const dummyOptions: readonly option[] = [
+    { value: "Mary", label: "Mary" }, { value: "John", label: "John" }, { value: "Bob", label: "Bob" }, { value: "Jane", label: "Jane" }, { value: "Joe", label: "Joe" }, { value: "Sally", label: "Sally" }, { value: "Sue", label: "Sue" }, { value: "Tom", label: "Tom" }, { value: "Tim", label: "Tim" }, { value: "Bill", label: "Bill" }, { value: "Jill", label: "Jill" }
+];
+
+export default function AddProject({ options }: Props) {
+
+
+    const [selectedOption, setSelectedOption] = useState<readonly option[]>([{ label: "", value: "" }]);
 
 
     return (
         <div>
             <h1>Add Project</h1>
-            <form action="">
+            <form action="" >
                 <input name="name" type="text" placeholder="Project Name" />
                 <input name="description" type="text" placeholder="Project Description" />
                 <Select options={dummyOptions} defaultValue={selectedOption} isSearchable={true} isMulti onChange={(option: readonly option[]) => setSelectedOption(option)} />
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
