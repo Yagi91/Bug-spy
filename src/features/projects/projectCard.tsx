@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Props {
+export interface Props {
     name: string;
     date: string;
     admin: string;
