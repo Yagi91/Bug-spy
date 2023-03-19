@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
 import ParentRoute from './Pages/ProtectedRoute';
 import LoginPage from './Pages/Auth';
+import ProjectPage from './Pages/Projects';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route element={<ParentRoute />} >
             <Route path='/' element={<LoginPage />} />
           </Route>
+          <Route path='/projects' element={<ProjectPage />} />
         </Routes>
       </main>
     </Router >

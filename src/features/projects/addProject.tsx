@@ -28,7 +28,7 @@ export default function AddProject({ options }: Props) {
             <form action="" >
                 <input name="name" type="text" placeholder="Project Name" />
                 <input name="description" type="text" placeholder="Project Description" />
-                <Select options={dummyOptions} defaultValue={selectedOption} isSearchable={true} isMulti onChange={(option: readonly option[]) => setSelectedOption(option)} />
+                <Select options={dummyOptions} isSearchable={true} isMulti onChange={(option: readonly option[]) => setSelectedOption(option)} />
                 <button type="submit">Submit</button>
             </form>
         </div>
