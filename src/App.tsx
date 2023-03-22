@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ParentRoute from './Pages/ProtectedRoute';
 import LoginPage from './Pages/Auth';
 import ProjectPage from './Pages/Projects';
+import ProjectDetailsPage from './Pages/ProjectDetails';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<LoginPage />} />
           </Route>
           <Route path='/projects' element={<ProjectPage />} />
+          <Route path='/projects/:name' element={<ProjectDetailsPage />} />
         </Routes>
       </main>
     </Router >
