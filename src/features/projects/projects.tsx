@@ -4,15 +4,15 @@ import { Props as cardsProps } from "./projectCard";
 import AddProject from "./addProject";
 import Select from "react-select";
 import { useAppSelector } from "../../app/hooks";
+import { ListProjectsProps } from "./listProjects";
 
-const dummyData: cardsProps[] = [
+const dummyData: Omit<cardsProps, "handleClick">[] = [
     {
         name: "Mary",
         bugs: 1,
         Created: "2021-01-01",
         admin: "Mary",
         progress: "Completed",
-        handleClick: () => { },
     },
     {
         name: "John",
@@ -20,7 +20,6 @@ const dummyData: cardsProps[] = [
         Created: "2021-02-01",
         admin: "John",
         progress: "Ongoing",
-        handleClick: () => { },
     },
     {
         name: "Bob",
@@ -28,7 +27,6 @@ const dummyData: cardsProps[] = [
         Created: "2021-03-01",
         admin: "Bob",
         progress: "Completed",
-        handleClick: () => { },
     },
     {
         name: "Jane",
@@ -36,7 +34,6 @@ const dummyData: cardsProps[] = [
         Created: "2021-04-01",
         admin: "Jane",
         progress: "Ongoing",
-        handleClick: () => { },
     },
 ];
 
@@ -50,7 +47,7 @@ const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
 }));
 
 export default function Projects(): JSX.Element {
-    const [projects, setProjects] = React.useState<cardsProps[]>(dummyData);
+    const [projects, setProjects] = React.useState<ListProjectsProps[]>(dummyData);
     const [sort, setSort] = React.useState<SortProject>("Name");
     const [filter, setFilter] = React.useState<FilterProject>("All");
     const [filter1, setFilter1] = React.useState<FilterProject1>("All Projects");

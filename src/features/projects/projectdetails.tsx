@@ -128,7 +128,7 @@ export default function ProjectDetails({ name, id }: Props) {
         getProjectDetails({ id }).then((data) => setProjectDetails(data));
         getProjectMembers({ id }).then((data) => setProjectMembers(data));
         getProjectBugs({ id }).then((data) => setProjectBugs(data));
-    })
+    }, [id])
 
     const deleteProject = async function (): Promise<void> {
         //delete project from database
@@ -168,7 +168,7 @@ export default function ProjectDetails({ name, id }: Props) {
 
     return (
         <div>
-            <head>
+            <header>
                 <title>Project Details</title>
                 <h2>{projectDetails.name}</h2>
                 <p>{projectDetails.description}</p>
@@ -180,11 +180,11 @@ export default function ProjectDetails({ name, id }: Props) {
                     <button>Edit</button>
                     <button onClick={deleteProject} >Delete</button>
                 </div>
-            </head>
+            </header>
             <div>
                 <div>
                     <h3>Project Members</h3>
-                    <p>Invite new Member</p>
+                    <button>Invite new Member</button>
                     <p onClick={() => setShowMembers(!showMembers)}>List Members</p>
                     {
                         showMembers && (
