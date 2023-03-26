@@ -3,9 +3,9 @@ import ListProjects from "./listProjects";
 import { Props as cardsProps } from "./projectCard";
 import AddProject from "./addProject";
 import Select from "react-select";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { ListProjectsProps } from "./listProjects";
-import { selectProjects, selectSort, selectFilterOwner, selectFilterStatus } from "./projectSlice";
+import { selectProjects, selectSort, selectFilterOwner, selectFilterStatus, fetchProjects, sortProjects, filterStatus, filterOwner } from "./projectSlice";
 
 
 const dummyData: Omit<cardsProps, "handleClick">[] = [
@@ -56,20 +56,31 @@ export default function Projects(): JSX.Element {
 
     const user = useAppSelector((state) => state.auth.userInfo.name);
 
-    // const _projects = useAppSelector(selectProjects);
+    const _projects = useAppSelector(selectProjects);
+    const _sort = useAppSelector(selectSort);
+    const _filterOwner = useAppSelector(selectFilterOwner);
+    const _filterStatus = useAppSelector(selectFilterStatus);
+
+    const dispatch = useAppDispatch();
+
     console.log("rendering projects");
+
+
+    React.useEffect(() => {
+        dispatch(fetchProjects());
+    }, [dispatch]);
 
 
     const filteredProjects = React.useMemo(() => {
         if (selectProjects.length > 0) {
-            const filtered = projects.filter((project) => {
-                if (filter === "All") return true;
-                if (filter === "Completed" && project.progress === "Completed") return true;
-                if (filter === "Ongoing" && project.progress === "Ongoing") return true;
+            const filtered = _projects.filter((project) => {
+                if (_filterStatus === "All") return true;
+                if (_filterStatus === "Completed" && project.progress === "Completed") return true;
+                if (_filterStatus === "Ongoing" && project.progress === "Ongoing") return true;
                 return false;
             }).filter((projects) => {
-                if (filter1 === "All Projects") return true;
-                if (filter1 === "My Projects" && projects.admin === user) return true;
+                if (_filterOwner === "All Projects") return true;
+                if (_filterOwner === "My Projects" && projects.admin === user) return true;
                 return false;
             });
             return filtered;
@@ -77,17 +88,17 @@ export default function Projects(): JSX.Element {
         return []
 
     }
-        , [projects, filter, filter1, user]);
+        , [_projects, _filterStatus, _filterOwner, user]);
 
     const sortedProjects = React.useMemo(() => {
         return [...filteredProjects].sort((a, b) => {
-            if (sort === "Name") return a.name.localeCompare(b.name);
-            if (sort === "Most bugs") return b.bugs - a.bugs;
-            if (sort === "Newest") return new Date(b.Created).getTime() - new Date(a.Created).getTime();
-            if (sort === "Admin") return a.admin.localeCompare(b.admin);
+            if (_sort === "Name") return a.name.localeCompare(b.name);
+            if (_sort === "Most bugs") return b.bugs - a.bugs;
+            if (_sort === "Newest") return new Date(b.Created).getTime() - new Date(a.Created).getTime();
+            if (_sort === "Admin") return a.admin.localeCompare(b.admin);
             return 0;
         });
-    }, [filteredProjects, sort]);
+    }, [filteredProjects, _sort]);
 
     return (
         <section>
@@ -102,26 +113,26 @@ export default function Projects(): JSX.Element {
                     <Select
                         options={sortOptions}
                         onChange={(option: { value: string; label: string } | null) =>
-                            setSort(option ? (option.value as SortProject) : "Admin")
+                            sortProjects(option ? (option.value as SortProject) : "Admin")
                         }
                         isSearchable={false}
                     />
                     <p>Filter Projects</p>
                     <div>
-                        {["All", "Completed", "Ongoing"].map((val, index) => {//filter by status
+                        {["All", "Completed", "Ongoing"].map((val, index) => {//filter by project's status
                             return (
                                 <label key={index}>
-                                    <input type="radio" name="filterStatus" value={val} checked={filter === val} onChange={(e) => setFilter(e.target.value as FilterProject)} />
+                                    <input type="radio" name="filterStatus" value={val} checked={_filterStatus === val} onChange={(e) => dispatch(filterStatus(e.target.value as FilterProject))} />
                                     {val}
                                 </label>
                             );
                         })}
                     </div>
                     <div>
-                        {["All Projects", "My Projects"].map((val, index) => {//filter by user
+                        {["All Projects", "My Projects"].map((val, index) => {//filter by owner/creator
                             return (
                                 <label key={index} >
-                                    <input type="radio" name="filterOwner" value={val} checked={filter1 === val} onChange={(e) => setFilter1(e.target.value as FilterProject1)} />
+                                    <input type="radio" name="filterOwner" value={val} checked={_filterOwner === val} onChange={(e) => dispatch(filterOwner(e.target.value as FilterProject1))} />
                                     {val}
                                 </label>
                             );
