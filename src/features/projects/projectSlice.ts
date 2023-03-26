@@ -76,10 +76,10 @@ export const projectSlice = createSlice({
         sortProjects: (state, action: PayloadAction<string>) => {
             state.sort = action.payload as ProjectState["sort"];
         },
-        filterStatus: (state, action: PayloadAction<string>) => {
+        filterProjectsStatus: (state, action: PayloadAction<string>) => {
             state.filterStatus = action.payload as ProjectState["filterStatus"];
         },
-        filterOwner: (state, action: PayloadAction<string>) => {
+        filterProjectsOwner: (state, action: PayloadAction<string>) => {
             state.filterOwner = action.payload as ProjectState["filterOwner"];
         },
     },
@@ -96,7 +96,7 @@ export const projectSlice = createSlice({
     }
 });
 
-export const { sortProjects, filterStatus, filterOwner } = projectSlice.actions;
+export const { sortProjects, filterProjectsStatus, filterProjectsOwner } = projectSlice.actions;
 
 export const selectProjects = (state: RootState) => state.project.projects;
 export const selectSort = (state: RootState) => state.project.sort;
