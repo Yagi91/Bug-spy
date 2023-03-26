@@ -5,6 +5,8 @@ import AddProject from "./addProject";
 import Select from "react-select";
 import { useAppSelector } from "../../app/hooks";
 import { ListProjectsProps } from "./listProjects";
+import { selectProjects, selectSort, selectFilterOwner, selectFilterStatus } from "./projectSlice";
+
 
 const dummyData: Omit<cardsProps, "handleClick">[] = [
     {
@@ -54,64 +56,38 @@ export default function Projects(): JSX.Element {
 
     const user = useAppSelector((state) => state.auth.userInfo.name);
 
-    React.useEffect(() => {
-        //sort projects
-        switch (sort) {
-            case "Name":
-                setProjects([...projects].sort((a, b) => a.name.localeCompare(b.name)));
-                break;
-            case "Most bugs":
-                setProjects([...projects].sort((a, b) => b.bugs - a.bugs));
-                break;
-            case "Newest":
-                setProjects(
-                    [...projects].sort(
-                        (a, b) =>
-                            new Date(b.Created).getTime() - new Date(a.Created).getTime()
-                    )
-                );
-                break;
-            case "Admin":
-                setProjects(
-                    [...projects].sort((a, b) => a.admin.localeCompare(b.admin))
-                );
-                break;
-            default:
-                break;
-        }
-    }, [sort, projects]);
-    React.useEffect(() => {
-        //filter projects
-        switch (filter) {
-            case "All":
-                setProjects(dummyData);
-                break;
-            case "Completed":
-                setProjects(dummyData.filter((project) => project.progress === "Completed"));
-                break;
-            case "Ongoing":
-                setProjects(dummyData.filter((project) => project.progress === "Ongoing"));
-                break;
-            default:
-                break;
-        }
-    }, [filter]);
-    React.useEffect(() => {
-        //filter projects
-        switch (filter1) {
-            case "All Projects":
-                setProjects(dummyData);
-                break;
-            case "My Projects":
-                //get current login user name from data base
-                setProjects(dummyData.filter((project) => project.admin === user));
-                break;
-            default:
-                break;
-        }
-    }, [filter1, user]);
+    // const _projects = useAppSelector(selectProjects);
+    console.log("rendering projects");
 
 
+    const filteredProjects = React.useMemo(() => {
+        if (selectProjects.length > 0) {
+            const filtered = projects.filter((project) => {
+                if (filter === "All") return true;
+                if (filter === "Completed" && project.progress === "Completed") return true;
+                if (filter === "Ongoing" && project.progress === "Ongoing") return true;
+                return false;
+            }).filter((projects) => {
+                if (filter1 === "All Projects") return true;
+                if (filter1 === "My Projects" && projects.admin === user) return true;
+                return false;
+            });
+            return filtered;
+        }
+        return []
+
+    }
+        , [projects, filter, filter1, user]);
+
+    const sortedProjects = React.useMemo(() => {
+        return [...filteredProjects].sort((a, b) => {
+            if (sort === "Name") return a.name.localeCompare(b.name);
+            if (sort === "Most bugs") return b.bugs - a.bugs;
+            if (sort === "Newest") return new Date(b.Created).getTime() - new Date(a.Created).getTime();
+            if (sort === "Admin") return a.admin.localeCompare(b.admin);
+            return 0;
+        });
+    }, [filteredProjects, sort]);
 
     return (
         <section>
@@ -132,7 +108,7 @@ export default function Projects(): JSX.Element {
                     />
                     <p>Filter Projects</p>
                     <div>
-                        {["All", "Completed", "Ongoing"].map((val, index) => {
+                        {["All", "Completed", "Ongoing"].map((val, index) => {//filter by status
                             return (
                                 <label key={index}>
                                     <input type="radio" name="filterStatus" value={val} checked={filter === val} onChange={(e) => setFilter(e.target.value as FilterProject)} />
@@ -142,7 +118,7 @@ export default function Projects(): JSX.Element {
                         })}
                     </div>
                     <div>
-                        {["All Projects", "My Projects"].map((val, index) => {
+                        {["All Projects", "My Projects"].map((val, index) => {//filter by user
                             return (
                                 <label key={index} >
                                     <input type="radio" name="filterOwner" value={val} checked={filter1 === val} onChange={(e) => setFilter1(e.target.value as FilterProject1)} />
@@ -152,7 +128,7 @@ export default function Projects(): JSX.Element {
                         })}
                     </div>
                 </div>
-                <ListProjects projects={projects} />
+                <ListProjects projects={sortedProjects} />
             </div>
         </section>
     );
