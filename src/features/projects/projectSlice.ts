@@ -34,14 +34,14 @@ const defaultProjects: ListProjectsProps[] = [
 ]
 
 export interface ProjectState {
-    projects: ListProjectsProps[] | [];
+    projects: ListProjectsProps[];
     sort: "Name" | "Most bugs" | "Newest" | "Admin";
     filterStatus: "All" | "Completed" | "Ongoing";
     filterOwner: "All Projects" | "My Projects";
 }
 
 const initialState: ProjectState = {
-    projects: [],
+    projects: [] as Array<ListProjectsProps>,
     sort: "Name",
     filterStatus: "All",
     filterOwner: "All Projects",
@@ -67,6 +67,38 @@ export const fetchProjects = createAsyncThunk(
         }
     }
 );
+interface AddNewProjectProps {
+    name: string;
+    description: string;
+    admin: string;
+    selectedMembers?: string[];
+    Created?: string;
+    bugs?: number | undefined;
+    progress?: "Ongoing" | "Completed";
+}
+
+export const addNewProject = createAsyncThunk(
+    "project/addNewProject",
+    async ({ name, description, selectedMembers, admin }: AddNewProjectProps, thunkAPI) => {
+        try {
+            const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+            await delay(2000);
+            // const response = await fetch("http://localhost:3000/projects");
+            // const data = await response.json();
+            // return data;
+            //selectedMembers and description is not needed in the project list until when the backend is ready and I will delete it from the action.payload object
+            const newProject: ListProjectsProps = { name, admin, Created: new Date().toISOString().slice(0, 10), bugs: 0, progress: "Ongoing" };
+            return newProject;
+        }
+        catch (error: any) {
+            if (error.response && error.response.data.message) {
+                return thunkAPI.rejectWithValue(error.response.data.message);
+            }
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
 
 
 export const projectSlice = createSlice({
@@ -89,8 +121,19 @@ export const projectSlice = createSlice({
         });
         builder.addCase(fetchProjects.fulfilled, (state, action) => {
             state.projects = action.payload;
+            console.log("initial list", state.projects.length);
         });
         builder.addCase(fetchProjects.rejected, (state, action) => {
+            console.log(action.payload);
+        });
+        builder.addCase(addNewProject.pending, (state) => {
+            console.log("Adding new project");
+        });
+        builder.addCase(addNewProject.fulfilled, (state, action) => {
+            state.projects = [action.payload, ...state.projects];
+        }
+        );
+        builder.addCase(addNewProject.rejected, (state, action) => {
             console.log(action.payload);
         });
     }

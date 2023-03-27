@@ -13,6 +13,7 @@ import {
     filterProjectsStatus,
     filterProjectsOwner,
     ProjectState,
+    addNewProject,
 } from "./projectSlice";
 
 const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
@@ -22,6 +23,8 @@ const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
 
 export default function Projects(): JSX.Element {
     const user = useAppSelector((state) => state.auth.userInfo.name);
+
+    const userEmail = useAppSelector((state) => state.auth.userInfo.email);
 
     const projects = useAppSelector(selectProjects);
     const sort = useAppSelector(selectSort);
@@ -71,6 +74,19 @@ export default function Projects(): JSX.Element {
         });
     }, [filteredProjects, sort]);
 
+    const handleAddProjects = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name") as string;
+        const description = formData.get("description") as string;
+        const selectedMembers = formData.getAll("options") as string[];
+        const admin = userEmail as string || "admin";
+        formData.append("admin", admin);
+        const newProject = { name, description, selectedMembers, admin };
+        dispatch(addNewProject(newProject));
+        console.log(newProject);
+    }
+
     return (
         <section>
             <header>
@@ -78,7 +94,7 @@ export default function Projects(): JSX.Element {
                 <p>List of all the created projects</p>
             </header>
             <div>
-                <AddProject />
+                <AddProject handleSubmit={handleAddProjects} />
                 <div>
                     <p>Sort Projects</p>
                     <Select
