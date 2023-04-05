@@ -9,7 +9,7 @@ export default function ParentRoute() {
                 <h1>Unauthorized :(</h1>
                 <p>Please log in to view this page</p>
                 <span>
-                    <NavLink to="/login">Login</NavLink>
+                    <NavLink to="/auth">Login</NavLink>
                 </span>
             </div>
         )
