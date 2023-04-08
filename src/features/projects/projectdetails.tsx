@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { setProjectDetails, setProjectMembers, setProjectBugs, setLoading, selectProjectSummary, selectProjectMembers, selectProjectBugs, selectLoading, selectError, getProjectDetails } from './projectDetailSlice';
+import { selectProjectSummary, selectProjectMembers, selectProjectBugs, selectLoading, selectError, getProjectDetails } from './projectDetailSlice';
 
 interface Props {
     name: string;
@@ -44,7 +44,7 @@ export default function ProjectDetails({ name, id }: Props) {
         const data = new Promise<void>((resolve, reject) => {
             setTimeout(() => {
                 //fetch project members from database and delete
-                dispatch(setProjectMembers(projectMembers.filter((member) => member.email !== email)));
+                // dispatch(setProjectMembers(projectMembers.filter((member) => member.email !== email)));
                 console.log("%d Member Deleted", email);
                 resolve();
             }, 1000)

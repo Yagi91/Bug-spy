@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { _ProjectBug } from "../common/types";
 
 
 interface _ProjectSummary {
@@ -17,20 +18,11 @@ interface _ProjectMembers {
     role: string;
 }
 
-interface _ProjectBugs {
-    name: string;
-    id: string;
-    description: string;
-    priority: string;
-    status: string;
-    created: string;
-    updated: string;
-}
 
 export interface ProjectDetailsState {
     projectSummary: _ProjectSummary | null;
     projectMembers: _ProjectMembers[];
-    projectBugs: _ProjectBugs[];
+    projectBugs: _ProjectBug[];
     loading: boolean;
     error?: string | null;
 }
@@ -65,7 +57,7 @@ const dummyMembers: _ProjectMembers[] = [
         role: "Developer",
     },];
 
-const dummyBugs: _ProjectBugs[] = [
+const dummyBugs: _ProjectBug[] = [
     {
         name: "Bug 1",
         description: "Sample Bug Description",
@@ -118,7 +110,7 @@ export const projectDetailsSlice = createSlice({
         setProjectMembers: (state, action: PayloadAction<_ProjectMembers[]>) => {
             state.projectMembers = action.payload;
         },
-        setProjectBugs: (state, action: PayloadAction<_ProjectBugs[]>) => {
+        setProjectBugs: (state, action: PayloadAction<_ProjectBug[]>) => {
             state.projectBugs = action.payload;
         },
         setLoading: (state, action: PayloadAction<boolean>) => {
