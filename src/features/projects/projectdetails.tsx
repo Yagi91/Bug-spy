@@ -92,8 +92,8 @@ export default function ProjectDetails({ name, id }: Props) {
     const [showMembers, setShowMembers] = React.useState<boolean>(false);
 
     const navigate = useNavigate();
-    //fetch project details from database
 
+    //fetch project details from database
     const getProjectDetails = async function ({ id }: { id?: string }): Promise<_ProjectDetails> {
         //fetch project details from database
         // const response = await fetch(`http://localhost:5000/api/projects/${id}`);
