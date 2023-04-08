@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 
-interface _ProjectDetails {
+interface _ProjectSummary {
     name: string;
     description: string;
     admin: string;
@@ -28,13 +28,13 @@ interface _ProjectBugs {
 }
 
 export interface ProjectDetailsState {
-    projectDetails: _ProjectDetails | null;
+    projectSummary: _ProjectSummary | null;
     projectMembers: _ProjectMembers[];
     projectBugs: _ProjectBugs[];
     loading: boolean;
     error?: string | null;
 }
-const dummyDetails: _ProjectDetails = {
+const dummySummary: _ProjectSummary = {
     name: "Project Name",
     description: "Sample Project Description",
     admin: "Mary",
@@ -87,7 +87,7 @@ const dummyBugs: _ProjectBugs[] = [
 ]
 
 const initialState: ProjectDetailsState = {
-    projectDetails: null,
+    projectSummary: null,
     projectMembers: [],
     projectBugs: [],
     loading: true,
@@ -112,8 +112,8 @@ export const projectDetailsSlice = createSlice({
     name: "projectDetails",
     initialState,
     reducers: {
-        setProjectDetails: (state, action: PayloadAction<_ProjectDetails>) => {
-            state.projectDetails = action.payload;
+        setProjectDetails: (state, action: PayloadAction<_ProjectSummary>) => {
+            state.projectSummary = action.payload;
         },
         setProjectMembers: (state, action: PayloadAction<_ProjectMembers[]>) => {
             state.projectMembers = action.payload;
@@ -130,7 +130,7 @@ export const projectDetailsSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(getProjectDetails.fulfilled, (state, action) => {
-            state.projectDetails = dummyDetails;
+            state.projectSummary = dummySummary;
             state.projectMembers = dummyMembers;
             state.projectBugs = dummyBugs;
             state.loading = false;
@@ -144,7 +144,7 @@ export const projectDetailsSlice = createSlice({
 
 export const { setProjectDetails, setProjectMembers, setProjectBugs, setLoading } = projectDetailsSlice.actions;
 
-export const selectProjectDetails = (state: RootState) => state.projectDetails.projectDetails;
+export const selectProjectSummary = (state: RootState) => state.projectDetails.projectSummary;
 export const selectProjectMembers = (state: RootState) => state.projectDetails.projectMembers;
 export const selectProjectBugs = (state: RootState) => state.projectDetails.projectBugs;
 export const selectLoading = (state: RootState) => state.projectDetails.loading;
