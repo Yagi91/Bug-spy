@@ -3,6 +3,7 @@ import counterReducer from "../features/counter/counterSlice";
 import authReducer from "../features/auth/authSlice";
 import projectReducer from "../features/projects/projectSlice";
 import projectDetailsReducer from "../features/projects/projectDetailSlice";
+import myTicketReducer from "../features/myTickets/myTicketSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     auth: authReducer,
     project: projectReducer,
     projectDetails: projectDetailsReducer,
+    myTickets: myTicketReducer,
   },
 });
 

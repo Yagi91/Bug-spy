@@ -8,6 +8,7 @@ import ParentRoute from './Pages/ProtectedRoute';
 import LoginPage from './Pages/Auth';
 import ProjectPage from './Pages/Projects';
 import ProjectDetailsPage from './Pages/ProjectDetails';
+import MyTicketsPage from './Pages/MyTickets';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           </Route>
           <Route path='/projects' element={<ProjectPage />} />
           <Route path='/projects/:name' element={<ProjectDetailsPage />} />
+          <Route path='/mytickets' element={<MyTicketsPage />} />
         </Routes>
       </main>
     </Router >
