@@ -69,6 +69,10 @@ export default function Register({
             onChange={handleChange}
             className="simple-input w-full"
           />
+          <span className="block text-left text-xs font-light">
+            Must be at least 8 characters long, a capital and small letter, with
+            numbers.
+          </span>
         </label>
         <label>
           <span className="block text-left">Confirm Password</span>

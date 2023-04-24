@@ -20,6 +20,7 @@ export default function LogIn({
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <fieldset className="flex flex-col gap-5">
+        <legend>Login</legend>
         <label className="block">
           <span className="block text-left">Your email</span>
           <input
