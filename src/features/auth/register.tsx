@@ -19,68 +19,68 @@ export default function Register({
   if (isLoggedIn) return <h1>Sign Up Success</h1>;
   return (
     <form onSubmit={handleSubmit}>
-      <fieldset>
+      <fieldset className="flex flex-col gap-3">
         <legend>Sign Up</legend>
         <label>
-            <span>Name</span>
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Name"
-          required
-          onChange={handleChange}
-          minLength={1}
-          maxLength={30}
-          className="simple-input w-full"
-        />
+          <span className="block text-left">Name</span>
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Enter your name here"
+            required
+            onChange={handleChange}
+            minLength={1}
+            maxLength={30}
+            className="simple-input w-full"
+          />
         </label>
         <label>
-            <span>Role</span>
-        <input
-          type="text"
-          name="myRole"
-          placeholder="Role"
-          required
-          onChange={handleChange}
-          className="simple-input w-full"
-        />
+          <span className="block text-left">Role</span>
+          <input
+            type="text"
+            name="myRole"
+            placeholder="Enter your role"
+            required
+            onChange={handleChange}
+            className="simple-input w-full"
+          />
         </label>
         <label>
-            <span>Email</span>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          required
-          onChange={handleChange}
-          className="simple-input w-full"
-        />
+          <span className="block text-left">Email</span>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter a valid email"
+            required
+            onChange={handleChange}
+            className="simple-input w-full invalid:ring-red-300"
+          />
         </label>
         <label>
-            <span>Passwprd</span>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-          minLength={8}
-          maxLength={20}
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-          onChange={handleChange}
-          className="simple-input w-full"
-        />
+          <span className="block text-left">Password</span>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter a strong password"
+            required
+            minLength={8}
+            maxLength={20}
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+            onChange={handleChange}
+            className="simple-input w-full"
+          />
         </label>
         <label>
-            <span>Confirm Password</span>
-        <input
-          type="password"
-          name="password-check"
-          placeholder="Confirm Password"
-          required
-          minLength={8}
-          maxLength={20}
-          className="simple-input w-full"
-        />
+          <span className="block text-left">Confirm Password</span>
+          <input
+            type="password"
+            name="password-check"
+            placeholder="Re-enter Password"
+            required
+            minLength={8}
+            maxLength={20}
+            className="simple-input w-full"
+          />
         </label>
         <div>{error}</div>
         <button className="btn-primary w-full" type="submit">
