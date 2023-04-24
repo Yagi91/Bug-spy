@@ -2,22 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   @font-face {
-    font-family: 'Inter Variable';
-    src: url('../src/assets/fonts/Inter-VariableFont_slnt\,wght.ttf');
+    font-family: "Inter Variable";
+    src: url("../src/assets/fonts/Inter-VariableFont_slnt\,wght.ttf");
   }
+}
 
+@layer components {
+  .simple-input {
+    @apply rounded-xl bg-gray-100 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400;
+  }
+  .btn-primary{
+    @apply rounded-xl bg-primary-600 px-4 py-2 font-bold text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-200;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
 }
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }

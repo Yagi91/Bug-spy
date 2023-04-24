@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
 import LogIn from "./login";
 import Register from "./register";
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { loginUser, registerUser, selectStatus, error as errorAction } from "./authSlice";
+import person from "./images/user-login.svg";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { changeAuthType as changeAuthTypeAction } from "./authSlice";
+import {
+  loginUser,
+  registerUser,
+  selectStatus,
+  error as errorAction,
+} from "./authSlice";
 
 interface Props {
   authType: string;
 }
 
 export default function Auth({ authType }: Props) {
-
   const authStatus = useAppSelector(selectStatus);
   const { error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
@@ -35,7 +41,9 @@ export default function Auth({ authType }: Props) {
     } else return console.log("Email or password is invalid");
   };
 
-  const handleRegisterForm = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterForm = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     const name: string = event.currentTarget.fullName.value;
     const role: string = event.currentTarget.myRole.value;
@@ -45,9 +53,13 @@ export default function Auth({ authType }: Props) {
     const isPasswordValid = passwordFormatChecker(password);
     if (isPasswordValid && password === passwordCheck) {
       //Hit the backend and submit the form
-      dispatch(registerUser({ email: email.toLocaleLowerCase(), password, role, name }));
+      dispatch(
+        registerUser({ email: email.toLocaleLowerCase(), password, role, name })
+      );
     } else if (!isPasswordValid) {
-      errorAction("Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number");
+      errorAction(
+        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
+      );
       return;
     } else if (password !== passwordCheck) {
       errorAction("Passwords do not match");
@@ -59,14 +71,50 @@ export default function Auth({ authType }: Props) {
       dispatch(errorAction(""));
     }
     return;
-  }
-
+  };
   return (
-    <section>
-      {
-        authType === "Login" ? <LogIn handleSubmit={handleLogInForm} loginStatus={authStatus} error={error} handleChange={handleFormChange} /> : <Register handleSubmit={handleRegisterForm} handleChange={handleFormChange} registerStatus={authStatus} error={error} />
-      }
-
+    <section className=" flex h-full items-center gap-3 p-2">
+      <div className=" hidden w-1/2 sm:block">
+        <img src={person} alt="a person" />
+      </div>
+      <div className=" mx-auto w-3/4 p-2 sm:w-1/2 ">
+        {authType === "Login" ? (
+          <LogIn
+            handleSubmit={handleLogInForm}
+            loginStatus={authStatus}
+            error={error}
+            handleChange={handleFormChange}
+          />
+        ) : (
+          <Register
+            handleSubmit={handleRegisterForm}
+            handleChange={handleFormChange}
+            registerStatus={authStatus}
+            error={error}
+          />
+        )}
+        {authType === "Login" ? (
+          <p className="mt-2 p-2">
+            Don't have an account?{" "}
+            <button
+              className="text-primary-500"
+              onClick={() => dispatch(changeAuthTypeAction("Register"))}
+            >
+              Register
+            </button>
+          </p>
+        ) : (
+          <p className="mt-2 p-2">
+            Already have an account?{" "}
+            <button
+              className="text-primary-500"
+              onClick={() => dispatch(changeAuthTypeAction("Login"))}
+            >
+              Login
+            </button>
+          </p>
+        )}
+      </div>
     </section>
   );
 }

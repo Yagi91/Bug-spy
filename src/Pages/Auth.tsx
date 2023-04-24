@@ -1,37 +1,15 @@
 import Auth from "../features/auth/auth";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import {
-  changeAuthType as changeAuthTypeAction,
-  selectAuthType,
-} from "../features/auth/authSlice";
-// import { NavLink } from 'react-router-dom';
+import { useAppSelector } from "../app/hooks";
+import { selectAuthType } from "../features/auth/authSlice";
 
 export default function LoginPage() {
   // const [authType, setAuthType] = useState<string>("Login");
 
-  const dispatch = useAppDispatch();
   const authType = useAppSelector(selectAuthType);
 
   return (
-    <div>
+    <div className=" container mx-auto h-full ">
       <Auth authType={authType} />
-      <div>
-        {authType === "Login" ? (
-          <p>
-            Don't have an account?{" "}
-            <button onClick={() => dispatch(changeAuthTypeAction("Register"))}>
-              Register
-            </button>
-          </p>
-        ) : (
-          <p>
-            Already have an account?{" "}
-            <button onClick={() => dispatch(changeAuthTypeAction("Login"))}>
-              Login
-            </button>
-          </p>
-        )}
-      </div>
     </div>
   );
 }

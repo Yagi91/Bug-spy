@@ -13,7 +13,7 @@ import MyTicketsPage from "./Pages/MyTickets";
 function App() {
   return (
     <Router>
-      <main className="content App container font-inter">
+      <main className="App h-screen border font-inter">
         <Routes>
           {/* <Route path={["/login", "/auth", "register"]} element={<LoginPage />} /> */}
           {["/auth"].map((path) => (
