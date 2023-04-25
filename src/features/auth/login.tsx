@@ -1,4 +1,5 @@
 import React from "react";
+import { SimpleInput } from "./commons";
 
 interface Props {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -20,29 +21,27 @@ export default function LogIn({
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <fieldset className="flex flex-col gap-5">
-        <legend>Login</legend>
-        <label className="block">
-          <span className="block text-left">Your email</span>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            onChange={handleChange}
-            required
-            className="simple-input w-full invalid:ring-red-300"
-          />
-        </label>
-        <label className="block">
-          <span className="block text-left">Password</span>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            onChange={handleChange}
-            required
-            className="simple-input w-full"
-          />
-        </label>
+        <legend className="py-2 text-left text-2xl font-extrabold">
+          Login
+        </legend>
+        <SimpleInput
+          handleChange={handleChange}
+          type="email"
+          name="email"
+          placeholder="Enter your email"
+          required={true}
+          label="Email"
+          extraClass="invalid:ring-red-300 w-full"
+        />
+        <SimpleInput
+          handleChange={handleChange}
+          type="password"
+          name="password"
+          placeholder="Enter your password"
+          required={true}
+          label="Password"
+          extraClass="invalid:ring-red-300 w-full"
+        />
         <button
           type="submit"
           disabled={isLoading}

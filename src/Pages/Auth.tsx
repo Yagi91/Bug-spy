@@ -8,7 +8,7 @@ export default function LoginPage() {
   const authType = useAppSelector(selectAuthType);
 
   return (
-    <div className=" container mx-auto h-full ">
+    <div className="container mx-auto flex h-full items-center justify-center">
       <Auth authType={authType} />
     </div>
   );

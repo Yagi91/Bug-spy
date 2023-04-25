@@ -73,7 +73,7 @@ export default function Auth({ authType }: Props) {
     return;
   };
   return (
-    <section className=" flex h-full items-center gap-3 p-2">
+    <section className="flex h-fit items-center gap-3 rounded-md border bg-white p-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
       <div className=" hidden w-1/2 sm:block">
         <img src={person} alt="a person" />
       </div>
