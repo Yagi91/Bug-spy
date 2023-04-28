@@ -9,6 +9,7 @@ import LoginPage from "./Pages/Auth";
 import ProjectPage from "./Pages/Projects";
 import ProjectDetailsPage from "./Pages/ProjectDetails";
 import MyTicketsPage from "./Pages/MyTickets";
+import Layout from "./Pages/Layout";
 
 function App() {
   return (
@@ -19,12 +20,17 @@ function App() {
           {["/auth"].map((path) => (
             <Route key={path} path={path} element={<LoginPage />} />
           ))}
-          <Route element={<ParentRoute />}>
+          {/* <Route element={<ParentRoute />}>
             <Route path="/" element={<LoginPage />} />
+          </Route> */}
+          <Route path="/" element={<Layout />}>
+            <Route path="/projects" element={<ProjectPage />} />
+            <Route path="/projects/:name" element={<ProjectDetailsPage />} />
+            <Route path="/my-tickets" element={<MyTicketsPage />} />
           </Route>
-          <Route path="/projects" element={<ProjectPage />} />
+          {/* <Route path="/projects" element={<ProjectPage />} />
           <Route path="/projects/:name" element={<ProjectDetailsPage />} />
-          <Route path="/my-tickets" element={<MyTicketsPage />} />
+          <Route path="/my-tickets" element={<MyTicketsPage />} /> */}
         </Routes>
       </main>
     </Router>
