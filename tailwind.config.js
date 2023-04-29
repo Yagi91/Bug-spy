@@ -8,7 +8,7 @@ module.exports = {
         primary: colors.blue,
         secondary: colors.red,
         accent: colors.green,
-        neutral: colors.coolGray,
+        neutral: colors.gray,
       },
       fontFamily: {
         inter: ["Inter Variable", "sans-serif"],
