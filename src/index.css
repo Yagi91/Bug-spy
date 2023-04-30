@@ -22,6 +22,10 @@
   .nav-element {
     @apply flex gap-2 rounded-full p-2 transition-all duration-200 ease-in-out hover:bg-neutral-200 sm:w-full;
   }
+  /* this active is meant to style Navlinks  */
+  /* .active {
+    @apply text-accent-500;
+  } */
 }
 
 *,
