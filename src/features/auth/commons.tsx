@@ -12,6 +12,7 @@ interface Props {
   pattern?: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   extraInfo?: string;
+  containerClass?: string;
 }
 
 export function SimpleInput({
@@ -21,6 +22,7 @@ export function SimpleInput({
   required,
   placeholder,
   label,
+  containerClass,
   extraClass,
   min,
   max,
@@ -29,7 +31,7 @@ export function SimpleInput({
 }: Props): JSX.Element {
   return (
     <>
-      <label>
+      <label className={containerClass}>
         <span className="label">{label}</span>
         <input
           type={type}
@@ -37,8 +39,8 @@ export function SimpleInput({
           onChange={handleChange}
           required={required}
           placeholder={placeholder}
-          min={min}
-          max={max}
+          minLength={min}
+          maxLength={max}
           pattern={pattern}
         />
         {extraInfo && (
