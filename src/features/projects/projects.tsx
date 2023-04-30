@@ -90,6 +90,7 @@ export default function Projects(): JSX.Element {
   };
 
   const handleShowAddProject = () => {
+    console.log("Clicked change", showAddProject);
     setShowAddProject(!showAddProject);
   };
 
@@ -104,7 +105,11 @@ export default function Projects(): JSX.Element {
           <span className="material-symbols-outlined">add</span>
           <span>Add project</span>
         </button>
-        {showAddProject && <AddProject handleSubmit={handleAddProjects} />}
+        <AddProject
+          display={showAddProject}
+          handleCancel={handleShowAddProject}
+          handleSubmit={handleAddProjects}
+        />
         {/* <AddProject handleSubmit={handleAddProjects} /> */}
         <div>
           <p>Sort Projects</p>
