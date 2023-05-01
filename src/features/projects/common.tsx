@@ -2,7 +2,7 @@ import React from "react";
 
 export function SearchBar(): JSX.Element {
   return (
-    <form>
+    <form className="sm:w-2/3 w-full">
       <label className="relative block">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
           <svg

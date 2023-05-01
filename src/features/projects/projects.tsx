@@ -105,7 +105,7 @@ export default function Projects(): JSX.Element {
 
   return (
     <section className="h-full w-full border p-1">
-      <header className="flex justify-evenly">
+      <header className="flex justify-between">
         <SearchBar />
         <button
           className="btn-primary hidden items-center text-center text-[13px] sm:flex md:text-base"
