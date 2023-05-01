@@ -5,7 +5,6 @@ import { SimpleInput } from "../auth/commons";
 interface Props {
   options?: option[];
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-  display?: boolean;
   handleCancel?: () => void;
 }
 
@@ -34,20 +33,14 @@ const dummyOptions: readonly option[] = [
 export default function AddProject({
   options,
   handleSubmit,
-  display,
   handleCancel,
 }: Props) {
   const [selectedOptions, setSelectedOptions] = useState<
     readonly option[] | null
   >(null);
 
-  const show = display ? "block" : "hidden";
-
-  console.log(display, show);
   return (
-    <div
-      className={`w-fit rounded-xl border border-secondary-300 bg-white px-2 py-4 ${show}`}
-    >
+    <div className={`w-fit rounded-xl border  bg-white px-2 py-4`}>
       <h1 className="mb-2 text-left font-bold">New Project</h1>
       <form action="" onSubmit={handleSubmit} className="flex flex-col gap-8">
         <fieldset className="flex w-full gap-2">
@@ -74,7 +67,7 @@ export default function AddProject({
             containerClass="w-1/2"
           />
         </fieldset>
-        {/* // * Users: A select field for selecting users to add to the project. */}
+        {/* // * Users: A select field for selecting Members to add to the project. */}
         <Select
           name="options"
           required
@@ -82,7 +75,7 @@ export default function AddProject({
           value={selectedOptions}
           isSearchable={true}
           isMulti
-          placeholder="Select Users..."
+          placeholder="Select Members..."
           onChange={(option: readonly option[]) => setSelectedOptions(option)}
           styles={{
             control: (baseStyles, state) => ({

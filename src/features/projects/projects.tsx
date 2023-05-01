@@ -3,6 +3,7 @@ import ListProjects from "./listProjects";
 import AddProject from "./addProject";
 import Select from "react-select";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { SearchBar, FloatingButton } from "./common";
 import {
   selectProjects,
   selectSort,
@@ -86,31 +87,47 @@ export default function Projects(): JSX.Element {
     formData.append("admin", admin);
     const newProject = { name, description, selectedMembers, admin };
     dispatch(addNewProject(newProject));
+    handleShowAddProject();
     console.log(newProject);
   };
 
   const handleShowAddProject = () => {
-    console.log("Clicked change", showAddProject);
     setShowAddProject(!showAddProject);
   };
 
+  const listButton: JSX.Element = (
+    <FloatingButton
+      handleClick={handleShowAddProject}
+      text="Add Project"
+      icon="add"
+    />
+  );
+
   return (
-    <section className="w-full border p-1">
-      <header></header>
-      <div>
+    <section className="h-full w-full border p-1">
+      <header className="flex justify-evenly">
+        <SearchBar />
         <button
-          className="btn-primary flex font-normal"
+          className="btn-primary hidden items-center text-center text-[13px] sm:flex md:text-base"
           onClick={handleShowAddProject}
         >
-          <span className="material-symbols-outlined">add</span>
+          <span className="material-symbols-outlined text-[15px] md:text-base">
+            add
+          </span>
           <span>Add project</span>
         </button>
-        <AddProject
-          display={showAddProject}
-          handleCancel={handleShowAddProject}
-          handleSubmit={handleAddProjects}
-        />
-        {/* <AddProject handleSubmit={handleAddProjects} /> */}
+        {showAddProject && (
+          <div
+            className={`absolute bottom-0 left-0 right-0 top-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
+          >
+            <AddProject
+              handleCancel={handleShowAddProject}
+              handleSubmit={handleAddProjects}
+            />
+          </div>
+        )}
+      </header>
+      <div className="relative">
         <div>
           <p>Sort Projects</p>
           <Select
@@ -173,7 +190,7 @@ export default function Projects(): JSX.Element {
           </div>
         </div>
         <h1>Projects</h1>
-        <ListProjects projects={sortedProjects} />
+        <ListProjects projects={sortedProjects} floatingButton={listButton} />
       </div>
     </section>
   );
