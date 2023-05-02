@@ -2,7 +2,7 @@ import React from "react";
 
 export function SearchBar(): JSX.Element {
   return (
-    <form className="sm:w-2/3 w-full">
+    <form className="w-full sm:w-2/3">
       <label className="relative block">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
           <svg
@@ -46,5 +46,45 @@ export function FloatingButton({
       <span className="material-symbols-outlined">{icon}</span>
       <span className="hidden sm:block">{text}</span>
     </button>
+  );
+}
+
+interface SelectProps {
+  checked?: boolean;
+  label?: string;
+  val?: string;
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export function SwitchToggle({
+  val,
+  handleChange,
+  checked,
+  label,
+}: SelectProps) {
+  return (
+    <div className="flex items-center justify-center">
+      <div className="relative ml-2 inline-block w-10 select-none align-middle transition duration-200 ease-in">
+        <input
+          type="checkbox"
+          name="toggle"
+          value={val}
+          checked={checked}
+          id="toggle"
+          onChange={handleChange}
+          className="toggle-checkbox absolute block h-6 w-6 cursor-pointer appearance-none rounded-full border-4 border-primary-500 bg-white transition-all checked:right-0 checked:border-white checked:bg-primary-700 focus:ring-8 checked:active:ring-primary-500"
+        />
+        <label
+          htmlFor="toggle"
+          className={
+            `toggle-label block h-6 cursor-pointer overflow-hidden rounded-full transition-all` +
+            (checked ? ` bg-primary-500` : ` bg-neutral-300`)
+          }
+        ></label>
+      </div>
+      <label htmlFor="toggle" className="text-gray-700">
+        {label}
+      </label>
+    </div>
   );
 }

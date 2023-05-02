@@ -3,7 +3,7 @@ import ListProjects from "./listProjects";
 import AddProject from "./addProject";
 import Select from "react-select";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { SearchBar, FloatingButton } from "./common";
+import { SearchBar, FloatingButton, SwitchToggle } from "./common";
 import {
   selectProjects,
   selectSort,
@@ -103,6 +103,14 @@ export default function Projects(): JSX.Element {
     />
   );
 
+  const handleSwitch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      dispatch(filterProjectsOwner("My Projects"));
+    } else {
+      dispatch(filterProjectsOwner("All Projects"));
+    }
+  };
+
   return (
     <section className="h-full w-full border p-1">
       <header className="flex justify-between">
@@ -127,9 +135,8 @@ export default function Projects(): JSX.Element {
           </div>
         )}
       </header>
-      <div className="relative">
-        <div>
-          <p>Sort Projects</p>
+      <div>
+        <div className="flex">
           <Select
             options={sortOptions}
             onChange={(option: { value: string; label: string } | null) =>
@@ -140,8 +147,8 @@ export default function Projects(): JSX.Element {
               )
             }
             isSearchable={false}
+            placeholder="Sort By"
           />
-          <p>Filter Projects</p>
           <div>
             {["All", "Completed", "Ongoing"].map((val, index) => {
               //filter by project's status
@@ -165,29 +172,12 @@ export default function Projects(): JSX.Element {
               );
             })}
           </div>
-          <div>
-            {["All Projects", "My Projects"].map((val, index) => {
-              //filter by owner/creator
-              return (
-                <label key={index}>
-                  <input
-                    type="radio"
-                    name="filterOwner"
-                    value={val}
-                    checked={filterOwner === val}
-                    onChange={(e) =>
-                      dispatch(
-                        filterProjectsOwner(
-                          e.target.value as ProjectState["filterOwner"]
-                        )
-                      )
-                    }
-                  />
-                  {val}
-                </label>
-              );
-            })}
-          </div>
+          <SwitchToggle
+            val="My Projects"
+            handleChange={handleSwitch}
+            checked={filterOwner === "My Projects"}
+            label="My Projects"
+          />
         </div>
         <h1>Projects</h1>
         <ListProjects projects={sortedProjects} floatingButton={listButton} />
