@@ -12,25 +12,39 @@ interface Props {
 export default function ListProjects({ projects, floatingButton }: Props) {
   const navigate = useNavigate();
 
-  const handleClick = (e: React.MouseEvent<HTMLLIElement>, name: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLTableRowElement>,
+    name: string
+  ) => {
     e.preventDefault();
     navigate(`/projects/${name}`);
   };
 
   return (
-    <div>
-      <h1>Projects</h1>
-      <ul>
-        {projects.map((project) => (
-          <ProjectsCard
-            key={project.name}
-            {...project}
-            handleClick={(e) => {
-              handleClick(e, project.name);
-            }}
-          />
-        ))}
-      </ul>
+    <div className="border bg-red-400 text-neutral-900">
+      <h1 className="text-left text-xl font-bold">Projects</h1>
+      <table className="w-full table-auto border bg-white">
+        <thead className=" ">
+          <tr>
+            <th>Name</th>
+            <th>Admin</th>
+            <th>Created</th>
+            <th>Bugs</th>
+            <th>Progress</th>
+          </tr>
+        </thead>
+        <tbody>
+          {projects.map((project) => (
+            <ProjectsCard
+              key={project.name}
+              {...project}
+              handleClick={(e) => {
+                handleClick(e, project.name);
+              }}
+            />
+          ))}
+        </tbody>
+      </table>
       {floatingButton}
     </div>
   );

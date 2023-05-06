@@ -190,7 +190,6 @@ export default function Projects(): JSX.Element {
             extraClass="hidden sm:flex text-base"
           />
         </div>
-        <h1>Projects</h1>
         <ListProjects projects={sortedProjects} floatingButton={listButton} />
       </div>
     </section>

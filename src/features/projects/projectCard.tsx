@@ -1,25 +1,50 @@
-import React from 'react';
+import React from "react";
 
 export interface Props {
-    name: string;
-    bugs: number;
-    Created: string;
-    admin: string;
-    progress: "Completed" | "Ongoing";
-    handleClick: (event: React.MouseEvent<HTMLLIElement>, name: string) => void;
-    handleEdit?: (event: React.MouseEvent<HTMLDivElement>) => void;//has to stop propagation to prevent the parent li from being clicked
-
+  name: string;
+  bugs: number;
+  Created: string;
+  admin: string;
+  progress: "Completed" | "Ongoing";
+  handleClick: (
+    event: React.MouseEvent<HTMLTableRowElement>,
+    name: string
+  ) => void;
+  handleEdit?: (event: React.MouseEvent<HTMLDivElement>) => void; //has to stop propagation to prevent the parent li from being clicked
 }
 
-export default function ProjectsCard({ name, Created, bugs, admin, progress, handleClick, handleEdit }: Props): JSX.Element {
-    return (
-        <li className="project-card" onClick={(e) => handleClick(e, name)}>
-            <p className="project-card-name">Name:{name}</p>
-            <p>Bugs: {bugs}</p>
-            <p>Admin: {admin}</p>{/* admin is the name of the user who created the project*/}
-            <div>{Created}</div>
-            <p>Progress: {progress}</p>
-            <div onClick={(e) => { if (typeof handleEdit === 'function') return handleEdit(e) }} >Edit</div>
-        </li>
-    )
+export default function ProjectsCard({
+  name,
+  Created,
+  bugs,
+  admin,
+  progress,
+  handleClick,
+  handleEdit,
+}: Props): JSX.Element {
+  return (
+    // <li className="project-card" onClick={(e) => handleClick(e, name)}>
+    //     <p className="project-card-name">Name:{name}</p>
+    //     <p>Bugs: {bugs}</p>
+    //     <p>Admin: {admin}</p>{/* admin is the name of the user who created the project*/}
+    //     <div>{Created}</div>
+    //     <p>Progress: {progress}</p>
+    //     <div onClick={(e) => { if (typeof handleEdit === 'function') return handleEdit(e) }} >Edit</div>
+    // </li>
+    <tr className="project-card" onClick={(e) => handleClick(e, name)}>
+      <td className="project-card-name">{name}</td>
+      <td>{admin}</td>
+      <td>{Created}</td>
+      <td>{bugs}</td>
+      <td>{progress}</td>
+      <td
+        onClick={(e) => {
+          if (typeof handleEdit === "function") return handleEdit(e);
+        }}
+        className="hidden sm:block"
+      >
+        Edit
+      </td>
+    </tr>
+  );
 }
