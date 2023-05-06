@@ -54,6 +54,7 @@ interface SelectProps {
   label?: string;
   val?: string;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  extraClass?: string;
 }
 
 export function SwitchToggle({
@@ -61,9 +62,10 @@ export function SwitchToggle({
   handleChange,
   checked,
   label,
+  extraClass,
 }: SelectProps) {
   return (
-    <div className="flex items-center justify-center">
+    <div className={`flex items-center justify-center ${extraClass}`}>
       <div className="relative ml-2 inline-block w-10 select-none align-middle transition duration-200 ease-in">
         <input
           type="checkbox"
@@ -85,6 +87,55 @@ export function SwitchToggle({
       <label htmlFor="toggle" className="text-gray-700">
         {label}
       </label>
+    </div>
+  );
+}
+
+interface AnimatedRadioGroupProps {
+  icons: string[];
+  options: string[];
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selected?: string;
+}
+
+// A radio button with background colors than changes if selected.
+export function AnimatedRadioGroup({
+  options,
+  handleChange,
+  selected,
+  icons,
+}: AnimatedRadioGroupProps) {
+  return (
+    // <div className="grid h-max w-80 grid-cols-4 space-x-2 rounded-xl bg-neutral-200 p-1">
+    <div className="flex h-fit rounded-xl bg-neutral-200 p-1">
+      {options?.map((option, i) => (
+        <div className="grow" key={option}>
+          <input
+            type="radio"
+            name="option"
+            id={option}
+            className="peer hidden"
+            value={option}
+            onChange={handleChange}
+            checked={selected === option}
+          />
+          <label
+            htmlFor={option}
+            className="block cursor-pointer select-none rounded-xl p-1 text-center peer-checked:bg-primary-500 peer-checked:font-bold peer-checked:text-white"
+          >
+            {icons[i] ? (
+              <>
+                <span className="hidden sm:inline">{option}</span>
+                <span className="material-symbols-outlined text-xs sm:hidden">
+                  {icons[i]}
+                </span>
+              </>
+            ) : (
+              <span>{option}</span>
+            )}
+          </label>
+        </div>
+      ))}
     </div>
   );
 }

@@ -3,7 +3,12 @@ import ListProjects from "./listProjects";
 import AddProject from "./addProject";
 import Select from "react-select";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { SearchBar, FloatingButton, SwitchToggle } from "./common";
+import {
+  SearchBar,
+  FloatingButton,
+  SwitchToggle,
+  AnimatedRadioGroup as SortComponent,
+} from "./common";
 import {
   selectProjects,
   selectSort,
@@ -112,8 +117,8 @@ export default function Projects(): JSX.Element {
   };
 
   return (
-    <section className="h-full w-full border p-1">
-      <header className="flex justify-between">
+    <section className="flex h-full w-full flex-col gap-1 border p-1">
+      <header className="flex justify-between bg-white py-2">
         <SearchBar />
         <button
           className="btn-primary hidden items-center text-center text-[13px] sm:flex md:text-base"
@@ -124,6 +129,13 @@ export default function Projects(): JSX.Element {
           </span>
           <span>Add project</span>
         </button>
+        <SwitchToggle
+          val="My Projects"
+          handleChange={handleSwitch}
+          checked={filterOwner === "My Projects"}
+          label="Admin"
+          extraClass="sm:hidden"
+        />
         {showAddProject && (
           <div
             className={`absolute bottom-0 left-0 right-0 top-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
@@ -136,7 +148,7 @@ export default function Projects(): JSX.Element {
         )}
       </header>
       <div>
-        <div className="flex">
+        <div className="flex items-center justify-evenly gap-1 border-b-2 bg-white py-2 text-xs sm:justify-start sm:gap-4 sm:text-sm md:text-sm">
           <Select
             options={sortOptions}
             onChange={(option: { value: string; label: string } | null) =>
@@ -148,35 +160,34 @@ export default function Projects(): JSX.Element {
             }
             isSearchable={false}
             placeholder="Sort By"
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                // borderColor: state.isFocused ? "grey" : "red",
+                borderRadius: "1.5rem",
+                borderWidth: "1px",
+                textAlign: "left",
+              }),
+            }}
           />
-          <div>
-            {["All", "Completed", "Ongoing"].map((val, index) => {
-              //filter by project's status
-              return (
-                <label key={index}>
-                  <input
-                    type="radio"
-                    name="filterStatus"
-                    value={val}
-                    checked={filterStatus === val}
-                    onChange={(e) =>
-                      dispatch(
-                        filterProjectsStatus(
-                          e.target.value as ProjectState["filterStatus"]
-                        )
-                      )
-                    }
-                  />
-                  {val}
-                </label>
-              );
-            })}
-          </div>
+          <SortComponent
+            options={["All", "Completed", "Ongoing"]}
+            icons={["", "check_circle", "clock_loader_60"]}
+            handleChange={(e) =>
+              dispatch(
+                filterProjectsStatus(
+                  e.target.value as ProjectState["filterStatus"]
+                )
+              )
+            }
+            selected={filterStatus}
+          />
           <SwitchToggle
             val="My Projects"
             handleChange={handleSwitch}
             checked={filterOwner === "My Projects"}
-            label="My Projects"
+            label="Admin"
+            extraClass="hidden sm:flex text-base"
           />
         </div>
         <h1>Projects</h1>
