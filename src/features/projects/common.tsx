@@ -139,3 +139,17 @@ export function AnimatedRadioGroup({
     </div>
   );
 }
+
+// A radio button with background colors than changes if selected.
+export const Button = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) => {
+  return (
+    <button
+      className="btn-primary flex items-center justify-center rounded-full py-4 font-normal shadow-md shadow-black"
+      {...props}
+    >
+      {props.children}
+    </button>
+  );
+};

@@ -24,13 +24,15 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     <div className="border bg-red-400 text-neutral-900">
       <h1 className="text-left text-xl font-bold">Projects</h1>
       <table className="w-full table-auto border bg-white">
-        <thead className=" ">
-          <tr>
-            <th>Name</th>
-            <th>Admin</th>
-            <th>Created</th>
-            <th>Bugs</th>
-            <th>Progress</th>
+        <thead>
+          <tr className="w-full  border-b bg-neutral-100 text-neutral-500">
+            <th className="p-1">Name</th>
+            <th className="p-1">Admin</th>
+            <th className="p-1">Created</th>
+            <th className="p-1">Bugs</th>
+            <th className="p-1">Progress</th>
+            {/* The empty th makes the bg color span the full width */}
+            <th>{""}</th>
           </tr>
         </thead>
         <tbody>

@@ -1,4 +1,5 @@
 import React from "react";
+// import { Button } from "./common";
 
 export interface Props {
   name: string;
@@ -23,27 +24,24 @@ export default function ProjectsCard({
   handleEdit,
 }: Props): JSX.Element {
   return (
-    // <li className="project-card" onClick={(e) => handleClick(e, name)}>
-    //     <p className="project-card-name">Name:{name}</p>
-    //     <p>Bugs: {bugs}</p>
-    //     <p>Admin: {admin}</p>{/* admin is the name of the user who created the project*/}
-    //     <div>{Created}</div>
-    //     <p>Progress: {progress}</p>
-    //     <div onClick={(e) => { if (typeof handleEdit === 'function') return handleEdit(e) }} >Edit</div>
-    // </li>
-    <tr className="project-card" onClick={(e) => handleClick(e, name)}>
-      <td className="project-card-name">{name}</td>
-      <td>{admin}</td>
-      <td>{Created}</td>
-      <td>{bugs}</td>
-      <td>{progress}</td>
+    <tr className="project-card border-b" onClick={(e) => handleClick(e, name)}>
+      <td className="px-1 py-2">{name}</td>
+      <td className="px-1 py-2">{admin}</td>
+      <td className="px-1 py-2">{Created}</td>
+      <td className="px-1 py-2">{bugs}</td>
+      <td className="px-1 py-2">{progress}</td>
       <td
         onClick={(e) => {
           if (typeof handleEdit === "function") return handleEdit(e);
         }}
-        className="hidden sm:block"
+        className="hidden px-1 py-2 sm:table-cell"
       >
-        Edit
+        <button className="btn-primary flex h-10 w-[87px] items-center justify-around p-2">
+          <span className="material-symbols-outlined line block -translate-y-0.5 ">
+            edit_square
+          </span>
+          <span>Edit</span>
+        </button>
       </td>
     </tr>
   );
