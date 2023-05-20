@@ -21,16 +21,16 @@ export default function ListProjects({ projects, floatingButton }: Props) {
   };
 
   return (
-    <div className="border bg-red-400 text-neutral-900">
+    <div className="border px-4 text-neutral-900">
       <h1 className="text-left text-xl font-bold">Projects</h1>
-      <table className="w-full table-auto border bg-white">
+      <table className="w-full table-fixed border bg-white">
         <thead>
-          <tr className="w-full  border-b bg-neutral-100 text-neutral-500">
-            <th className="p-1">Name</th>
-            <th className="p-1">Admin</th>
-            <th className="p-1">Created</th>
-            <th className="p-1">Bugs</th>
-            <th className="p-1">Progress</th>
+          <tr className="w-full  border-b bg-neutral-100 text-neutral-500 ">
+            <th className="px-3 py-1 text-left">Name</th>
+            <th className="px-3 py-1 text-left">Admin</th>
+            <th className="px-3 py-1 text-left">Created</th>
+            <th className="px-3 py-1 text-left">Bugs</th>
+            <th className="px-3 py-1 text-left">Progress</th>
             {/* The empty th makes the bg color span the full width */}
             <th>{""}</th>
           </tr>

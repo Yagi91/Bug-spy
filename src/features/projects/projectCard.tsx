@@ -25,16 +25,16 @@ export default function ProjectsCard({
 }: Props): JSX.Element {
   return (
     <tr className="project-card border-b" onClick={(e) => handleClick(e, name)}>
-      <td className="px-1 py-2">{name}</td>
-      <td className="px-1 py-2">{admin}</td>
-      <td className="px-1 py-2">{Created}</td>
-      <td className="px-1 py-2">{bugs}</td>
-      <td className="px-1 py-2">{progress}</td>
+      <td className="px-3 py-2 text-left">{name}</td>
+      <td className="px-3 py-2 text-left">{admin}</td>
+      <td className="px-3 py-2 text-left">{Created}</td>
+      <td className="px-3 py-2 text-left">{bugs}</td>
+      <td className="px-3 py-2 text-left">{progress}</td>
       <td
         onClick={(e) => {
           if (typeof handleEdit === "function") return handleEdit(e);
         }}
-        className="hidden px-1 py-2 sm:table-cell"
+        className="hidden justify-end px-1 py-2 sm:flex"
       >
         <button className="btn-primary flex h-10 w-[87px] items-center justify-around p-2">
           <span className="material-symbols-outlined line block -translate-y-0.5 ">
