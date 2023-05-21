@@ -20,10 +20,28 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     navigate(`/projects/${name}`);
   };
 
+  function formatDate(date: Date) {
+    let day: string | number = date.getDate();
+    let month: string | number = date.getMonth() + 1;
+    let year: string | number = date.getFullYear();
+
+    // Add leading zeros to the day and month digits if they are less than 10.
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+    year = year.toString().substr(-2); // 2021 => 21
+
+    // return `${day}/${month}/${year}`;
+    return `${month}/${year}`;
+  }
+
   return (
-    <div className="border px-4 text-neutral-900">
-      <h1 className="text-left text-xl font-bold">Projects</h1>
-      <table className="w-full table-fixed border bg-white">
+    <div className="mt-4 overflow-x-scroll rounded-lg border bg-white text-neutral-900 sm:overflow-hidden">
+      <table className="w-full table-auto lg:table-fixed">
+        <caption className="px-3 text-left text-lg font-bold">Projects</caption>
         <thead>
           <tr className="w-full  border-b bg-neutral-100 text-neutral-500 ">
             <th className="px-3 py-1 text-left">Name</th>
@@ -32,19 +50,40 @@ export default function ListProjects({ projects, floatingButton }: Props) {
             <th className="px-3 py-1 text-left">Bugs</th>
             <th className="px-3 py-1 text-left">Progress</th>
             {/* The empty th makes the bg color span the full width */}
-            <th>{""}</th>
+            <th className="hidden lg:table-cell">{""}</th>
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => (
-            <ProjectsCard
-              key={project.name}
-              {...project}
-              handleClick={(e) => {
-                handleClick(e, project.name);
-              }}
-            />
-          ))}
+          {
+            projects.map((project) => {
+              // let Created={formatDate(new Date(project.Created))};
+              let projectDate = formatDate(new Date(project.Created));
+              // project.Created = projectDate;
+              return (
+                <>
+                  <ProjectsCard
+                    key={project.name}
+                    {...project}
+                    Created={projectDate}
+                    handleClick={(e) => {
+                      handleClick(e, project.name);
+                    }}
+                  />
+                </>
+              );
+            })
+
+            // projects.map((project) => (
+            //     // Created={formatDate(new Date(project.date))}
+            //   <ProjectsCard
+            //     key={project.name}
+            //     {...project}
+            //     handleClick={(e) => {
+            //       handleClick(e, project.name);
+            //     }}
+            //   />
+            // ))
+          }
         </tbody>
       </table>
       {floatingButton}

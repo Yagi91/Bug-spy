@@ -29,12 +29,12 @@ export default function ProjectsCard({
       <td className="px-3 py-2 text-left">{admin}</td>
       <td className="px-3 py-2 text-left">{Created}</td>
       <td className="px-3 py-2 text-left">{bugs}</td>
-      <td className="px-3 py-2 text-left">{progress}</td>
+      <td className="px-3 py-2 text-left text-xs sm:text-base">{progress}</td>
       <td
         onClick={(e) => {
           if (typeof handleEdit === "function") return handleEdit(e);
         }}
-        className="hidden justify-end px-1 py-2 sm:flex"
+        className="hidden justify-end px-1 py-2 lg:flex"
       >
         <button className="btn-primary flex h-10 w-[87px] items-center justify-around p-2">
           <span className="material-symbols-outlined line block -translate-y-0.5 ">
