@@ -29,7 +29,7 @@ export default function Layout() {
           </button>
         </div>
       </nav>
-      <div className="mx-auto flex h-full w-full justify-center overflow-y-scroll border p-4">
+      <div className="mx-auto flex h-full w-full sm:justify-center sm:p-4">
         <Outlet />
       </div>
     </div>

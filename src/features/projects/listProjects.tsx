@@ -54,36 +54,23 @@ export default function ListProjects({ projects, floatingButton }: Props) {
           </tr>
         </thead>
         <tbody>
-          {
-            projects.map((project) => {
-              // let Created={formatDate(new Date(project.Created))};
-              let projectDate = formatDate(new Date(project.Created));
-              // project.Created = projectDate;
-              return (
-                <>
-                  <ProjectsCard
-                    key={project.name}
-                    {...project}
-                    Created={projectDate}
-                    handleClick={(e) => {
-                      handleClick(e, project.name);
-                    }}
-                  />
-                </>
-              );
-            })
-
-            // projects.map((project) => (
-            //     // Created={formatDate(new Date(project.date))}
-            //   <ProjectsCard
-            //     key={project.name}
-            //     {...project}
-            //     handleClick={(e) => {
-            //       handleClick(e, project.name);
-            //     }}
-            //   />
-            // ))
-          }
+          {projects.map((project) => {
+            // let Created={formatDate(new Date(project.Created))};
+            let projectDate = formatDate(new Date(project.Created));
+            // project.Created = projectDate;
+            return (
+              <>
+                <ProjectsCard
+                  key={project.name}
+                  {...project}
+                  Created={projectDate}
+                  handleClick={(e) => {
+                    handleClick(e, project.name);
+                  }}
+                />
+              </>
+            );
+          })}
         </tbody>
       </table>
       {floatingButton}

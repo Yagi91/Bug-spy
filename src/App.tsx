@@ -4,7 +4,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
-import ParentRoute from "./Pages/ProtectedRoute";
+// import ParentRoute from "./Pages/ProtectedRoute";
 import LoginPage from "./Pages/Auth";
 import ProjectPage from "./Pages/Projects";
 import ProjectDetailsPage from "./Pages/ProjectDetails";

@@ -117,7 +117,7 @@ export default function Projects(): JSX.Element {
   };
 
   return (
-    <section className="flex h-full w-full flex-col gap-1 border p-1">
+    <section className="flex h-full w-full flex-col gap-1 p-1">
       <header className="flex justify-between bg-white py-2">
         <SearchBar />
         <button
