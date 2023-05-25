@@ -107,10 +107,20 @@ export default function ProjectDetails({ name, id }: Props) {
             </div>
           )
         )}
-        <div className="flex items-center gap-2">
-          <button className="btn-primary block p-2 text-xs sm:text-sm">
-            ADD MEMBERS
-          </button>
+        <div className="flex w-full items-center justify-around gap-2 sm:justify-start">
+          <div>
+            <button className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex">
+              <span className="material-symbols-outlined line inline-block leading-3">
+                person_add
+              </span>
+              <span className="inline-block text-xs md:text-sm">
+                Add Member
+              </span>
+            </button>
+            <span className="material-symbols-outlined line block p-2 sm:hidden">
+              person_add
+            </span>
+          </div>
           <div className="relative">
             <button
               className="btn-primary my-2 hidden items-center gap-2 px-1 py-2 text-xs sm:flex sm:text-sm"
@@ -119,10 +129,10 @@ export default function ProjectDetails({ name, id }: Props) {
               <span className="material-symbols-outlined line inline-block leading-3">
                 groups
               </span>
-              <span className="inline-block">Members</span>
+              <span className="inline-block text-xs md:text-sm">Members</span>
             </button>
             <span
-              className="material-symbols-outlined line block cursor-pointer sm:hidden"
+              className="material-symbols-outlined line block cursor-pointer p-2 sm:hidden"
               onClick={() => setShowMembers(!showMembers)}
             >
               groups
@@ -137,7 +147,7 @@ export default function ProjectDetails({ name, id }: Props) {
                   <li key={member.email} className="border-b-2 py-1 text-left">
                     <h4 className="font-bold">{member.name}</h4>
                     <p>{member.role}</p>
-                    <span className="inline-block flex justify-between gap-5">
+                    <span className="flex justify-between gap-5">
                       <p>{member.email}</p>
                       <button
                         value={member.email}
@@ -154,22 +164,24 @@ export default function ProjectDetails({ name, id }: Props) {
               })}
             </ul>
           </div>
-          <button
-            className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex"
-            onClick={deleteProject}
-          >
-            <span className="material-symbols-outlined line inline-block leading-3">
+          <div>
+            <button
+              className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex"
+              onClick={deleteProject}
+            >
+              <span className="material-symbols-outlined line inline-block text-xs leading-3 md:text-sm">
+                delete
+              </span>
+              <span className="inline-block">Delete Project</span>
+            </button>
+            <span
+              className="material-symbols-outlined block p-2 sm:hidden "
+              title="delete project"
+              onClick={deleteProject}
+            >
               delete
             </span>
-            <span className="inline-block">Delete Project</span>
-          </button>
-          <span
-            className="material-symbols-outlined block sm:hidden"
-            title="delete project"
-            onClick={deleteProject}
-          >
-            delete
-          </span>
+          </div>
         </div>
       </header>
       <div>
