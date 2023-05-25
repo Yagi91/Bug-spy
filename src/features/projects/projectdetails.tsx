@@ -16,8 +16,29 @@ interface Props {
   id?: string;
 }
 
+interface option {
+  value: string;
+  label: string;
+  isDisabled?: boolean;
+}
+
+const dummyOptions: readonly option[] = [
+  { value: "Mary", label: "Mary" },
+  { value: "John", label: "John" },
+  { value: "Bob", label: "Bob" },
+  { value: "Jane", label: "Jane" },
+  { value: "Joe", label: "Joe" },
+  { value: "Sally", label: "Sally" },
+  { value: "Sue", label: "Sue" },
+  { value: "Tom", label: "Tom" },
+  { value: "Tim", label: "Tim" },
+  { value: "Bill", label: "Bill" },
+  { value: "Jill", label: "Jill" },
+];
+
 export default function ProjectDetails({ name, id }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
+  // const [people, setPeople] = React.useState<option[]>([]);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -87,34 +108,52 @@ export default function ProjectDetails({ name, id }: Props) {
           )
         )}
         <div className="flex items-center gap-2">
-          {/* <button className="btn-primary block p-2 text-xs sm:text-sm">
+          <button className="btn-primary block p-2 text-xs sm:text-sm">
             ADD MEMBERS
-          </button> */}
-          <button
-            className="btn-primary block flex items-center gap-2 p-2 text-xs sm:text-sm"
-            onClick={() => setShowMembers(!showMembers)}
-          >
-            <span className="material-symbols-outlined line inline-block leading-3">
+          </button>
+          <div className="relative">
+            <button
+              className="btn-primary my-2 hidden items-center gap-2 px-1 py-2 text-xs sm:flex sm:text-sm"
+              onClick={() => setShowMembers(!showMembers)}
+            >
+              <span className="material-symbols-outlined line inline-block leading-3">
+                groups
+              </span>
+              <span className="inline-block">Members</span>
+            </button>
+            <span
+              className="material-symbols-outlined line block cursor-pointer sm:hidden"
+              onClick={() => setShowMembers(!showMembers)}
+            >
               groups
             </span>
-            <span className="inline-block">Members</span>
-            {showMembers && (
-              <ul>
-                {projectMembers.map((member): JSX.Element => {
-                  return (
-                    <li key={member.email}>
-                      <h4>{member.name}</h4>
+            <ul
+              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
+                showMembers && "show"
+              }`}
+            >
+              {projectMembers.map((member): JSX.Element => {
+                return (
+                  <li key={member.email} className="border-b-2 py-1 text-left">
+                    <h4 className="font-bold">{member.name}</h4>
+                    <p>{member.role}</p>
+                    <span className="inline-block flex justify-between gap-5">
                       <p>{member.email}</p>
-                      <p>{member.role}</p>
-                      <button value={member.email} onClick={deleteMember}>
-                        Remove
+                      <button
+                        value={member.email}
+                        onClick={deleteMember}
+                        className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-500"
+                      >
+                        <span className="material-symbols-outlined leading-0 remove text-xs text-secondary-700 sm:text-sm">
+                          remove
+                        </span>
                       </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </button>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
           <button
             className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex"
             onClick={deleteProject}

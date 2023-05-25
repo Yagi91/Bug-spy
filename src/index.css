@@ -48,6 +48,10 @@ body {
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 
+.material-symbols-outlined.remove{
+  font-variation-settings: "FILL" 1, "wght" 900, "GRAD" 0, "opsz" 48;
+}
+
 @media screen and (max-width: 640px) {
   .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 900, "GRAD" 0, "opsz" 64;
@@ -56,6 +60,14 @@ body {
 
 .material-symbols-outlined.line {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.dropdown.show {
+  /* display: block; */
+  visibility: visible;
+  transform: translate(50%, 8px);
+  opacity: 1;
+  z-index: 99;
 }
 
 /* Style for GroupRadio  */
