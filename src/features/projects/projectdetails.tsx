@@ -116,9 +116,8 @@ export default function ProjectDetails({ name, id }: Props) {
               handleClick={() => setShowMembers(!showMembers)}
             />
             <ul
-              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
-                showMembers && "show"
-              }`}
+              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${showMembers && "show"
+                }`}
             >
               {projectMembers.map((member): JSX.Element => {
                 return (
@@ -133,7 +132,7 @@ export default function ProjectDetails({ name, id }: Props) {
                         className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-500"
                       >
                         <span className="material-symbols-outlined leading-0 remove text-xs text-secondary-700 sm:text-sm">
-                          remove
+                          person_remove
                         </span>
                       </button>
                     </span>
@@ -149,19 +148,66 @@ export default function ProjectDetails({ name, id }: Props) {
           />
         </div>
       </header>
-      <div>
-        <h3>Project Bugs</h3>
-        <button>Report new Bug</button>
-        <ul>
+      <div className="rounded-2xl border">
+        <div className="flex justify-between">
+          <div className="flex items-center">
+            <h3 className="font-bolder text-left font-medium text-lg mr-1">Project Bugs</h3>
+            <span className="material-symbols-outlined leading-0"> bug_report</span>
+          </div>
+          <button className="flex items-center btn-primary">
+            <span className="material-symbols-outlined leading-0"> add</span>
+            <span>Report Bug</span>
+          </button>
+        </div>
+        <ul className="flex flex-col w-full">
           {projectBugs.map((bug): JSX.Element => {
             return (
-              <li key={bug.id}>
-                <h4>{bug.name}</h4>
-                <p>{bug.description}</p>
-                <p>{bug.priority}</p>
-                <p>{bug.status}</p>
-                <p>{bug.created}</p>
-                <p>{bug.updated}</p>
+              <li key={bug.id} className="text-left border-b">
+                <h4 className="">{bug.name}</h4>
+                <div className="flex gap-2 justify-between">
+                  <p>{bug.priority}</p>
+                  <p className="text-sm">
+                    <span className={`material-symbols-outlined leading-0 text-xs ${bug.status === "Open" ? "text-secondary-400" : "text-accent-400"}`}>{
+                      "circle"
+                    }</span>
+                    {bug.status}
+                  </p>
+                </div>
+                <p>Created: {bug.created}</p>
+                <details>
+                  <summary>Expand</summary>
+                  <p>{bug.description}</p>
+                  <div className="rounded-xl">
+                    <div className="comments h-28 border overflow-y-scroll py-1 px-2">
+                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+                        <p className="text-xs">Mary</p>
+                        <p>I am currently working on the bug now</p>
+                      </div>
+                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+                        <p className="text-xs">John</p>
+                        <p>I made a commit to the branch</p>
+                      </div>
+                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+                        <p className="text-xs">John</p>
+                        <p>I made a commit to the branch</p>
+                      </div>
+                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+                        <p className="text-xs">John</p>
+                        <p>I made a commit to the branch</p>
+                      </div>
+                      <div className={`flex ${`justify-end`}`}>
+                        <div className={`bg-white border rounded-xl w-fit py-1 px-2 mb-2`}>
+                          <p className="text-xs">You</p>
+                          <p>I fixed the cart button</p>
+                        </div>
+                      </div>
+                    </div>
+                    <form>
+                      <input type="text" placeholder="comment here" />
+                      <button type="submit">Send</button>
+                    </form>
+                  </div>
+                </details>
               </li>
             );
           })}
