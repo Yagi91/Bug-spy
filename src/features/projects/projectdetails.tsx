@@ -9,32 +9,32 @@ import {
   selectError,
   getProjectDetails,
 } from "./projectDetailSlice";
-import Select from "react-select/dist/declarations/src/Select";
+import { IconButton } from "./common";
 
 interface Props {
   name: string;
   id?: string;
 }
 
-interface option {
-  value: string;
-  label: string;
-  isDisabled?: boolean;
-}
+// interface option {
+//   value: string;
+//   label: string;
+//   isDisabled?: boolean;
+// }
 
-const dummyOptions: readonly option[] = [
-  { value: "Mary", label: "Mary" },
-  { value: "John", label: "John" },
-  { value: "Bob", label: "Bob" },
-  { value: "Jane", label: "Jane" },
-  { value: "Joe", label: "Joe" },
-  { value: "Sally", label: "Sally" },
-  { value: "Sue", label: "Sue" },
-  { value: "Tom", label: "Tom" },
-  { value: "Tim", label: "Tim" },
-  { value: "Bill", label: "Bill" },
-  { value: "Jill", label: "Jill" },
-];
+// const dummyOptions: readonly option[] = [
+//   { value: "Mary", label: "Mary" },
+//   { value: "John", label: "John" },
+//   { value: "Bob", label: "Bob" },
+//   { value: "Jane", label: "Jane" },
+//   { value: "Joe", label: "Joe" },
+//   { value: "Sally", label: "Sally" },
+//   { value: "Sue", label: "Sue" },
+//   { value: "Tom", label: "Tom" },
+//   { value: "Tim", label: "Tim" },
+//   { value: "Bill", label: "Bill" },
+//   { value: "Jill", label: "Jill" },
+// ];
 
 export default function ProjectDetails({ name, id }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
@@ -108,35 +108,13 @@ export default function ProjectDetails({ name, id }: Props) {
           )
         )}
         <div className="flex w-full items-center justify-around gap-2 sm:justify-start">
-          <div>
-            <button className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex">
-              <span className="material-symbols-outlined line inline-block leading-3">
-                person_add
-              </span>
-              <span className="inline-block text-xs md:text-sm">
-                Add Member
-              </span>
-            </button>
-            <span className="material-symbols-outlined line block p-2 sm:hidden">
-              person_add
-            </span>
-          </div>
+          <IconButton icon="person_add" text="Add Member" />
           <div className="relative">
-            <button
-              className="btn-primary my-2 hidden items-center gap-2 px-1 py-2 text-xs sm:flex sm:text-sm"
-              onClick={() => setShowMembers(!showMembers)}
-            >
-              <span className="material-symbols-outlined line inline-block leading-3">
-                groups
-              </span>
-              <span className="inline-block text-xs md:text-sm">Members</span>
-            </button>
-            <span
-              className="material-symbols-outlined line block cursor-pointer p-2 sm:hidden"
-              onClick={() => setShowMembers(!showMembers)}
-            >
-              groups
-            </span>
+            <IconButton
+              icon="groups"
+              text="Members"
+              handleClick={() => setShowMembers(!showMembers)}
+            />
             <ul
               className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
                 showMembers && "show"
@@ -164,24 +142,11 @@ export default function ProjectDetails({ name, id }: Props) {
               })}
             </ul>
           </div>
-          <div>
-            <button
-              className="btn-primary justify center hidden items-center gap-2 text-sm sm:flex"
-              onClick={deleteProject}
-            >
-              <span className="material-symbols-outlined line inline-block text-xs leading-3 md:text-sm">
-                delete
-              </span>
-              <span className="inline-block">Delete Project</span>
-            </button>
-            <span
-              className="material-symbols-outlined block p-2 sm:hidden "
-              title="delete project"
-              onClick={deleteProject}
-            >
-              delete
-            </span>
-          </div>
+          <IconButton
+            icon="delete"
+            text="Delete Project"
+            handleClick={deleteProject}
+          />
         </div>
       </header>
       <div>

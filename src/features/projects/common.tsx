@@ -153,3 +153,49 @@ export const Button = (
     </button>
   );
 };
+
+interface IconButtonProps {
+  icon: string;
+  text: string;
+  handleClick?: (
+    e?: React.MouseEvent<HTMLButtonElement | HTMLSpanElement>
+  ) => void;
+  buttonClass?: string;
+  spanClass?: string;
+}
+
+// A button with an icon and text that is responsive to screen size.
+export const IconButton = ({
+  icon,
+  text,
+  handleClick,
+  buttonClass,
+  spanClass,
+}: IconButtonProps): JSX.Element => {
+  return (
+    <div>
+      <button
+        className={
+          // The space at the end of the string is important to separate the classes
+          "btn-primary justify center hidden items-center gap-2 text-sm sm:flex " +
+          buttonClass
+        }
+        onClick={handleClick}
+      >
+        <span className="material-symbols-outlined line inline-block leading-3">
+          {icon}
+        </span>
+        <span className="inline-block text-xs md:text-sm">{text}</span>
+      </button>
+      <span
+        className={
+          "material-symbols-outlined line marker: block p-2 sm:hidden " +
+          spanClass
+        }
+        onClick={handleClick}
+      >
+        {icon}
+      </span>
+    </div>
+  );
+};

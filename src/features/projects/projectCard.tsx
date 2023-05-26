@@ -24,7 +24,10 @@ export default function ProjectsCard({
   handleEdit,
 }: Props): JSX.Element {
   return (
-    <tr className="project-card border-b" onClick={(e) => handleClick(e, name)}>
+    <tr
+      className="project-card cursor-pointer border-b"
+      onClick={(e) => handleClick(e, name)}
+    >
       <td className="px-3 py-2 text-left">{name}</td>
       <td className="px-3 py-2 text-left">{admin}</td>
       <td className="px-3 py-2 text-left">{Created}</td>
