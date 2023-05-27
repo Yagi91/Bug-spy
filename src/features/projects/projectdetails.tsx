@@ -84,7 +84,7 @@ export default function ProjectDetails({ name, id }: Props) {
 
   return (
     <div className="flex h-full w-full flex-col border">
-      <header className="mb-1 h-[172px]">
+      <header className="mb-1 h-[180px]">
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
@@ -161,8 +161,11 @@ export default function ProjectDetails({ name, id }: Props) {
             </span>
           </div>
           <button className="btn-primary flex items-center">
-            <span className="material-symbols-outlined leading-0"> add</span>
-            <span>Report Bug</span>
+            <span className="material-symbols-outlined leading-0 sm:text-md text-sm">
+              {" "}
+              add
+            </span>
+            <span className="text-xs sm:text-sm">Report Bug</span>
           </button>
         </div>
         <ul className="flex w-full flex-col">
