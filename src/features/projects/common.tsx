@@ -140,20 +140,6 @@ export function AnimatedRadioGroup({
   );
 }
 
-// A radio button with background colors than changes if selected.
-export const Button = (
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
-) => {
-  return (
-    <button
-      className="btn-primary flex items-center justify-center rounded-full py-4 font-normal shadow-md shadow-black"
-      {...props}
-    >
-      {props.children}
-    </button>
-  );
-};
-
 interface IconButtonProps {
   icon: string;
   text: string;
@@ -196,6 +182,114 @@ export const IconButton = ({
       >
         {icon}
       </span>
+    </div>
+  );
+};
+
+// {/* <details>
+// <summary>Expand</summary>
+// <p>{bug.description}</p>
+// <div className="rounded-xl">
+//   <div className="comments h-28 border overflow-y-scroll py-1 px-2">
+//     <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+//       <p className="text-xs">Mary</p>
+//       <p>I am currently working on the bug now</p>
+//     </div>
+//     <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+//       <p className="text-xs">John</p>
+//       <p>I made a commit to the branch</p>
+//     </div>
+//     <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+//       <p className="text-xs">John</p>
+//       <p>I made a commit to the branch</p>
+//     </div>
+//     <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
+//       <p className="text-xs">John</p>
+//       <p>I made a commit to the branch</p>
+//     </div>
+//     <div className={`flex ${`justify-end`}`}>
+//       <div className={`bg-white border rounded-xl w-fit py-1 px-2 mb-2`}>
+//         <p className="text-xs">You</p>
+//         <p>I fixed the cart button</p>
+//       </div>
+//     </div>
+//   </div>
+//   <form>
+//     <input type="text" placeholder="comment here" />
+//     <button type="submit">Send</button>
+//   </form>
+// </div>
+// </details> */}
+
+export const Details = ({
+  children,
+  summary,
+}: {
+  children: any;
+  summary: string;
+}) => {
+  return (
+    <details className="det">
+      <summary className="flex cursor-pointer list-none items-center">
+        {summary}
+        <div className="ml-auto" role="button">
+          <svg
+            className="-mr-1 h-6 w-6 fill-current opacity-75"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+          >
+            <path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+          </svg>
+        </div>
+      </summary>
+      {children}
+    </details>
+  );
+};
+
+export const Comment = ({
+  name,
+  comment,
+}: {
+  name: string;
+  comment: string;
+}) => {
+  return (
+    <div className="mb-2 w-fit rounded-xl border bg-white px-2 py-1">
+      <p className="text-xs">{name}</p>
+      <p>{comment}</p>
+    </div>
+  );
+};
+
+export const CommentForm = () => {
+  return (
+    <form className="mx-4 my-1 flex items-center overflow-hidden rounded-xl border bg-white">
+      <input
+        type="text"
+        placeholder="Comment here..."
+        className="w-full p-1 focus:outline-0"
+      />
+      <button type="submit" className="flex items-center px-4">
+        <span className="material-symbols-outlined">send</span>
+      </button>
+    </form>
+  );
+};
+
+export const CommentSection = () => {
+  return (
+    <div className="rounded-xl">
+      <div className="comments h-28 overflow-y-scroll border px-2 py-1">
+        <Comment name="Mary" comment="I am currently working on the bug now" />
+        <Comment name="John" comment="I made a commit to the branch" />
+        <Comment name="John" comment="I made a commit to the branch" />
+        <Comment name="John" comment="I made a commit to the branch" />
+        <div className={`flex ${`justify-end`}`}>
+          <Comment name="You" comment="I fixed the cart button" />
+        </div>
+      </div>
+      <CommentForm />
     </div>
   );
 };

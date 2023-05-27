@@ -9,7 +9,7 @@ import {
   selectError,
   getProjectDetails,
 } from "./projectDetailSlice";
-import { IconButton } from "./common";
+import { IconButton, Details, CommentSection } from "./common";
 
 interface Props {
   name: string;
@@ -174,40 +174,11 @@ export default function ProjectDetails({ name, id }: Props) {
                   </p>
                 </div>
                 <p>Created: {bug.created}</p>
-                <details>
-                  <summary>Expand</summary>
+                {/* <p>Updated: {bug.updated}</p> */}
+                <Details summary="Expand">
                   <p>{bug.description}</p>
-                  <div className="rounded-xl">
-                    <div className="comments h-28 border overflow-y-scroll py-1 px-2">
-                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
-                        <p className="text-xs">Mary</p>
-                        <p>I am currently working on the bug now</p>
-                      </div>
-                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
-                        <p className="text-xs">John</p>
-                        <p>I made a commit to the branch</p>
-                      </div>
-                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
-                        <p className="text-xs">John</p>
-                        <p>I made a commit to the branch</p>
-                      </div>
-                      <div className="bg-white border rounded-xl w-fit py-1 px-2 mb-2">
-                        <p className="text-xs">John</p>
-                        <p>I made a commit to the branch</p>
-                      </div>
-                      <div className={`flex ${`justify-end`}`}>
-                        <div className={`bg-white border rounded-xl w-fit py-1 px-2 mb-2`}>
-                          <p className="text-xs">You</p>
-                          <p>I fixed the cart button</p>
-                        </div>
-                      </div>
-                    </div>
-                    <form>
-                      <input type="text" placeholder="comment here" />
-                      <button type="submit">Send</button>
-                    </form>
-                  </div>
-                </details>
+                  <CommentSection />
+                </Details>
               </li>
             );
           })}
