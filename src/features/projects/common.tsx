@@ -229,7 +229,7 @@ export const Details = ({
   summary: string;
 }) => {
   return (
-    <details className="det">
+    <details className="det mt-1">
       <summary className="flex cursor-pointer list-none items-center">
         {summary}
         <div className="ml-auto" role="button">
@@ -280,7 +280,7 @@ export const CommentForm = () => {
 export const CommentSection = () => {
   return (
     <div className="rounded-xl">
-      <div className="comments h-28 overflow-y-scroll border px-2 py-1">
+      <div className="comments h-28 overflow-y-scroll rounded-[12px] border bg-neutral-100 px-2 py-1">
         <Comment name="Mary" comment="I am currently working on the bug now" />
         <Comment name="John" comment="I made a commit to the branch" />
         <Comment name="John" comment="I made a commit to the branch" />

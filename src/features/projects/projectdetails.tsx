@@ -83,15 +83,15 @@ export default function ProjectDetails({ name, id }: Props) {
   };
 
   return (
-    <div className="h-full w-full border">
-      <header className="border">
+    <div className="flex h-full w-full flex-col border">
+      <header className="mb-1 h-[172px]">
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
           <p>{error}</p>
         ) : (
           projectSummary && (
-            <div className="border">
+            <div className="rounded-[12px] border bg-white px-3 py-1">
               <h2 className="border-b py-1 text-left text-lg font-bold">
                 {projectSummary.name}
               </h2>
@@ -107,7 +107,7 @@ export default function ProjectDetails({ name, id }: Props) {
             </div>
           )
         )}
-        <div className="flex w-full items-center justify-around gap-2 sm:justify-start">
+        <div className="mt-2 flex w-full items-center justify-around gap-2 px-3 sm:justify-start">
           <IconButton icon="person_add" text="Add Member" />
           <div className="relative">
             <IconButton
@@ -116,8 +116,9 @@ export default function ProjectDetails({ name, id }: Props) {
               handleClick={() => setShowMembers(!showMembers)}
             />
             <ul
-              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${showMembers && "show"
-                }`}
+              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
+                showMembers && "show"
+              }`}
             >
               {projectMembers.map((member): JSX.Element => {
                 return (
@@ -148,35 +149,45 @@ export default function ProjectDetails({ name, id }: Props) {
           />
         </div>
       </header>
-      <div className="rounded-2xl border">
+      <div className="height grow rounded-2xl border bg-white p-3">
         <div className="flex justify-between">
           <div className="flex items-center">
-            <h3 className="font-bolder text-left font-medium text-lg mr-1">Project Bugs</h3>
-            <span className="material-symbols-outlined leading-0"> bug_report</span>
+            <h3 className="font-bolder mr-1 text-left text-lg font-medium">
+              Project Bugs
+            </h3>
+            <span className="material-symbols-outlined leading-0">
+              {" "}
+              bug_report
+            </span>
           </div>
-          <button className="flex items-center btn-primary">
+          <button className="btn-primary flex items-center">
             <span className="material-symbols-outlined leading-0"> add</span>
             <span>Report Bug</span>
           </button>
         </div>
-        <ul className="flex flex-col w-full">
+        <ul className="flex w-full flex-col">
           {projectBugs.map((bug): JSX.Element => {
             return (
-              <li key={bug.id} className="text-left border-b">
+              <li key={bug.id} className="border-b text-left">
                 <h4 className="">{bug.name}</h4>
-                <div className="flex gap-2 justify-between">
+                <div className="flex justify-between gap-2">
                   <p>{bug.priority}</p>
                   <p className="text-sm">
-                    <span className={`material-symbols-outlined leading-0 text-xs ${bug.status === "Open" ? "text-secondary-400" : "text-accent-400"}`}>{
-                      "circle"
-                    }</span>
+                    <span
+                      className={`material-symbols-outlined leading-0 text-xs ${
+                        bug.status === "Open"
+                          ? "text-secondary-400"
+                          : "text-accent-400"
+                      }`}
+                    >
+                      {"circle"}
+                    </span>
                     {bug.status}
                   </p>
                 </div>
                 <p>Created: {bug.created}</p>
-                {/* <p>Updated: {bug.updated}</p> */}
                 <Details summary="Expand">
-                  <p>{bug.description}</p>
+                  <p className="p-2 text-sm">{bug.description}</p>
                   <CommentSection />
                 </Details>
               </li>

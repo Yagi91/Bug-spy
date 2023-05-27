@@ -76,6 +76,10 @@ body {
 .det[open] > summary:focus ~ * {
   outline: none;
 }
+.det[open] > summary:focus {
+  outline: none;
+  border-bottom: 1px solid;
+}
 .det[open] > summary svg {
   transform: rotate(-90deg); /* rotate the arrow up */
 }
