@@ -268,9 +268,9 @@ export const CommentForm = () => {
       <input
         type="text"
         placeholder="Comment here..."
-        className="w-full p-1 focus:outline-0"
+        className="w-full bg-neutral-100 p-1 focus:outline-0"
       />
-      <button type="submit" className="flex items-center px-4">
+      <button type="submit" className="flex items-center bg-neutral-100 px-4">
         <span className="material-symbols-outlined">send</span>
       </button>
     </form>
