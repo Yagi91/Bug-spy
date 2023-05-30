@@ -8,6 +8,7 @@ import {
   FloatingButton,
   SwitchToggle,
   AnimatedRadioGroup as SortComponent,
+  Modal,
 } from "./common";
 import {
   selectProjects,
@@ -137,14 +138,12 @@ export default function Projects(): JSX.Element {
           extraClass="sm:hidden"
         />
         {showAddProject && (
-          <div
-            className={`absolute bottom-0 left-0 right-0 top-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
-          >
+          <Modal>
             <AddProject
               handleCancel={handleShowAddProject}
               handleSubmit={handleAddProjects}
             />
-          </div>
+          </Modal>
         )}
       </header>
       <div>

@@ -9,35 +9,17 @@ import {
   selectError,
   getProjectDetails,
 } from "./projectDetailSlice";
-import { IconButton, Details, CommentSection } from "./common";
+import { IconButton, Details, CommentSection, Modal } from "./common";
+import { AddBugForm } from "./addBug";
 
 interface Props {
   name: string;
   id?: string;
 }
 
-// interface option {
-//   value: string;
-//   label: string;
-//   isDisabled?: boolean;
-// }
-
-// const dummyOptions: readonly option[] = [
-//   { value: "Mary", label: "Mary" },
-//   { value: "John", label: "John" },
-//   { value: "Bob", label: "Bob" },
-//   { value: "Jane", label: "Jane" },
-//   { value: "Joe", label: "Joe" },
-//   { value: "Sally", label: "Sally" },
-//   { value: "Sue", label: "Sue" },
-//   { value: "Tom", label: "Tom" },
-//   { value: "Tim", label: "Tim" },
-//   { value: "Bill", label: "Bill" },
-//   { value: "Jill", label: "Jill" },
-// ];
-
 export default function ProjectDetails({ name, id }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
+  const [addingBug, setAddingBug] = React.useState<boolean>(false);
   // const [people, setPeople] = React.useState<option[]>([]);
 
   const navigate = useNavigate();
@@ -80,6 +62,10 @@ export default function ProjectDetails({ name, id }: Props) {
       }, 1000);
     });
     return data;
+  };
+
+  const handleAddingBug = function (): void {
+    setAddingBug(!addingBug);
   };
 
   return (
@@ -160,13 +146,20 @@ export default function ProjectDetails({ name, id }: Props) {
               bug_report
             </span>
           </div>
-          <button className="btn-primary flex items-center">
+          <button
+            className="btn-primary flex items-center"
+            onClick={handleAddingBug}
+          >
             <span className="material-symbols-outlined leading-0 sm:text-md text-sm">
-              {" "}
               add
             </span>
             <span className="text-xs sm:text-sm">Report Bug</span>
           </button>
+          {addingBug && (
+            <Modal>
+              <AddBugForm id={id as string} />
+            </Modal>
+          )}
         </div>
         <ul className="flex w-full flex-col">
           {projectBugs.map((bug): JSX.Element => {
@@ -189,7 +182,7 @@ export default function ProjectDetails({ name, id }: Props) {
                   </p>
                 </div>
                 <p>Created: {bug.created}</p>
-                <Details summary="Expand">
+                <Details summary="View Description & Comment">
                   <p className="p-2 text-sm">{bug.description}</p>
                   <CommentSection />
                 </Details>
