@@ -157,7 +157,7 @@ export default function ProjectDetails({ name, id }: Props) {
           </button>
           {addingBug && (
             <Modal>
-              <AddBugForm id={id as string} />
+              <AddBugForm handleCancel={handleAddingBug} />
             </Modal>
           )}
         </div>
