@@ -11,6 +11,7 @@ import {
 } from "./projectDetailSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
 import { AddBugForm } from "./addBug";
+import AddMembers from "./addMembers";
 
 interface Props {
   name: string;
@@ -20,6 +21,7 @@ interface Props {
 export default function ProjectDetails({ name, id }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
   const [addingBug, setAddingBug] = React.useState<boolean>(false);
+  const [addingMembers, setAddingMembers] = React.useState<boolean>(false);
   // const [people, setPeople] = React.useState<option[]>([]);
 
   const navigate = useNavigate();
@@ -67,7 +69,9 @@ export default function ProjectDetails({ name, id }: Props) {
   const handleAddingBug = function (): void {
     setAddingBug(!addingBug);
   };
-
+  const handleAddingMembers = function (): void {
+    setAddingMembers(!addingMembers);
+  };
   return (
     <div className="flex h-full w-full flex-col border">
       <header className="mb-1 h-[180px]">
@@ -94,7 +98,17 @@ export default function ProjectDetails({ name, id }: Props) {
           )
         )}
         <div className="mt-2 flex w-full items-center justify-around gap-2 px-3 sm:justify-start">
-          <IconButton icon="person_add" text="Add Member" />
+          <IconButton
+            icon="person_add"
+            text="Add Member"
+            handleClick={handleAddingMembers}
+          />
+          {addingMembers && (
+            <Modal>
+              {" "}
+              <AddMembers handleSubmit={handleAddingMembers} />{" "}
+            </Modal>
+          )}
           <div className="relative">
             <IconButton
               icon="groups"
