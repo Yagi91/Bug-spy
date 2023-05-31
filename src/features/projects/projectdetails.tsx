@@ -72,6 +72,18 @@ export default function ProjectDetails({ name, id }: Props) {
   const handleAddingMembers = function (): void {
     setAddingMembers(!addingMembers);
   };
+  const handleAddMembers = (
+    e: React.FormEvent<HTMLButtonElement>,
+    members: { value: string; label: string }[]
+  ): void => {
+    if (members.length < 1) {
+      handleAddingMembers();
+      return;
+    }
+    console.log(members);
+    // dispatch(setProjectMembers([...projectMembers, ...members]));
+  };
+
   return (
     <div className="flex h-full w-full flex-col border">
       <header className="mb-1 h-[180px]">
@@ -106,7 +118,7 @@ export default function ProjectDetails({ name, id }: Props) {
           {addingMembers && (
             <Modal>
               {" "}
-              <AddMembers handleSubmit={handleAddingMembers} />{" "}
+              <AddMembers handleSubmit={handleAddMembers} />{" "}
             </Modal>
           )}
           <div className="relative">

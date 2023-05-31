@@ -1,3 +1,4 @@
+import React from "react";
 import Select from "react-select";
 
 const dummyOptions = [
@@ -5,13 +6,25 @@ const dummyOptions = [
   { value: "John", label: "John" },
   { value: "Bob", label: "Bob" },
 ];
+interface option {
+  value: string;
+  label: string;
+  isDisabled?: boolean;
+}
 
 interface Props {
-  options?: { value: string; label: string }[];
-  handleSubmit?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  options?: option[];
+  handleSubmit: (
+    e: React.FormEvent<HTMLButtonElement>,
+    selected: option[]
+  ) => void;
 }
 
 const AddMembers = ({ options = dummyOptions, handleSubmit }: Props) => {
+  const [selectedMembers, setSelectedMembers] = React.useState<
+    readonly option[] | null
+  >([]);
+
   return (
     <div className="flex h-[300px] w-[500px] flex-col justify-center gap-8 rounded-[12px] bg-white p-4">
       <div>
@@ -25,7 +38,8 @@ const AddMembers = ({ options = dummyOptions, handleSubmit }: Props) => {
         options={options}
         placeholder="Select members"
         isSearchable={true}
-        isMulti={true}
+        onChange={(option: readonly option[]) => setSelectedMembers(option)}
+        isMulti
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
@@ -41,7 +55,10 @@ const AddMembers = ({ options = dummyOptions, handleSubmit }: Props) => {
           }),
         }}
       />
-      <button className="btn-primary w-[100px]" onClick={handleSubmit}>
+      <button
+        className="btn-primary w-[100px]"
+        onClick={(e) => handleSubmit(e, selectedMembers as option[])}
+      >
         Save
       </button>
     </div>
