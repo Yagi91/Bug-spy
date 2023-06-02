@@ -12,6 +12,7 @@ import {
 import { IconButton, Details, CommentSection, Modal } from "./common";
 import { AddBugForm } from "./addBug";
 import AddMembers from "./addMembers";
+import { DoubleIconsText } from "./common";
 
 interface Props {
   name: string;
@@ -94,16 +95,22 @@ export default function ProjectDetails({ name, id }: Props) {
         ) : (
           projectSummary && (
             <div className="rounded-[12px] border bg-white px-3 py-1">
-              <h2 className="border-b py-1 text-left text-lg font-bold">
-                {projectSummary.name}
-              </h2>
+              <DoubleIconsText
+                title={projectSummary.name}
+                firstIcon="arrow_back_ios_new"
+                secondIcon="edit"
+                titleClass="font-bold text-lg"
+                firstIconClass="mr-2 cursor-pointer"
+                secondIconClass="text-[20px] cursor-pointer"
+                ComponentClass="items-center py-1 border-b"
+              />
               <p className="text-left text-xs">{projectSummary.description}</p>
               <p className="text-left text-xs">Admin: {projectSummary.admin}</p>
               <p className="text-left text-xs">{projectSummary.progress}</p>
-              <p className="text-left text-xs italic">
+              <p className="text-left text-[8px] italic opacity-60">
                 Created: {projectSummary.created}
               </p>
-              <p className="text-left text-xs italic">
+              <p className="text-left text-[8px] italic opacity-60">
                 Updated: {projectSummary.updated}
               </p>
             </div>
@@ -163,15 +170,14 @@ export default function ProjectDetails({ name, id }: Props) {
       </header>
       <div className="height grow rounded-2xl border bg-white p-3">
         <div className="flex justify-between">
-          <div className="flex items-center">
-            <h3 className="font-bolder mr-1 text-left text-lg font-medium">
-              Project Bugs
-            </h3>
-            <span className="material-symbols-outlined leading-0">
-              {" "}
-              bug_report
-            </span>
-          </div>
+          <DoubleIconsText
+            title="Project Bugs"
+            firstIcon="bug_report"
+            secondIcon="edit"
+            titleClass="font-bolder"
+            firstIconClass="mr-2"
+            secondIconClass="text-[20px] cursor-pointer"
+          />
           <button
             className="btn-primary flex items-center"
             onClick={handleAddingBug}

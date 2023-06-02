@@ -30,7 +30,7 @@ export function SearchBar(): JSX.Element {
 export const Modal = ({ children }: any) => {
   return (
     <div
-      className={`absolute bottom-0 left-0 right-0 top-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
+      className={`fixed inset-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
     >
       {children}
     </div>
@@ -265,6 +265,50 @@ export const CommentSection = () => {
         </div>
       </div>
       <CommentForm />
+    </div>
+  );
+};
+
+interface DoubleIconsTextProps {
+  title: string;
+  firstIcon?: string;
+  secondIcon?: string;
+  firstHandleIcon?: () => void;
+  secondHandleIcon?: () => void;
+  ComponentClass?: string;
+  titleClass?: string;
+  firstIconClass?: string;
+  secondIconClass?: string;
+}
+
+export const DoubleIconsText = ({
+  title,
+  firstIcon,
+  secondIcon,
+  firstHandleIcon,
+  secondHandleIcon,
+  titleClass,
+  firstIconClass,
+  secondIconClass,
+  ComponentClass,
+}: DoubleIconsTextProps): JSX.Element => {
+  return (
+    <div className={"flex " + ComponentClass}>
+      <span
+        className={"material-symbols-outlined leading-0 " + firstIconClass}
+        onClick={firstHandleIcon}
+      >
+        {firstIcon}
+      </span>
+      <h3 className={"font-bolder mr-1 text-left text-lg " + titleClass}>
+        {title}
+      </h3>
+      <span
+        className={"material-symbols-outlined leading-0 " + secondIconClass}
+        onClick={secondHandleIcon}
+      >
+        {secondIcon}
+      </span>
     </div>
   );
 };
