@@ -246,16 +246,23 @@ export default function ProjectDetails({ name, id }: Props) {
             </Modal>
           )}
         </div>
-        <ul className="flex w-full flex-col">
+        <ul className="flex w-full flex-col font-light">
           {projectBugs.map((bug): JSX.Element => {
             return (
               <li key={bug.id} className="border-b text-left">
-                <h4 className="">{bug.name}</h4>
+                <DoubleIconsText
+                  title={bug.name}
+                  secondIcon="edit"
+                  titleClass="font-normal"
+                  secondIconClass="text-[16px] cursor-pointer"
+                  ComponentClass="items-center"
+                  secondHandleIcon={handleEditClose}
+                />
                 <div className="flex justify-between gap-2">
                   <p>{bug.priority}</p>
-                  <p className="text-sm">
+                  <div className="text-sm">
                     <span
-                      className={`material-symbols-outlined leading-0 text-xs ${
+                      className={`material-symbols-outlined leading-0 mr-1 text-xs ${
                         bug.status === "Open"
                           ? "text-secondary-400"
                           : "text-accent-400"
@@ -264,7 +271,7 @@ export default function ProjectDetails({ name, id }: Props) {
                       {"circle"}
                     </span>
                     {bug.status}
-                  </p>
+                  </div>
                 </div>
                 <p>Created: {bug.created}</p>
                 <Details summary="View Description & Comment">
