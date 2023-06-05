@@ -13,6 +13,7 @@ import { IconButton, Details, CommentSection, Modal } from "./common";
 import { AddBugForm } from "./addBug";
 import AddMembers from "./addMembers";
 import { DoubleIconsText } from "./common";
+import EditForm from "./edit";
 
 interface Props {
   name: string;
@@ -23,7 +24,7 @@ export default function ProjectDetails({ name, id }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
   const [addingBug, setAddingBug] = React.useState<boolean>(false);
   const [addingMembers, setAddingMembers] = React.useState<boolean>(false);
-  // const [people, setPeople] = React.useState<option[]>([]);
+  const [showEdit, setShowEdit] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -48,6 +49,10 @@ export default function ProjectDetails({ name, id }: Props) {
       }, 1000);
     });
     return data;
+  };
+
+  const handleBack = function (): void {
+    navigate(-1);
   };
 
   const deleteMember = async function (
@@ -85,6 +90,17 @@ export default function ProjectDetails({ name, id }: Props) {
     // dispatch(setProjectMembers([...projectMembers, ...members]));
   };
 
+  const handleEditClose = function (): void {
+    setShowEdit(!showEdit);
+  };
+  const handleEditSubmit = function (
+    e: React.FormEvent<HTMLButtonElement>
+  ): void {
+    e.preventDefault();
+    //dispatch(setProjectSummary({ name: "Project 1", description: "Project 1 Description" }));
+    setShowEdit(!showEdit);
+  };
+
   return (
     <div className="flex h-full w-full flex-col border">
       <header className="mb-1 h-[180px]">
@@ -99,11 +115,31 @@ export default function ProjectDetails({ name, id }: Props) {
                 title={projectSummary.name}
                 firstIcon="arrow_back_ios_new"
                 secondIcon="edit"
-                titleClass="font-bold text-lg"
+                titleClass="font-extrabold text-lg"
                 firstIconClass="mr-2 cursor-pointer"
                 secondIconClass="text-[20px] cursor-pointer"
                 ComponentClass="items-center py-1 border-b"
+                firstHandleIcon={handleBack}
+                secondHandleIcon={handleEditClose}
               />
+              {showEdit && (
+                <Modal>
+                  <EditForm
+                    handleSubmit={handleEditSubmit}
+                    defVal1={projectSummary.name}
+                    defVal2={projectSummary.description}
+                    option1={[
+                      { value: "Ongoing", label: "Ongoing" },
+                      { value: "Completed", label: "Completed" },
+                    ]}
+                    option2={[
+                      { value: "Low", label: "Low" },
+                      { value: "Medium", label: "Medium" },
+                      { value: "High", label: "High" },
+                    ]}
+                  />
+                </Modal>
+              )}
               <p className="text-left text-xs">{projectSummary.description}</p>
               <p className="text-left text-xs">Admin: {projectSummary.admin}</p>
               <p className="text-left text-xs">{projectSummary.progress}</p>
@@ -174,10 +210,11 @@ export default function ProjectDetails({ name, id }: Props) {
             title="Project Bugs"
             firstIcon="bug_report"
             secondIcon="edit"
-            titleClass="font-bolder"
+            titleClass="font-semibold"
             firstIconClass="mr-2"
             secondIconClass="text-[20px] cursor-pointer"
           />
+
           <button
             className="btn-primary flex items-center"
             onClick={handleAddingBug}

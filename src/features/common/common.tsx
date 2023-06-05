@@ -1,8 +1,9 @@
 import React from "react";
 
 interface Props {
-  name: string;
   type: string;
+  name?: string;
+  value?: string;
   required?: boolean;
   placeholder?: string;
   label?: string;
@@ -17,6 +18,7 @@ interface Props {
 
 export function SimpleInput({
   name,
+  value,
   handleChange,
   type,
   required,
@@ -42,6 +44,8 @@ export function SimpleInput({
           minLength={min}
           maxLength={max}
           pattern={pattern}
+          name={name}
+          value={value}
         />
         {extraInfo && (
           <span className="block text-left text-xs font-light">

@@ -297,15 +297,17 @@ export const DoubleIconsText = ({
       <span
         className={"material-symbols-outlined leading-0 " + firstIconClass}
         onClick={firstHandleIcon}
+        role="button"
+        tabIndex={firstHandleIcon ? 0 : -1}
       >
         {firstIcon}
       </span>
-      <h3 className={"font-bolder mr-1 text-left text-lg " + titleClass}>
-        {title}
-      </h3>
+      <h3 className={"mr-1 text-left text-lg " + titleClass}>{title}</h3>
       <span
         className={"material-symbols-outlined leading-0 " + secondIconClass}
         onClick={secondHandleIcon}
+        role="button"
+        tabIndex={0}
       >
         {secondIcon}
       </span>
