@@ -207,14 +207,30 @@ export default function ProjectDetails({ name, id }: Props) {
       <div className="height grow rounded-2xl border bg-white p-3">
         <div className="flex justify-between">
           <DoubleIconsText
-            title="Project Bugs"
+            title="Bug List"
             firstIcon="bug_report"
-            secondIcon="edit"
             titleClass="font-semibold"
             firstIconClass="mr-2"
             secondIconClass="text-[20px] cursor-pointer"
           />
-
+          {/* {showEdit && (
+                <Modal>
+                  <EditForm
+                    handleSubmit={handleEditSubmit}
+                    defVal1={projectSummary.name}
+                    defVal2={projectSummary.description}
+                    option1={[
+                      { value: "Ongoing", label: "Ongoing" },
+                      { value: "Completed", label: "Completed" },
+                    ]}
+                    option2={[
+                      { value: "Low", label: "Low" },
+                      { value: "Medium", label: "Medium" },
+                      { value: "High", label: "High" },
+                    ]}
+                  />
+                </Modal>
+              )} */}
           <button
             className="btn-primary flex items-center"
             onClick={handleAddingBug}
