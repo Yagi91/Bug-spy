@@ -13,6 +13,7 @@ import { IconButton, Details, CommentSection, Modal } from "./common";
 import { AddBugForm } from "./addBug";
 import AddMembers from "./addMembers";
 import { DoubleIconsText } from "./common";
+import { Props as EditFormProps } from "./edit";
 import EditForm from "./edit";
 
 interface Props {
@@ -25,6 +26,8 @@ export default function ProjectDetails({ name, id }: Props) {
   const [addingBug, setAddingBug] = React.useState<boolean>(false);
   const [addingMembers, setAddingMembers] = React.useState<boolean>(false);
   const [showEdit, setShowEdit] = React.useState<boolean>(false);
+  const [editFormFields, setEditFormFields] =
+    React.useState<EditFormProps | null>(null);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -90,15 +93,20 @@ export default function ProjectDetails({ name, id }: Props) {
     // dispatch(setProjectMembers([...projectMembers, ...members]));
   };
 
-  const handleEditClose = function (): void {
-    setShowEdit(!showEdit);
+  const handleOpenEdit = function (formField: EditFormProps): void {
+    setEditFormFields(formField);
+    setShowEdit(true);
   };
+  const handleCloseEdit = function (): void {
+    setShowEdit(false);
+    setEditFormFields(null);
+  };
+
   const handleEditSubmit = function (
     e: React.FormEvent<HTMLButtonElement>
   ): void {
     e.preventDefault();
-    //dispatch(setProjectSummary({ name: "Project 1", description: "Project 1 Description" }));
-    setShowEdit(!showEdit);
+    handleCloseEdit();
   };
 
   return (
@@ -120,24 +128,26 @@ export default function ProjectDetails({ name, id }: Props) {
                 secondIconClass="text-[20px] cursor-pointer"
                 ComponentClass="items-center py-1 border-b"
                 firstHandleIcon={handleBack}
-                secondHandleIcon={handleEditClose}
+                secondHandleIcon={() =>
+                  handleOpenEdit({
+                    handleSubmit: handleEditSubmit,
+                    handleClose: handleCloseEdit,
+                    defVal1: projectSummary.name,
+                    defVal2: projectSummary.description,
+                    defOption1: {
+                      value: projectSummary.progress,
+                      label: projectSummary.progress,
+                    },
+                    option1: [
+                      { value: "Ongoing", label: "Ongoing" },
+                      { value: "Completed", label: "Completed" },
+                    ],
+                  })
+                }
               />
               {showEdit && (
                 <Modal>
-                  <EditForm
-                    handleSubmit={handleEditSubmit}
-                    defVal1={projectSummary.name}
-                    defVal2={projectSummary.description}
-                    option1={[
-                      { value: "Ongoing", label: "Ongoing" },
-                      { value: "Completed", label: "Completed" },
-                    ]}
-                    option2={[
-                      { value: "Low", label: "Low" },
-                      { value: "Medium", label: "Medium" },
-                      { value: "High", label: "High" },
-                    ]}
-                  />
+                  <EditForm {...editFormFields} />
                 </Modal>
               )}
               <p className="text-left text-xs">{projectSummary.description}</p>
@@ -213,24 +223,6 @@ export default function ProjectDetails({ name, id }: Props) {
             firstIconClass="mr-2"
             secondIconClass="text-[20px] cursor-pointer"
           />
-          {/* {showEdit && (
-                <Modal>
-                  <EditForm
-                    handleSubmit={handleEditSubmit}
-                    defVal1={projectSummary.name}
-                    defVal2={projectSummary.description}
-                    option1={[
-                      { value: "Ongoing", label: "Ongoing" },
-                      { value: "Completed", label: "Completed" },
-                    ]}
-                    option2={[
-                      { value: "Low", label: "Low" },
-                      { value: "Medium", label: "Medium" },
-                      { value: "High", label: "High" },
-                    ]}
-                  />
-                </Modal>
-              )} */}
           <button
             className="btn-primary flex items-center"
             onClick={handleAddingBug}
@@ -256,7 +248,25 @@ export default function ProjectDetails({ name, id }: Props) {
                   titleClass="font-normal"
                   secondIconClass="text-[16px] cursor-pointer"
                   ComponentClass="items-center"
-                  secondHandleIcon={handleEditClose}
+                  secondHandleIcon={() =>
+                    handleOpenEdit({
+                      handleSubmit: handleEditSubmit,
+                      handleClose: handleCloseEdit,
+                      defVal1: bug.name,
+                      defVal2: bug.description,
+                      defOption1: { value: bug.status, label: bug.status },
+                      defOption2: { value: bug.priority, label: bug.priority },
+                      option1: [
+                        { value: "Open", label: "Open" },
+                        { value: "Closed", label: "Closed" },
+                      ],
+                      option2: [
+                        { value: "Low", label: "Low" },
+                        { value: "Medium", label: "Medium" },
+                        { value: "High", label: "High" },
+                      ],
+                    })
+                  }
                 />
                 <div className="flex justify-between gap-2">
                   <p>{bug.priority}</p>

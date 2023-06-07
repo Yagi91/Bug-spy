@@ -2,20 +2,21 @@ import React from "react";
 import { SimpleInput } from "../common/common";
 import Select from "react-select";
 
-type option = {
+type Option = {
   value: string;
   label: string;
   isDisabled?: boolean;
 };
 
-interface Props {
+export interface Props {
   defVal1?: string;
   defVal2?: string;
-  option1?: option[];
-  option2?: option[];
-  defOption1?: option[];
-  defOption2?: option[];
+  option1?: Option[];
+  option2?: Option[];
+  defOption1?: Option | null;
+  defOption2?: Option | null;
   handleSubmit?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  handleClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const EditForm = ({
@@ -23,18 +24,15 @@ const EditForm = ({
   defVal2,
   option1,
   option2,
-  defOption1,
-  defOption2,
+  defOption1 = null,
+  defOption2 = null,
   handleSubmit,
+  handleClose,
 }: Props) => {
-  //   const [select1, setSelect1] = React.useState<option>(defOption1);
-  //   const [select2, setSelect2] = React.useState<option>(defOption2);
+  const [select1, setSelect1] = React.useState<Option | null>(defOption1);
+  const [select2, setSelect2] = React.useState<Option | null>(defOption2);
   const [text1, setText1] = React.useState<string>(defVal1 || "");
   const [text2, setText2] = React.useState<string>(defVal2 || "");
-
-  //   const handleText1=(e:React.FormEvent<HTMLInputElement>)=>{
-  //     setText1
-  //   }
 
   return (
     <form className="flex h-[300px] w-[500px] flex-col justify-center gap-4 rounded-[12px] bg-white p-4">
@@ -72,6 +70,8 @@ const EditForm = ({
         <Select
           options={option1}
           placeholder="Status"
+          value={select1}
+          onChange={(option: Option | null) => setSelect1(option)}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -90,6 +90,8 @@ const EditForm = ({
         <Select
           options={option2}
           placeholder="Severity"
+          value={select2}
+          onChange={(option: Option | null) => setSelect2(option)}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,
@@ -97,6 +99,9 @@ const EditForm = ({
               borderWidth: "1px",
               boxShadow: "none",
               textAlign: "left",
+              // display: "none",
+              display: option2 ? "flex" : "none",
+              //add the display key to the object and set it to none when option2 is null
             }),
             option: (baseStyles, state) => ({
               ...baseStyles,
@@ -117,6 +122,7 @@ const EditForm = ({
         <button
           type="reset"
           className="btn-primary flex w-28 justify-center bg-secondary-500 hover:bg-secondary-600"
+          onClick={handleClose}
         >
           <span className="material-symbols-outlined">close</span>
           <span>Reset</span>
@@ -125,4 +131,5 @@ const EditForm = ({
     </form>
   );
 };
+
 export default EditForm;
