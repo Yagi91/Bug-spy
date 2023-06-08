@@ -125,7 +125,7 @@ const EditForm = ({
           onClick={handleClose}
         >
           <span className="material-symbols-outlined">close</span>
-          <span>Reset</span>
+          <span>Cancel</span>
         </button>
       </fieldset>
     </form>

@@ -314,3 +314,21 @@ export const DoubleIconsText = ({
     </div>
   );
 };
+
+interface ConfirmModalProps{
+  handleYes:()=>void;
+  handleNo:()=>void;
+}
+
+const ConfirmModal = () => {
+
+  return(
+    <div className='bg-white'>
+      <h1>Confirm Action</h1>
+      <div className="flex">
+        <button className="btn-primary"onClick={handleYes}>Yes</button>
+        <button className="btn-primary"onClick={handleNo}>No</button>
+      </div>
+    </div>
+  )
+}
