@@ -56,3 +56,24 @@ export function SimpleInput({
     </>
   );
 }
+
+interface ConfirmModalProps{
+  handleYes:(e:React.MouseEvent<HTMLButtonElement>)=>void;
+  handleNo:(e:React.MouseEvent<HTMLButtonElement>)=>void;
+}
+
+export const ConfirmModal = ({
+  handleYes,
+  handleNo
+}:ConfirmModalProps) => {
+
+  return(
+    <div className='bg-white'>
+      <h1>Confirm Action</h1>
+      <div className="flex">
+        <button className="btn-primary" onClick={handleYes}>Yes</button>
+        <button className="btn-primary" onClick={handleNo}>No</button>
+      </div>
+    </div>
+  )
+}

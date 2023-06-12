@@ -9,6 +9,7 @@ import {
   selectError,
   getProjectDetails,
 } from "./projectDetailSlice";
+import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
 import { AddBugForm } from "./addBug";
 import AddMembers from "./addMembers";
@@ -185,7 +186,7 @@ export default function ProjectDetails({ name, id }: Props) {
                 showMembers && "show"
               }`}
             >
-              {projectMembers.map((member): JSX.Element => {
+              {projectMembers.map((member: any): JSX.Element => {
                 return (
                   <li key={member.email} className="border-b-2 py-1 text-left">
                     <h4 className="font-bold">{member.name}</h4>
@@ -210,7 +211,14 @@ export default function ProjectDetails({ name, id }: Props) {
           <IconButton
             icon="delete"
             text="Delete Project"
-            handleClick={deleteProject}
+            handleClick={() =>
+              dispatch(
+                setConfirmModal({
+                  display: true,
+                  onConfirm: () => deleteProject(),
+                })
+              )
+            }
           />
         </div>
       </header>

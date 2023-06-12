@@ -22,7 +22,6 @@ import {
   ProjectState,
   addNewProject,
 } from "./projectSlice";
-
 const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
   value: val,
   label: val,

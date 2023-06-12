@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Link from "../features/layout/link";
+import ConfirmModal from "../features/common/confirm_modal";
 
 //This is the layout for the app. It is a flex container with two children. The first child is a nav bar that is a flex container with two children. The second child is the outlet for the routes.
 export default function Layout() {
@@ -31,6 +32,7 @@ export default function Layout() {
       </nav>
       <div className="mx-auto flex h-full w-full sm:justify-center sm:p-4">
         <Outlet />
+        <ConfirmModal />
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import authReducer from "../features/auth/authSlice";
 import projectReducer from "../features/projects/projectSlice";
 import projectDetailsReducer from "../features/projects/projectDetailSlice";
 import myTicketReducer from "../features/myTickets/myTicketSlice";
+import { confirmSlice } from "../features/common/confirmSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,11 @@ export const store = configureStore({
     project: projectReducer,
     projectDetails: projectDetailsReducer,
     myTickets: myTicketReducer,
+    confirmModal: confirmSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 export type AppDispatch = typeof store.dispatch;
