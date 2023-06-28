@@ -4,7 +4,7 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { RouterProvider, createBrowserRouter, } from 'react-router-dom';
-// import ParentRoute from "./Pages/ProtectedRoute";
+import PrivateRoute from "./Pages/ProtectedRoute";
 import LoginPage from "./Pages/Auth";
 import ProjectPage from "./Pages/Projects";
 import ProjectDetailsPage from "./Pages/ProjectDetails";
@@ -23,10 +23,12 @@ function App() {
           {/* <Route element={<ParentRoute />}>
             <Route path="/" element={<LoginPage />} />
           </Route> */}
-          <Route path="/" element={<Layout />}>
-            <Route path="/projects" element={<ProjectPage />} />
-            <Route path="/projects/:name" element={<ProjectDetailsPage />} />
-            <Route path="/my-tickets" element={<MyTicketsPage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<Layout />}>
+              <Route path="/projects" element={<ProjectPage />} />
+              <Route path="/projects/:name" element={<ProjectDetailsPage />} />
+              <Route path="/my-tickets" element={<MyTicketsPage />} />
+            </Route>
           </Route>
           {/* <Route path="/projects" element={<ProjectPage />} />
           <Route path="/projects/:name" element={<ProjectDetailsPage />} />
