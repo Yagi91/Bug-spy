@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import LogIn from "./login";
 import person from "./images/user-login.svg";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { changeAuthType as changeAuthTypeAction } from "./authSlice";
 import { loginUser, selectStatus, error as errorAction } from "./authSlice";
 import { useNavigate } from "react-router-dom";
 

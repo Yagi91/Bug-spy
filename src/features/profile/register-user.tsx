@@ -1,110 +1,92 @@
-import React from "react";
-import { SimpleInput } from "../common/common";
-import Select from "react-select";
+import React, { useState } from "react";
+import RegisterForm from "./register";
+import person from "../auth/images/user-login.svg";
+import { useNavigate } from "react-router-dom";
+import { create } from "./api-user";
 
-interface Props {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  registerStatus: string;
-  error?: string;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+const passwordFormatChecker = (password: string): boolean => {
+  const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+  return passwordFormat.test(password);
+};
 
-export default function Register({
-  handleSubmit,
-  registerStatus,
-  error,
-  handleChange,
-}: Props) {
-  const [password, setPassword] = React.useState<string>("");
-  const isLoggedIn = registerStatus === "Success";
-  const isLoading = registerStatus === "Loading";
+export default function RegisterScreen() {
+  const [values, setValues] = useState({
+    error: "",
+    open: false,
+    name: "",
+    email: "",
+  });
+  const navigate = useNavigate();
 
-  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-    // handleChange(event);
+  const handleRegisterForm = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    const name: string = event.currentTarget.fullName.value;
+    const role: string = event.currentTarget.myRole.value;
+    const email: string = event.currentTarget.email.value;
+    const password: string = event.currentTarget.password.value;
+    const passwordCheck: string = event.currentTarget["password-check"].value;
+    const isPasswordValid = passwordFormatChecker(password);
+    // if (isPasswordValid && password === passwordCheck) {
+    //   //Hit the backend and submit the form
+    //   dispatch(
+    //     registerUser({ email: email.toLocaleLowerCase(), password, role, name })
+    //   );
+    // } else if (!isPasswordValid) {
+    //   errorAction(
+    //     "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
+    //   );
+    //   return;
+    // } else if (password !== passwordCheck) {
+    //   errorAction("Passwords do not match");
+    //   return;
+    // }
+    try {
+      if (isPasswordValid && password === passwordCheck) {
+        const data = await create({ name, role, email, password });
+
+        setValues({ ...values, open: true, error: "" });
+      } else if (!isPasswordValid) {
+        throw new Error(
+          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
+        );
+      } else {
+        throw new Error("Passwords do not match");
+      }
+    } catch (error: any) {
+      console.log(error);
+      setValues({ ...values, error: error });
+    }
   };
-
-  interface Options {
-    value: string;
-    label: string;
-  }
-
-  const options: Options[] = [
-    { value: "Developer", label: "Developer" },
-    { value: "Tester", label: "Tester" },
-    { value: "Lead", label: "Lead" },
-    { value: "Manager", label: "Manager" },
-  ];
-
-  if (isLoggedIn) return <h1>Sign Up Success</h1>;
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // if (error) {
+    //   dispatch(errorAction(""));
+    // }
+    return;
+  };
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset className="flex flex-col gap-3">
-        <legend className="py-2 text-left text-2xl font-extrabold">
-          Register
-        </legend>
-        <SimpleInput
-          handleChange={handleChange}
-          type="text"
-          name="fullName"
-          placeholder="Enter your name here"
-          required={true}
-          label="Name"
-          extraClass="invalid:ring-red-300 w-full"
+    <section className="flex h-fit items-center gap-3 rounded-md border bg-white p-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+      <div className=" hidden w-1/2 sm:block">
+        <img src={person} alt="a person" />
+      </div>
+      <div className=" mx-auto w-3/4 p-2 sm:w-1/2 ">
+        <RegisterForm
+          handleSubmit={handleRegisterForm}
+          handleChange={handleFormChange}
+          registerStatus={"loading"}
+          error={""}
         />
-        <Select
-          options={options}
-          placeholder="Select Role..."
-          onChange={(e) => console.log(e)}
-          styles={{
-            control: (baseStyles, state) => ({
-              ...baseStyles,
-              // borderColor: state.isFocused ? "grey" : "red",
-              borderRadius: "0.75rem",
-              borderWidth: "2px",
-              textAlign: "left",
-            }),
-            option: (baseStyles, state) => ({
-              ...baseStyles,
-              borderRadius: state.isSelected ? "0.75rem" : "0",
-            }),
-          }}
-        />
-        <SimpleInput
-          handleChange={handleChange}
-          type="email"
-          name="email"
-          placeholder="Enter a valid email"
-          required={true}
-          label="Email"
-          extraClass="invalid:ring-red-300 w-full"
-        />
-
-        <SimpleInput
-          handleChange={handlePassword}
-          type="password"
-          name="password"
-          placeholder="Enter a strong password"
-          required={true}
-          label="Password"
-          extraClass="invalid:ring-red-300 valid:ring-accent-300 w-full"
-          pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-          extraInfo="Must be 8+ characters, 1 uppercase, 1 lowercase, 1 number, no special characters."
-        />
-        <SimpleInput
-          type="password"
-          name="password-check"
-          placeholder="Re-enter Password"
-          required={true}
-          label="Confirm Password"
-          extraClass="invalid:ring-secondary-300 w-full"
-          pattern={password}
-        />
-        <div className="test-xs color-secondary-300 font-medium ">{error}</div>
-        <button className="btn-primary w-full" type="submit">
-          {isLoading ? "Registering" : "Sign Up"}
-        </button>
-      </fieldset>
-    </form>
+        <p className="mt-2 p-2">
+          Already have an account?{" "}
+          <button
+            className="text-primary-500"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+        </p>
+      </div>
+    </section>
   );
 }

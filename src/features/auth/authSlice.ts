@@ -4,7 +4,7 @@ import { create } from "../profile/api-user";
 
 export interface AuthState {
   status: "Typing" | "Loading" | "Success";
-  userInfo: { email: string | null; name?: string; role?: string };
+  userInfo: { email: string | null; name?: string | null; role?: string };
   error: string;
   authType: "Login" | "Register";
   userToken: JSON | null;
@@ -14,7 +14,7 @@ const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
 const initialState: AuthState = {
   error: "",
   status: "Typing",
-  userInfo: { email: null, name: "", role: "" },
+  userInfo: { email: null, name: null, role: "" },
   authType: "Login",
   userToken,
 
