@@ -24,6 +24,7 @@ export default function Auth({ authType }: Props) {
     console.log("authType", authType);
     dispatch(errorAction(""));
   }, [authType, dispatch]);
+
   const passwordFormatChecker = (password: string): boolean => {
     const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return passwordFormat.test(password);
@@ -63,7 +64,7 @@ export default function Auth({ authType }: Props) {
       return;
     } else if (password !== passwordCheck) {
       errorAction("Passwords do not match");
-      return console.log("Passwords do not match");
+      return;
     }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {

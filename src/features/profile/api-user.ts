@@ -1,4 +1,3 @@
-import exp from "constants";
 
 const create = async (user: any) => {
     try {
@@ -15,7 +14,7 @@ const create = async (user: any) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 const list = async (signal: any) => {
     try {
@@ -27,7 +26,7 @@ const list = async (signal: any) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 const read = async (params: any, credentials: any, signal: any) => {
     try {
@@ -44,7 +43,7 @@ const read = async (params: any, credentials: any, signal: any) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 const update = async (params: any, credentials: any, user: any) => {
     try {
@@ -61,7 +60,7 @@ const update = async (params: any, credentials: any, user: any) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 const remove = async (params: any, credentials: any) => {
     try {
@@ -77,6 +76,6 @@ const remove = async (params: any, credentials: any) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 export { create, list, read, update, remove }

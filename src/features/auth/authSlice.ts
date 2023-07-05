@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { create } from "../profile/api-user";
 
 export interface AuthState {
   status: "Typing" | "Loading" | "Success";
@@ -45,6 +46,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+//
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (
@@ -52,9 +54,11 @@ export const registerUser = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-      await delay(2000);
-      return { email, name, role };
+      // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+      const data = await create({ email, password, name, role });
+      // await delay(2000);
+      // return { email, name, role };
+      return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
