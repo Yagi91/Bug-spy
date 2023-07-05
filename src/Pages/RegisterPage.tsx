@@ -1,5 +1,5 @@
 import * as React from "react";
-import Register from "../features/profile/register";
+import Register from "../features/profile/register-user";
 import person from "../features/auth/images/user-login.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -59,7 +59,7 @@ export default function RegisterPage() {
             Already have an account?{" "}
             <button
               className="text-primary-500"
-              onClick={() => navigate("/auth")}
+              onClick={() => navigate("/login")}
             >
               Login
             </button>

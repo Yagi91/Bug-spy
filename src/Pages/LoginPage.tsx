@@ -1,4 +1,4 @@
-import Auth from "../features/auth/auth";
+import LoginScreen from "../features/auth/login-auth";
 import { useAppSelector } from "../app/hooks";
 import { selectAuthType } from "../features/auth/authSlice";
 
@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   return (
     <div className="container mx-auto flex h-full items-center justify-center">
-      <Auth authType={authType} />
+      <LoginScreen authType={authType} />
     </div>
   );
 }
