@@ -53,6 +53,7 @@ export default function RegisterForm({
           extraClass="invalid:ring-red-300 w-full"
         />
         <Select
+          name={"userRole"}
           options={options}
           placeholder="Select Role..."
           onChange={(e) => console.log(e)}

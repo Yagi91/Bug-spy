@@ -1,7 +1,9 @@
+const backEnd = 'http://localhost:5000';
 
-const create = async (user: any) => {
+const create = async (user: { name: string, password: string, email: string, role?: string }) => {
+    console.log(user);
     try {
-        let response = await fetch('/api/users/', {
+        let response = await fetch(backEnd + '/api/users/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -10,9 +12,20 @@ const create = async (user: any) => {
             body: JSON.stringify(user)
         }
         );
-        return await response.json();
-    } catch (err) {
-        console.error(err);
+        if (response.status === 404) {
+            throw new Error("Check Internet Connection");
+        }
+
+        const data = await response.json();
+        console.log("data", data);
+        if (response.status >= 400) {
+            throw new Error(data.error || 'Could not register user');
+        }
+
+        return await data;
+    } catch (err: any) {
+        console.error("Error details:", err.message);
+        throw new Error(err);
     }
 };
 

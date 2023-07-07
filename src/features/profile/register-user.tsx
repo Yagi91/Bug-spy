@@ -23,7 +23,7 @@ export default function RegisterScreen() {
   ) => {
     event.preventDefault();
     const name: string = event.currentTarget.fullName.value;
-    const role: string = event.currentTarget.myRole.value;
+    const role: string = event.currentTarget.userRole.value;
     const email: string = event.currentTarget.email.value;
     const password: string = event.currentTarget.password.value;
     const passwordCheck: string = event.currentTarget["password-check"].value;
@@ -42,11 +42,12 @@ export default function RegisterScreen() {
     //   errorAction("Passwords do not match");
     //   return;
     // }
+    console.log({ name, role, email, password });
     try {
       if (isPasswordValid && password === passwordCheck) {
-        const data = await create({ name, role, email, password });
-
+        await create({ name, role, email, password });
         setValues({ ...values, open: true, error: "" });
+        navigate("/");
       } else if (!isPasswordValid) {
         throw new Error(
           "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
@@ -55,14 +56,17 @@ export default function RegisterScreen() {
         throw new Error("Passwords do not match");
       }
     } catch (error: any) {
-      console.log(error);
-      setValues({ ...values, error: error });
+      console.log("error:", error.message);
+      setValues({ ...values, error: error.message ? error.message : "" });
     }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // if (error) {
     //   dispatch(errorAction(""));
     // }
+    if (values.error) {
+      setValues({ ...values, error: "" });
+    }
     return;
   };
   return (
@@ -85,6 +89,13 @@ export default function RegisterScreen() {
           >
             Login
           </button>
+        </p>
+        <p
+          className={`text-secondary-500 ${
+            values.error ? "initial" : "hidden"
+          }`}
+        >
+          {values.error}
         </p>
       </div>
     </section>
