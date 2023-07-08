@@ -8,6 +8,7 @@ const signin = async (user: { email: string, password: string }) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+
             },
             // credentials: 'include',//this is to allow the client to send cookies
             body: JSON.stringify(user)

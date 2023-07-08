@@ -31,7 +31,9 @@ export default function LogIn({
           placeholder="Enter your email"
           required={true}
           label="Email"
-          extraClass="invalid:ring-red-300 w-full"
+          extraClass={
+            "invalid:ring-red-300 w-full" + (error ? " border-red-300" : "")
+          }
         />
         <SimpleInput
           handleChange={handleChange}
@@ -40,7 +42,9 @@ export default function LogIn({
           placeholder="Enter your password"
           required={true}
           label="Password"
-          extraClass="invalid:ring-red-300 w-full"
+          extraClass={
+            "invalid:ring-red-300 w-full" + (error ? " border-red-300" : "")
+          }
         />
         <button
           type="submit"
@@ -49,7 +53,9 @@ export default function LogIn({
         >
           {isLoading ? "Loading..." : "Login"}
         </button>
-        <div>{error}</div>
+        <p className={`text-secondary-500 ${error ? "initial" : "hidden"}`}>
+          {error}
+        </p>
       </fieldset>
     </form>
   );

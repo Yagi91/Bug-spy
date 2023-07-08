@@ -59,9 +59,6 @@ export default function LoginScreen({ authType }: Props) {
             Register
           </button>
         </p>
-        <p className={`text-secondary-500 ${error ? "initial" : "hidden"}`}>
-          {error}
-        </p>
       </div>
     </section>
   );

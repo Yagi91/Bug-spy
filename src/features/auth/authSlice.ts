@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { create } from "../profile/api-user";
 import { signin } from "./api-auth";
+import { auth } from "./auth-helper";
 
 export interface AuthState {
   status: "Typing" | "Loading" | "Success";
@@ -34,14 +35,13 @@ export const loginUser = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-      // await delay(2000);
       const user = await signin({ email, password });
       console.log("in the async thunk");
       console.log(user);
-      // return { email };
+      if (user.error) { throw new Error(user.error) }
       return user;
     } catch (error: any) {
+      console.log("in here");
       if (error.response && error.response.data.message) {
         return thunkAPI.rejectWithValue(error.response.data.message);
       }
@@ -101,12 +101,13 @@ export const authSlice = createSlice({
     builder.addCase(
       loginUser.fulfilled,
       (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string }>) => {
-        state.status = "Success";
-        state.userInfo.email = action.payload.email;
-        state.userInfo.name = action.payload.name;
-        state.userInfo.role = action.payload.role;
-        state.userToken = JSON.stringify(action.payload.token);
-        localStorage.setItem("userToken", JSON.stringify(action.payload.token));
+        auth.authenticate(action.payload.token, () => {
+          state.userInfo.email = action.payload.email;
+          state.userInfo.name = action.payload.name;
+          state.userInfo.role = action.payload.role;
+          state.userToken = action.payload.token;
+          state.status = "Success";
+        });
         console.log("success fulfilled", state.userInfo);
       }
     );
