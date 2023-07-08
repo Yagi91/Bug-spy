@@ -8,7 +8,7 @@ export interface AuthState {
   userInfo: { email: string | null; name?: string | null; role?: string };
   error: string;
   authType: "Login" | "Register";
-  userToken: JSON | null;
+  userToken: JSON | null | string;
 }
 const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
 
@@ -18,7 +18,6 @@ const initialState: AuthState = {
   userInfo: { email: null, name: null, role: "" },
   authType: "Login",
   userToken,
-
 };
 
 // export interface SerializedError {
@@ -39,6 +38,7 @@ export const loginUser = createAsyncThunk(
       // await delay(2000);
       const user = await signin({ email, password });
       console.log("in the async thunk");
+      console.log(user);
       // return { email };
       return user;
     } catch (error: any) {
@@ -100,10 +100,14 @@ export const authSlice = createSlice({
     });
     builder.addCase(
       loginUser.fulfilled,
-      (state: AuthState, action: PayloadAction<{ email: string }>) => {
+      (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string }>) => {
         state.status = "Success";
         state.userInfo.email = action.payload.email;
-        console.log("success fulfilled", state.userInfo.email);
+        state.userInfo.name = action.payload.name;
+        state.userInfo.role = action.payload.role;
+        state.userToken = JSON.stringify(action.payload.token);
+        localStorage.setItem("userToken", JSON.stringify(action.payload.token));
+        console.log("success fulfilled", state.userInfo);
       }
     );
     builder.addCase(loginUser.rejected, (state, { payload }) => {

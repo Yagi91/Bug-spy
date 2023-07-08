@@ -1,16 +1,20 @@
+const backendUrl = "http://localhost:5000";
 
 const signin = async (user: { email: string, password: string }) => {
     try {
-        let response = await fetch('/auth/signin/', {
+        console.log(process.env.BackEndUrl);
+        let response = await fetch(backendUrl + '/auth/signin/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            credentials: 'include',//this is to allow the client to send cookies
+            // credentials: 'include',//this is to allow the client to send cookies
             body: JSON.stringify(user)
         });
-        return await response.json();
+        const data = await response.json();
+        console.log("data:", data);
+        return data;
     } catch (err) {
         console.error(err);
     }

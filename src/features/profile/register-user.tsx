@@ -61,9 +61,6 @@ export default function RegisterScreen() {
     }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (error) {
-    //   dispatch(errorAction(""));
-    // }
     if (values.error) {
       setValues({ ...values, error: "" });
     }
