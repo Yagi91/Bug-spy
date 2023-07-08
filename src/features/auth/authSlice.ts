@@ -5,28 +5,22 @@ import { signin } from "./api-auth";
 import { auth } from "./auth-helper";
 
 export interface AuthState {
-  status: "Typing" | "Loading" | "Success";
-  userInfo: { email: string | null; name?: string | null; role?: string };
+  status: "Idle" | "Loading" | "Success";
+  userInfo: { email: string | null; name?: string | null; role?: string, _id?: string };
   error: string;
   authType: "Login" | "Register";
   userToken: JSON | null | string;
 }
-const userToken = JSON.parse(localStorage.getItem("userToken") || "{}");
+// const userToken = JSON.parse(sessionStorage.getItem("userToken") || "{}");
+const userToken = sessionStorage.getItem("userToken")?.toString() || null;
 
 const initialState: AuthState = {
   error: "",
-  status: "Typing",
-  userInfo: { email: null, name: null, role: "" },
+  status: "Idle",
+  userInfo: { email: null, name: null, role: "", _id: "" },
   authType: "Login",
   userToken,
 };
-
-// export interface SerializedError {
-//   name?: string
-//   message?: string
-//   stack?: string
-//   code?: string
-// }
 
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -37,7 +31,6 @@ export const loginUser = createAsyncThunk(
     try {
       const user = await signin({ email, password });
       console.log("in the async thunk");
-      console.log(user);
       if (user.error) { throw new Error(user.error) }
       return user;
     } catch (error: any) {
@@ -49,7 +42,8 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-//
+
+
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (
@@ -57,10 +51,7 @@ export const registerUser = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
       const data = await create({ email, password, name, role });
-      // await delay(2000);
-      // return { email, name, role };
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -86,7 +77,7 @@ export const authSlice = createSlice({
     logout: (state: AuthState) => {
       state.userInfo.email = null;
       state.error = "";
-      state.status = "Typing";
+      state.status = "Idle";
       state.userToken = null;
       localStorage.removeItem("userToken");
     },//Handle logout
@@ -100,11 +91,12 @@ export const authSlice = createSlice({
     });
     builder.addCase(
       loginUser.fulfilled,
-      (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string }>) => {
+      (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string, _id: string }>) => {
         auth.authenticate(action.payload.token, () => {
           state.userInfo.email = action.payload.email;
           state.userInfo.name = action.payload.name;
           state.userInfo.role = action.payload.role;
+          state.userInfo._id = action.payload._id;
           state.userToken = action.payload.token;
           state.status = "Success";
         });
@@ -112,7 +104,7 @@ export const authSlice = createSlice({
       }
     );
     builder.addCase(loginUser.rejected, (state, { payload }) => {
-      state.status = "Typing";
+      state.status = "Idle";
       state.error = payload as string;
     });
     builder.addCase(registerUser.pending, (state) => {
@@ -128,7 +120,7 @@ export const authSlice = createSlice({
       state.userInfo.role = action.payload.role;
     });
     builder.addCase(registerUser.rejected, (state, { payload }) => {
-      state.status = "Typing";
+      state.status = "Idle";
       state.error = payload as string;
     });
   },
