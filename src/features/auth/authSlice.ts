@@ -79,8 +79,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.status = "Idle";
       state.userToken = null;
-      localStorage.removeItem("userToken");
-    },//Handle logout
+      sessionStorage.removeItem("jwt");
+    },
   },
   extraReducers(builder) {
     //Handle async actions for login and register
@@ -126,7 +126,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeAuthType, error } = authSlice.actions;
+export const { changeAuthType, error, logout } = authSlice.actions;
 
 export const selectAuthType = (state: RootState) => state.auth.authType;
 export const selectStatus = (state: RootState) => state.auth.status;
