@@ -6,13 +6,13 @@ import { auth } from "./auth-helper";
 
 export interface AuthState {
   status: "Idle" | "Loading" | "Success";
-  userInfo: { email: string | null; name?: string | null; role?: string, _id?: string };
+  userInfo: { email: string | null; name?: string | null; role?: string | null, _id?: string | null };
   error: string;
   authType: "Login" | "Register";
   userToken: JSON | null | string;
 }
 // const userToken = JSON.parse(sessionStorage.getItem("userToken") || "{}");
-const userToken = sessionStorage.getItem("userToken")?.toString() || null;
+const userToken = sessionStorage.getItem("jwt")?.toString() || null;
 
 const initialState: AuthState = {
   error: "",
@@ -75,11 +75,21 @@ export const authSlice = createSlice({
       state.error = action.payload;
     },
     logout: (state: AuthState) => {
-      state.userInfo.email = null;
-      state.error = "";
-      state.status = "Idle";
-      state.userToken = null;
-      sessionStorage.removeItem("jwt");
+      console.log("Logging out");
+      try {
+        auth.clearJWT(() => {
+          state.userInfo.email = null;
+          state.userInfo.name = null;
+          state.userInfo.role = null;
+          state.userInfo._id = null;
+          state.error = "";
+          state.status = "Idle";
+          state.userToken = null;
+        });
+      } catch (error: any) {
+        console.log(error);
+        state.error = error;
+      }
     },
   },
   extraReducers(builder) {

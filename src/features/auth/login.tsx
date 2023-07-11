@@ -17,7 +17,7 @@ export default function LogIn({
   const isLoggedIn = loginStatus === "Success";
   const isLoading = loginStatus === "Loading";
 
-  if (isLoggedIn) return <h1>Login Success</h1>;
+  // if (isLoggedIn) return <h1>Login Success</h1>;
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <fieldset className="flex flex-col gap-5">

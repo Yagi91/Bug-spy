@@ -13,7 +13,7 @@ export default function Layout() {
 
   const handleLogout = () => {
     try {
-      dispatch(logoutAction);
+      dispatch(logoutAction());
       navigate("/login");
     } catch (err) {
       console.log(err);
@@ -38,12 +38,13 @@ export default function Layout() {
           />
           <Link path="/profile" id="profile" name="Profile" icon="person" />
         </div>
-        <div className="border-r-2 border-neutral-300 p-2 sm:w-full sm:border-r-0 sm:border-t-2">
+        <div
+          className="border-r-2 border-neutral-300 p-2 sm:w-full sm:border-r-0 sm:border-t-2"
+          onClick={handleLogout}
+        >
           <button className="nav-element">
             <span className="material-symbols-outlined block">logout</span>
-            <span className="hidden sm:inline" onClick={handleLogout}>
-              Logout
-            </span>
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
       </nav>

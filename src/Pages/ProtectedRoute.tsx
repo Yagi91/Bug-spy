@@ -11,7 +11,9 @@ export default function PrivateRoute() {
         <h1>Unauthorized :(</h1>
         <p>Please log in to view this page</p>
         <span>
-          <NavLink to="/login">Login</NavLink>
+          <NavLink replace to="/login">
+            Login
+          </NavLink>
         </span>
       </div>
     );

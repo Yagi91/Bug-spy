@@ -23,10 +23,11 @@ const signin = async (user: { email: string, password: string }) => {
 
 const signout = async () => {
     try {
-        let response = await fetch('/auth/signout/', { method: 'GET' });
+        let response = await fetch(backendUrl + '/auth/signout/', { method: 'GET' });
         return await response.json();
     } catch (err) {
         console.error(err);
+        return err;
     }
 }
 

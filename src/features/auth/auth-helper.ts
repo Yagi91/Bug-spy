@@ -15,13 +15,14 @@ function isAuthenticated() {
         return false;
 };
 
+//you should use this method to clear the jwt from sessionStorage and the cookie when the user signs out
 function clearJWT(cb: any) {
     if (typeof window !== "undefined")
         sessionStorage.removeItem("jwt");
     cb();
     //optional
     signout().then((data: any) => {
-        document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"//t is the name of the cookie, and the rest is to set the expiration date to the past
     });
 }
 
