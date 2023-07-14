@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { ListProjectsProps } from "./listProjects";
+import { getProjects } from "./api-projects";
 
 const defaultProjects: ListProjectsProps[] = [
     {
@@ -41,7 +42,7 @@ export interface ProjectState {
 }
 
 const initialState: ProjectState = {
-    projects: [] as Array<ListProjectsProps>,
+    projects: [],
     sort: "Name",
     filterStatus: "All",
     filterOwner: "All Projects",
@@ -50,13 +51,12 @@ const initialState: ProjectState = {
 export const fetchProjects = createAsyncThunk(
     "project/fetchProjects",
     async (action, thunkAPI) => {
-        //check if email exists in the database first before fetching projects
         try {
-            const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-            await delay(2000);
-            // const response = await fetch("http://localhost:3000/projects");
-            // const data = await response.json();
+            // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+            // await delay(2000);
             // return data;
+            const _projects = await getProjects();
+            console.log(_projects);
             return defaultProjects;
         }
         catch (error: any) {

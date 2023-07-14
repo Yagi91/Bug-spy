@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import Link from "../features/layout/link";
 import ConfirmModal from "../features/common/confirm_modal";

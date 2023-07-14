@@ -44,6 +44,7 @@ export default function Projects(): JSX.Element {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
+    console.log("fetching");
     dispatch(fetchProjects());
   }, [dispatch]);
 
