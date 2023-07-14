@@ -75,9 +75,9 @@ export default function Projects(): JSX.Element {
     console.log("sorting");
     return [...filteredProjects].sort((a, b) => {
       if (sort === "Name") return a.name.localeCompare(b.name);
-      if (sort === "Most bugs") return b.bugs - a.bugs;
+      if (sort === "Most bugs") return b.totalBugs - a.totalBugs;
       if (sort === "Newest")
-        return new Date(b.Created).getTime() - new Date(a.Created).getTime();
+        return new Date(b.created).getTime() - new Date(a.created).getTime();
       if (sort === "Admin") return a.admin.localeCompare(b.admin);
       return 0;
     });

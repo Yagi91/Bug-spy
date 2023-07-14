@@ -3,35 +3,38 @@ import React from "react";
 
 export interface Props {
   name: string;
-  bugs: number;
-  Created: string;
+  totalBugs: number;
+  created: string;
   admin: string;
   progress: "Completed" | "Ongoing";
   handleClick: (
     event: React.MouseEvent<HTMLTableRowElement>,
-    name: string
+    name: string,
+    _id: string
   ) => void;
   handleEdit?: (event: React.MouseEvent<HTMLDivElement>) => void; //has to stop propagation to prevent the parent li from being clicked
+  _id: string;
 }
 
 export default function ProjectsCard({
   name,
-  Created,
-  bugs,
+  created,
+  totalBugs,
   admin,
   progress,
   handleClick,
   handleEdit,
+  _id,
 }: Props): JSX.Element {
   return (
     <tr
       className="project-card cursor-pointer border-b"
-      onClick={(e) => handleClick(e, name)}
+      onClick={(e) => handleClick(e, name, _id)}
     >
       <td className="px-3 py-2 text-left">{name}</td>
       <td className="px-3 py-2 text-left">{admin}</td>
-      <td className="px-3 py-2 text-left">{Created}</td>
-      <td className="px-3 py-2 text-left">{bugs}</td>
+      <td className="px-3 py-2 text-left">{created}</td>
+      <td className="px-3 py-2 text-left">{totalBugs}</td>
       <td className="px-3 py-2 text-left text-xs sm:text-base">{progress}</td>
       <td
         onClick={(e) => {

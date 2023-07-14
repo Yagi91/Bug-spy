@@ -1,7 +1,6 @@
 import React from "react";
 import ProjectsCard, { Props as cardsProps } from "./projectCard";
 import { useNavigate } from "react-router-dom";
-import { SearchBar, FloatingButton } from "./common";
 export type ListProjectsProps = Omit<cardsProps, "handleClick">; // { name: string, description: string, id: string } handleClick is not needed here
 
 interface Props {
@@ -56,14 +55,14 @@ export default function ListProjects({ projects, floatingButton }: Props) {
         <tbody>
           {projects.map((project) => {
             // let Created={formatDate(new Date(project.Created))};
-            let projectDate = formatDate(new Date(project.Created));
+            let projectDate = formatDate(new Date(project.created));
             // project.Created = projectDate;
             return (
               <>
                 <ProjectsCard
                   key={project.name}
                   {...project}
-                  Created={projectDate}
+                  created={projectDate}
                   handleClick={(e) => {
                     handleClick(e, project.name);
                   }}

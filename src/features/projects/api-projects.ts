@@ -1,7 +1,8 @@
+import config from "../../config";
 
 const getProjects = async () => {
     try {
-        let response = await fetch(process.env.REACT_APP_BACKENDURL + '/api/projects/', {
+        let response = await fetch(config.backendUrl + '/api/projects/', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -12,11 +13,11 @@ const getProjects = async () => {
 
         if (response.status === 401) {
             return { error: "Unauthorized" };
-        }
+        };
 
         if (response.status >= 400) {
             return { error: "Something went wrong" };
-        }
+        };
 
         return await response.json();
     } catch (err) {

@@ -3,37 +3,6 @@ import { RootState } from "../../app/store";
 import { ListProjectsProps } from "./listProjects";
 import { getProjects } from "./api-projects";
 
-const defaultProjects: ListProjectsProps[] = [
-    {
-        name: "Mary",
-        bugs: 1,
-        Created: "2021-01-01",
-        admin: "Mary",
-        progress: "Completed",
-    },
-    {
-        name: "John",
-        bugs: 2,
-        Created: "2021-02-01",
-        admin: "John",
-        progress: "Ongoing",
-    },
-    {
-        name: "Bob",
-        bugs: 3,
-        Created: "2021-03-01",
-        admin: "Bob",
-        progress: "Completed",
-    },
-    {
-        name: "Jane",
-        bugs: 4,
-        Created: "2021-04-01",
-        admin: "Jane",
-        progress: "Ongoing",
-    },
-]
-
 export interface ProjectState {
     projects: ListProjectsProps[];
     sort: "Name" | "Most bugs" | "Newest" | "Admin";
@@ -52,12 +21,10 @@ export const fetchProjects = createAsyncThunk(
     "project/fetchProjects",
     async (action, thunkAPI) => {
         try {
-            // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-            // await delay(2000);
-            // return data;
             const _projects = await getProjects();
             console.log(_projects);
-            return defaultProjects;
+            // return defaultProjects;
+            return _projects;
         }
         catch (error: any) {
             if (error.response && error.response.data.message) {
@@ -72,7 +39,7 @@ interface AddNewProjectProps {
     description: string;
     admin: string;
     selectedMembers?: string[];
-    Created?: string;
+    created?: string;
     bugs?: number | undefined;
     progress?: "Ongoing" | "Completed";
 }
@@ -83,11 +50,8 @@ export const addNewProject = createAsyncThunk(
         try {
             const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
             await delay(2000);
-            // const response = await fetch("http://localhost:3000/projects");
-            // const data = await response.json();
-            // return data;
             //selectedMembers and description is not needed in the project list until when the backend is ready and I will delete it from the action.payload object
-            const newProject: ListProjectsProps = { name, admin, Created: new Date().toISOString().slice(0, 10), bugs: 0, progress: "Ongoing" };
+            const newProject: Omit<ListProjectsProps, '_id'> = { name, admin, created: new Date().toISOString().slice(0, 10), totalBugs: 0, progress: "Ongoing" };
             return newProject;
         }
         catch (error: any) {
@@ -130,9 +94,8 @@ export const projectSlice = createSlice({
             console.log("Adding new project");
         });
         builder.addCase(addNewProject.fulfilled, (state, action) => {
-            state.projects = [action.payload, ...state.projects];
-        }
-        );
+            // state.projects = [action.payload, ...state.projects];
+        });
         builder.addCase(addNewProject.rejected, (state, action) => {
             console.log(action.payload);
         });
