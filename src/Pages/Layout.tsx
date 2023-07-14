@@ -55,3 +55,11 @@ export default function Layout() {
     </div>
   );
 }
+
+export const AppLayout = (): JSX.Element => {
+  return (
+    <main className="App h-screen border bg-neutral-100 font-inter">
+      <Outlet />
+    </main>
+  );
+};

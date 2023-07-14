@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import LogIn from "./login";
 import person from "./images/user-login.svg";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
