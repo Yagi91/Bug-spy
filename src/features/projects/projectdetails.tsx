@@ -18,11 +18,10 @@ import { Props as EditFormProps } from "./edit";
 import EditForm from "./edit";
 
 interface Props {
-  name: string;
-  id?: string;
+  projectName: string;
 }
 
-export default function ProjectDetails({ name, id }: Props) {
+export default function ProjectDetails({ projectName }: Props) {
   const [showMembers, setShowMembers] = React.useState<boolean>(false);
   const [addingBug, setAddingBug] = React.useState<boolean>(false);
   const [addingMembers, setAddingMembers] = React.useState<boolean>(false);
@@ -39,8 +38,8 @@ export default function ProjectDetails({ name, id }: Props) {
   const error = useAppSelector(selectError);
 
   useEffect(() => {
-    dispatch(getProjectDetails(id as string));
-  }, [dispatch, id]);
+    dispatch(getProjectDetails(projectName as string));
+  }, [dispatch, projectName]);
 
   const deleteProject = async function (): Promise<void> {
     const data = new Promise<void>((resolve, reject) => {
@@ -152,7 +151,9 @@ export default function ProjectDetails({ name, id }: Props) {
                 </Modal>
               )}
               <p className="text-left text-xs">{projectSummary.description}</p>
-              <p className="text-left text-xs">Admin: {projectSummary.admin}</p>
+              <p className="text-left text-xs capitalize">
+                Admin: {projectSummary.admin}
+              </p>
               <p className="text-left text-xs">{projectSummary.progress}</p>
               <p className="text-left text-[8px] italic opacity-60">
                 Created: {projectSummary.created}
@@ -249,7 +250,7 @@ export default function ProjectDetails({ name, id }: Props) {
         <ul className="flex w-full flex-col font-light">
           {projectBugs.map((bug): JSX.Element => {
             return (
-              <li key={bug.id} className="border-b text-left">
+              <li key={bug.name} className="border-b text-left">
                 <DoubleIconsText
                   title={bug.name}
                   secondIcon="edit"

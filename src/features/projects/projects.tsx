@@ -89,7 +89,7 @@ export default function Projects(): JSX.Element {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const selectedMembers = formData.getAll("options") as string[];
-    const admin = (userEmail as string) || "admin";
+    const admin = (userEmail as string) || "jane";
     formData.append("admin", admin);
     const newProject = { name, description, selectedMembers, admin };
     dispatch(addNewProject(newProject));

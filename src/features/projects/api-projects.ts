@@ -26,9 +26,12 @@ const getProjects = async () => {
     }
 }
 
+
+//ProjectID refers to either the id of the project or details/projectName
 const getProject = async (params: { projectId: string }) => {
+    console.log(params.projectId);
     try {
-        let response = await fetch(process.env.REACT_APP_BackEndUrl + '/api/projects/' + params.projectId, {
+        let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -36,6 +39,9 @@ const getProject = async (params: { projectId: string }) => {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
             }
         });
+        if (response.status >= 400) {
+            throw new Error('Something went wrong');
+        }
         return await response.json();
     } catch (err) {
         console.error(err);
@@ -43,16 +49,19 @@ const getProject = async (params: { projectId: string }) => {
     }
 }
 
-const createProject = async (params: { project: any }) => {
+const createProject = async (project: any) => {
+    console.log('payload body', project.name);
     try {
-        let response = await fetch(process.env.REACT_APP_BackEndUrl + '/api/projects/', {
+        let response = await fetch(config.backendUrl + '/api/projects/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
             },
-            body: params.project
+            body: JSON.stringify(project)
         });
+        console.log('response', response);
         return await response.json();
     } catch (err) {
         console.error(err);

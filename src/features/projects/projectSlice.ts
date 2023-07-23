@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { ListProjectsProps } from "./listProjects";
-import { getProjects } from "./api-projects";
+import { getProjects, createProject } from "./api-projects";
 
 export interface ProjectState {
     projects: ListProjectsProps[];
@@ -39,19 +39,15 @@ interface AddNewProjectProps {
     description: string;
     admin: string;
     selectedMembers?: string[];
-    created?: string;
-    bugs?: number | undefined;
-    progress?: "Ongoing" | "Completed";
 }
 
 export const addNewProject = createAsyncThunk(
     "project/addNewProject",
     async ({ name, description, selectedMembers, admin }: AddNewProjectProps, thunkAPI) => {
+        console.log('Async thunk of addingProject');
         try {
-            const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-            await delay(2000);
-            //selectedMembers and description is not needed in the project list until when the backend is ready and I will delete it from the action.payload object
-            const newProject: Omit<ListProjectsProps, '_id'> = { name, admin, created: new Date().toISOString().slice(0, 10), totalBugs: 0, progress: "Ongoing" };
+            const newProject = await createProject({ name, description, members: selectedMembers, admin });
+            console.log("new project", newProject);
             return newProject;
         }
         catch (error: any) {

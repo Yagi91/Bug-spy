@@ -1,16 +1,9 @@
-import React from 'react';
-import ProjectDetails from '../features/projects/projectdetails';
-import { useParams } from 'react-router-dom';
+import React from "react";
+import ProjectDetails from "../features/projects/projectdetails";
+import { useParams } from "react-router-dom";
 
 export default function ProjectsDetailsPage() {
+  const { name: projectName } = useParams<{ name: string }>(); //this is the name of the project
 
-    const { name } = useParams<{ name: string }>();//this is the name of the project
-
-    return (
-        <>
-            {
-                name && <ProjectDetails name={name} />
-            }
-        </>
-    )
+  return <>{projectName && <ProjectDetails projectName={projectName} />}</>;
 }

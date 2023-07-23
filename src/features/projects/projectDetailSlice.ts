@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { _ProjectBug } from "../common/types";
+import { getProject } from "./api-projects";
 
 
 interface _ProjectSummary {
@@ -10,6 +11,7 @@ interface _ProjectSummary {
     progress: string;
     created: string;
     updated: string;
+    id: string;
 }
 
 interface _ProjectMembers {
@@ -33,6 +35,7 @@ const dummySummary: _ProjectSummary = {
     progress: "Ongoing",
     created: "2020-10-10",
     updated: "2020-10-10",
+    id: '737Hj9292jnd'
 };
 
 const dummyMembers: _ProjectMembers[] = [
@@ -89,11 +92,12 @@ const initialState: ProjectDetailsState = {
 
 export const getProjectDetails = createAsyncThunk(
     "projectDetails/getProjectDetails",
-    async (projectId: string, thunkAPI) => {
+    async (projectName: string, thunkAPI) => {
         try {
-            const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-            await delay(2000);
-            return { projectId };
+            const project = await getProject({ projectId: `details/${projectName}` });
+            console.log(project);
+            // return { projectName };
+            return project;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
         }
@@ -122,9 +126,29 @@ export const projectDetailsSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(getProjectDetails.fulfilled, (state, action) => {
-            state.projectSummary = dummySummary;
+            const project: _ProjectSummary = {
+                name: action.payload.name,
+                description: action.payload.description,
+                admin: action.payload.admin,
+                progress: action.payload.progress,
+                created: action.payload.created,
+                updated: action.payload.updated,
+                id: action.payload.id,
+            };
+            const bugs: _ProjectBug[] = action.payload.bugs.map((bug: any) => {
+                return {
+                    name: bug.name,
+                    description: bug.description,
+                    priority: bug.priority,
+                    status: bug.status,
+                    created: bug.created,
+                    updated: bug.updated,
+                    id: bug.id,
+                };
+            });
+            state.projectSummary = project;
             state.projectMembers = dummyMembers;
-            state.projectBugs = dummyBugs;
+            state.projectBugs = bugs;
             state.loading = false;
         });
         builder.addCase(getProjectDetails.rejected, (state, action) => {
