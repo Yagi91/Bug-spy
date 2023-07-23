@@ -12,8 +12,8 @@ const ConfirmModal = () => {
 
   const handleYes = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(setConfirmModal({ display: false, onConfirm: () => {} }));
     onConfirm();
+    dispatch(setConfirmModal({ display: false, onConfirm: () => {} }));
   };
 
   const handleNo = (e: React.MouseEvent<HTMLButtonElement>) => {

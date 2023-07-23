@@ -87,8 +87,9 @@ const updateProject = async (params: { projectId: string, project: any }) => {
 }
 
 const deleteProject = async (params: { projectId: string }) => {
+    console.log('payload body', params.projectId);
     try {
-        let response = await fetch(process.env.REACT_APP_BackEndUrl + '/api/projects/' + params.projectId, {
+        let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

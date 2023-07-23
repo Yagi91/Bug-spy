@@ -60,7 +60,7 @@ export default function ListProjects({ projects, floatingButton }: Props) {
             return (
               <>
                 <ProjectsCard
-                  key={project.name}
+                  key={project._id}
                   {...project}
                   created={projectDate}
                   handleClick={(e) => {

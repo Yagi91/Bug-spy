@@ -8,6 +8,7 @@ import {
   selectLoading,
   selectError,
   getProjectDetails,
+  deleteProjectDetails,
 } from "./projectDetailSlice";
 import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
@@ -42,16 +43,11 @@ export default function ProjectDetails({ projectName }: Props) {
   }, [dispatch, projectName]);
 
   const deleteProject = async function (): Promise<void> {
-    const data = new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        //fetch project details from database and delete
-        //navigate to previous page which is projects page using react router
-        console.log("Project Deleted");
-        navigate(-1);
-        resolve();
-      }, 1000);
-    });
-    return data;
+    console.log("Deleting Project");
+    dispatch(deleteProjectDetails(projectSummary?.id as string));
+    navigate(-1);
+    console.log("Project Deleted");
+    return;
   };
 
   const handleBack = function (): void {
@@ -216,7 +212,7 @@ export default function ProjectDetails({ projectName }: Props) {
               dispatch(
                 setConfirmModal({
                   display: true,
-                  onConfirm: () => deleteProject(),
+                  onConfirm: deleteProject,
                 })
               )
             }

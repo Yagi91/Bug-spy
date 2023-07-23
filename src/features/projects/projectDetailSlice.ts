@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { _ProjectBug } from "../common/types";
-import { getProject } from "./api-projects";
+import { getProject, deleteProject } from "./api-projects";
 
 
 interface _ProjectSummary {
@@ -28,58 +28,6 @@ export interface ProjectDetailsState {
     loading: boolean;
     error?: string | null;
 }
-const dummySummary: _ProjectSummary = {
-    name: "Project Name",
-    description: "Sample Project Description",
-    admin: "Mary",
-    progress: "Ongoing",
-    created: "2020-10-10",
-    updated: "2020-10-10",
-    id: '737Hj9292jnd'
-};
-
-const dummyMembers: _ProjectMembers[] = [
-    {
-        name: "Mary",
-        email: "mary@workexample.com",
-        role: "Admin",
-    },
-    {
-        name: "John",
-        email: "john@workexample.com",
-        role: "Developer",
-    },
-    {
-        name: "Bob",
-        email: "bob@workexample.com",
-        role: "Developer",
-    },
-    {
-        name: "Jane",
-        email: "jane@workexample.com",
-        role: "Developer",
-    },];
-
-const dummyBugs: _ProjectBug[] = [
-    {
-        name: "Bug 1",
-        description: "Sample Bug Description",
-        priority: "High",
-        status: "Open",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-        id: "1",
-    },
-    {
-        name: "Bug 2",
-        id: "2",
-        description: "Sample Bug Description",
-        priority: "Medium",
-        status: "Close",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-    },
-]
 
 const initialState: ProjectDetailsState = {
     projectSummary: null,
@@ -96,7 +44,6 @@ export const getProjectDetails = createAsyncThunk(
         try {
             const project = await getProject({ projectId: `details/${projectName}` });
             console.log(project);
-            // return { projectName };
             return project;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -120,6 +67,14 @@ export const projectDetailsSlice = createSlice({
         setLoading: (state, action: PayloadAction<boolean>) => {
             state.loading = action.payload;
         },
+        deleteProjectDetails: (state, action: PayloadAction<string>) => {
+            deleteProject({ projectId: action.payload });
+            state.projectSummary = null;
+            state.projectMembers = [];
+            state.projectBugs = [];
+            state.loading = true;
+            state.error = null;
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getProjectDetails.pending, (state, action) => {
@@ -133,7 +88,7 @@ export const projectDetailsSlice = createSlice({
                 progress: action.payload.progress,
                 created: action.payload.created,
                 updated: action.payload.updated,
-                id: action.payload.id,
+                id: action.payload._id,
             };
             const bugs: _ProjectBug[] = action.payload.bugs.map((bug: any) => {
                 return {
@@ -143,11 +98,20 @@ export const projectDetailsSlice = createSlice({
                     status: bug.status,
                     created: bug.created,
                     updated: bug.updated,
-                    id: bug.id,
+                    id: bug._id,
                 };
             });
+            const members: _ProjectMembers[] = action.payload.members.map((member: any) => {
+                return {
+                    name: member.name,
+                    email: member.email,
+                    id: member._id,
+                    role: member.role,
+                };
+            });
+
             state.projectSummary = project;
-            state.projectMembers = dummyMembers;
+            state.projectMembers = members;
             state.projectBugs = bugs;
             state.loading = false;
         });
@@ -158,7 +122,7 @@ export const projectDetailsSlice = createSlice({
     },
 });
 
-export const { setProjectDetails, setProjectMembers, setProjectBugs, setLoading } = projectDetailsSlice.actions;
+export const { setProjectDetails, setProjectMembers, setProjectBugs, setLoading, deleteProjectDetails } = projectDetailsSlice.actions;
 
 export const selectProjectSummary = (state: RootState) => state.projectDetails.projectSummary;
 export const selectProjectMembers = (state: RootState) => state.projectDetails.projectMembers;
