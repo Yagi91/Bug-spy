@@ -15,7 +15,7 @@ export interface Props {
   option2?: Option[];
   defOption1?: Option | null;
   defOption2?: Option | null;
-  handleSubmit?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  dispatchValues?: (props: any) => void;
   handleClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -26,13 +26,26 @@ const EditForm = ({
   option2,
   defOption1 = null,
   defOption2 = null,
-  handleSubmit,
+  dispatchValues,
   handleClose,
 }: Props) => {
   const [select1, setSelect1] = React.useState<Option | null>(defOption1);
   const [select2, setSelect2] = React.useState<Option | null>(defOption2);
   const [text1, setText1] = React.useState<string>(defVal1 || "");
   const [text2, setText2] = React.useState<string>(defVal2 || "");
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log("submitting");
+    console.log(select1, select2, text1, text2);
+    if (!dispatchValues) return;
+    dispatchValues({
+      progress: select1?.value,
+      status: select2?.value,
+      title: text1,
+      description: text2,
+    });
+  };
 
   return (
     <form className="flex h-[300px] w-[500px] flex-col justify-center gap-4 rounded-[12px] bg-white p-4">

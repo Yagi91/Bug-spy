@@ -70,15 +70,18 @@ const createProject = async (project: any) => {
 }
 
 const updateProject = async (params: { projectId: string, project: any }) => {
+    console.log('payload body', params.project);
     try {
-        let response = await fetch(process.env.REACT_APP_BackEndUrl + '/api/projects/' + params.projectId, {
+        let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
             },
-            body: params.project
+            body: JSON.stringify(params.project)
         });
+        console.log(response);
         return await response.json();
     } catch (err) {
         console.error(err);

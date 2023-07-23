@@ -9,6 +9,7 @@ import {
   selectError,
   getProjectDetails,
   deleteProjectDetails,
+  updateProjectDetails,
 } from "./projectDetailSlice";
 import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
@@ -98,10 +99,25 @@ export default function ProjectDetails({ projectName }: Props) {
     setEditFormFields(null);
   };
 
-  const handleEditSubmit = function (
-    e: React.FormEvent<HTMLButtonElement>
-  ): void {
-    e.preventDefault();
+  const handleEditBug = function (): void {
+    handleCloseEdit();
+  };
+  const handleEditProject = async function (props: {
+    title: string;
+    description: string;
+    progress: string;
+  }): Promise<void> {
+    const { title, description, progress } = props;
+    console.log(" handleEditProject ", title, description, progress);
+    await dispatch(
+      updateProjectDetails({
+        name: title,
+        description,
+        progress,
+        id: projectSummary?.id as string,
+      })
+    );
+    navigate(`/projects/${title}`);
     handleCloseEdit();
   };
 
@@ -126,7 +142,7 @@ export default function ProjectDetails({ projectName }: Props) {
                 firstHandleIcon={handleBack}
                 secondHandleIcon={() =>
                   handleOpenEdit({
-                    handleSubmit: handleEditSubmit,
+                    dispatchValues: handleEditProject,
                     handleClose: handleCloseEdit,
                     defVal1: projectSummary.name,
                     defVal2: projectSummary.description,
@@ -255,7 +271,7 @@ export default function ProjectDetails({ projectName }: Props) {
                   ComponentClass="items-center"
                   secondHandleIcon={() =>
                     handleOpenEdit({
-                      handleSubmit: handleEditSubmit,
+                      dispatchValues: handleEditBug,
                       handleClose: handleCloseEdit,
                       defVal1: bug.name,
                       defVal2: bug.description,

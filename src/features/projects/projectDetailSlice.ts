@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { _ProjectBug } from "../common/types";
-import { getProject, deleteProject } from "./api-projects";
+import { getProject, deleteProject, updateProject } from "./api-projects";
 
 
 interface _ProjectSummary {
@@ -50,6 +50,20 @@ export const getProjectDetails = createAsyncThunk(
         }
     }
 );
+
+export const updateProjectDetails = createAsyncThunk(
+    "projectDetails/updateProjectDetails",
+    async (project: any, thunkAPI) => {
+        try {
+            const updatedProject = await updateProject({ projectId: project.id as string, project: project });
+            console.log(project);
+            return updatedProject;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
 
 export const projectDetailsSlice = createSlice({
     name: "projectDetails",
@@ -119,6 +133,12 @@ export const projectDetailsSlice = createSlice({
             state.loading = false;
             state.error = action.error.message;
         });
+        [updateProjectDetails.pending, updateProjectDetails.fulfilled, updateProjectDetails.rejected].forEach((action) => {
+            builder.addCase(action, (state, action) => {
+                state.loading = false;
+            });
+        }
+        );
     },
 });
 
