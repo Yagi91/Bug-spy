@@ -1,3 +1,5 @@
+import config from "../../config";
+
 const backEnd = 'http://localhost:5000';
 
 const create = async (user: { name: string, password: string, email: string, role?: string }) => {
@@ -31,7 +33,7 @@ const create = async (user: { name: string, password: string, email: string, rol
 
 const list = async (signal: any) => {
     try {
-        let response = await fetch('/api/users/', {
+        let response = await fetch(config.backendUrl + '/api/users/', {
             method: 'GET',
             signal: signal,//signal is used to abort the fetch request when the component unmounts
         });
@@ -43,7 +45,7 @@ const list = async (signal: any) => {
 
 const read = async (params: any, credentials: any, signal: any) => {
     try {
-        let response = await fetch('/api/users/' + params.userId, {
+        let response = await fetch(config.backendUrl + '/api/users/' + params.userId, {
             method: 'GET',
             signal: signal,
             headers: {

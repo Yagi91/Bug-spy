@@ -10,6 +10,8 @@ import {
   getProjectDetails,
   deleteProjectDetails,
   updateProjectDetails,
+  deleteProjectMember,
+  setProjectMembers,
 } from "./projectDetailSlice";
 import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
@@ -18,6 +20,7 @@ import AddMembers from "./addMembers";
 import { DoubleIconsText } from "./common";
 import { Props as EditFormProps } from "./edit";
 import EditForm from "./edit";
+import { getUsers, selectUsers } from "../profile/userSlice";
 
 interface Props {
   projectName: string;
@@ -38,10 +41,21 @@ export default function ProjectDetails({ projectName }: Props) {
   const projectBugs = useAppSelector(selectProjectBugs);
   const loading = useAppSelector(selectLoading);
   const error = useAppSelector(selectError);
+  const users = useAppSelector(selectUsers);
 
   useEffect(() => {
     dispatch(getProjectDetails(projectName as string));
   }, [dispatch, projectName]);
+
+  useEffect(() => {
+    if (users.length > 0) return;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    dispatch(getUsers(signal));
+    // return () => {
+    //   controller.abort();
+    // };
+  }, [dispatch, users.length]);
 
   const deleteProject = async function (): Promise<void> {
     console.log("Deleting Project");
@@ -59,17 +73,28 @@ export default function ProjectDetails({ projectName }: Props) {
     e: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> {
     e.preventDefault();
-    const email = e.currentTarget.value;
-
-    const data = new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        //fetch project members from database and delete
-        // dispatch(setProjectMembers(projectMembers.filter((member) => member.email !== email)));
-        console.log("%d Member Deleted", email);
-        resolve();
-      }, 1000);
-    });
-    return data;
+    const id = e.currentTarget.value;
+    console.log(id);
+    const filterProjectMembersId = (projectMembers: any) => {
+      const membersID: string[] = [];
+      for (let i = 0; i < projectMembers.length; i++) {
+        if (projectMembers[i].id !== id) {
+          membersID.push(projectMembers[i].id);
+        }
+      }
+      return membersID;
+    };
+    const updatedMembersId = filterProjectMembersId(projectMembers);
+    dispatch(
+      deleteProjectMember({
+        id: projectSummary?.id as string,
+        members: updatedMembersId,
+      })
+    );
+    //update the project members
+    dispatch(getProjectDetails(projectName as string));
+    console.log("%d Member Deleted", id);
+    return;
   };
 
   const handleAddingBug = function (): void {
@@ -87,7 +112,18 @@ export default function ProjectDetails({ projectName }: Props) {
       return;
     }
     console.log(members);
-    // dispatch(setProjectMembers([...projectMembers, ...members]));
+    dispatch(setProjectMembers([...projectMembers]));
+    const newMembersId = members.map((member) => member.value);
+    const membersId = projectMembers.map((member) => member.id);
+    const updatedMembersId = [...membersId, ...newMembersId];
+    dispatch(
+      updateProjectDetails({
+        id: projectSummary?.id,
+        members: updatedMembersId,
+      })
+    );
+    dispatch(getProjectDetails(projectName as string));
+    handleAddingMembers();
   };
 
   const handleOpenEdit = function (formField: EditFormProps): void {
@@ -117,9 +153,30 @@ export default function ProjectDetails({ projectName }: Props) {
         id: projectSummary?.id as string,
       })
     );
-    navigate(`/projects/${title}`);
+    navigate(`/projects/${title}`, { replace: true });
     handleCloseEdit();
   };
+
+  const possibleMembers = React.useMemo(() => {
+    console.log("in here");
+    return users.filter((user) => {
+      for (let i = 0; i < projectMembers.length; i++) {
+        if (
+          user._id === projectMembers[i].id &&
+          user.name !== projectSummary?.admin
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [users, projectMembers, projectSummary?.admin]);
+
+  const membersOptions = React.useMemo(() => {
+    return possibleMembers.map((member) => {
+      return { value: member._id, label: member.name };
+    });
+  }, [possibleMembers]);
 
   return (
     <div className="flex h-full w-full flex-col border">
@@ -185,7 +242,10 @@ export default function ProjectDetails({ projectName }: Props) {
           {addingMembers && (
             <Modal>
               {" "}
-              <AddMembers handleSubmit={handleAddMembers} />{" "}
+              <AddMembers
+                handleSubmit={handleAddMembers}
+                options={membersOptions}
+              />{" "}
             </Modal>
           )}
           <div className="relative">
@@ -195,30 +255,36 @@ export default function ProjectDetails({ projectName }: Props) {
               handleClick={() => setShowMembers(!showMembers)}
             />
             <ul
-              className={`dropdown invisible absolute right-1/2 -z-50 -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
+              className={`dropdown min-h-12 invisible absolute right-1/2 -z-50 min-w-full -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
                 showMembers && "show"
               }`}
             >
-              {projectMembers.map((member: any): JSX.Element => {
-                return (
-                  <li key={member.email} className="border-b-2 py-1 text-left">
-                    <h4 className="font-bold">{member.name}</h4>
-                    <p>{member.role}</p>
-                    <span className="flex justify-between gap-5">
-                      <p>{member.email}</p>
-                      <button
-                        value={member.email}
-                        onClick={deleteMember}
-                        className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-500"
-                      >
-                        <span className="material-symbols-outlined leading-0 remove text-xs text-secondary-700 sm:text-sm">
-                          person_remove
-                        </span>
-                      </button>
-                    </span>
-                  </li>
-                );
-              })}
+              {projectMembers.length ? (
+                projectMembers.map((member: any): JSX.Element => {
+                  return (
+                    <li key={member.id} className="border-b-2 py-1 text-left">
+                      <h4 className="font-bold">{member.name}</h4>
+                      <p>{member.role}</p>
+                      <span className="flex justify-between gap-5">
+                        <p>{member.email}</p>
+                        <button
+                          value={member.id}
+                          onClick={deleteMember}
+                          className="flex h-4 w-4 items-center justify-center rounded-full border border-neutral-500"
+                        >
+                          <span className="material-symbols-outlined leading-0 remove text-xs text-secondary-700 sm:text-sm">
+                            person_remove
+                          </span>
+                        </button>
+                      </span>
+                    </li>
+                  );
+                })
+              ) : (
+                <li className="border-b-2 py-1 text-left">
+                  <strong>No Members</strong>
+                </li>
+              )}
             </ul>
           </div>
           <IconButton

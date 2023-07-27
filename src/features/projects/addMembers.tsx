@@ -13,11 +13,11 @@ interface option {
 }
 
 interface Props {
-  options?: option[];
   handleSubmit: (
     e: React.FormEvent<HTMLButtonElement>,
     selected: option[]
   ) => void;
+  options?: option[];
 }
 
 const AddMembers = ({ options = dummyOptions, handleSubmit }: Props) => {

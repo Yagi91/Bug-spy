@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { create } from "../profile/api-user";
+import { create, read } from "../profile/api-user";
 import { signin } from "./api-auth";
 import { auth } from "./auth-helper";
 
@@ -25,11 +25,11 @@ const initialState: AuthState = {
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (
-    { email, password }: { email: string; readonly password: string },
+    { email, password, jwt }: { email: string; readonly password: string; jwt?: string },
     thunkAPI
   ) => {
     try {
-      const user = await signin({ email, password });
+      const user = await signin({ email, password, jwt });
       console.log("in the async thunk");
       if (user.error) { throw new Error(user.error) }
       return user;
@@ -42,6 +42,28 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const loginWithJWT = createAsyncThunk(
+  "auth/loginWithJWT",
+  async (jwt: string, thunkAPI) => {
+    try {
+      const userId = JSON.parse(atob(jwt.split(".")[1]))._id;
+      const controller = new AbortController();
+      const signal = controller.signal;
+      const user = await read({ userId: userId }, { t: jwt }, signal);
+      if (user.error) { throw new Error(user.error) }
+      user.token = jwt;
+      return user;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
 
 
 export const registerUser = createAsyncThunk(
@@ -102,6 +124,7 @@ export const authSlice = createSlice({
     builder.addCase(
       loginUser.fulfilled,
       (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string, _id: string }>) => {
+        console.log(' in the login user fulfilled ');
         auth.authenticate(action.payload.token, () => {
           state.userInfo.email = action.payload.email;
           state.userInfo.name = action.payload.name;
@@ -133,6 +156,29 @@ export const authSlice = createSlice({
       state.status = "Idle";
       state.error = payload as string;
     });
+
+    builder.addCase(loginWithJWT.pending, (state) => {
+      state.status = "Loading";
+      console.log("Loading");
+      state.error = "";
+    }
+    );
+    builder.addCase(loginWithJWT.fulfilled, (state, action) => {
+      state.userInfo.email = action.payload.email;
+      state.userInfo.name = action.payload.name;
+      state.userInfo.role = action.payload.role;
+      state.userInfo._id = action.payload._id;
+      state.userToken = action.payload.token;
+      state.status = "Success";
+      console.log("success fulfilled", state.userInfo);
+    }
+    );
+    builder.addCase(loginWithJWT.rejected, (state, { payload }) => {
+      state.status = "Idle";
+      state.error = payload as string;
+    }
+    );
+
   },
 });
 

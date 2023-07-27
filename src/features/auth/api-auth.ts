@@ -1,13 +1,13 @@
 const backendUrl = "http://localhost:5000";
 
-const signin = async (user: { email: string, password: string }) => {
+const signin = async (user: { email: string, password: string, jwt?: string }) => {
     try {
-        console.log(process.env.BackEndUrl);
         let response = await fetch(backendUrl + '/auth/signin/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': user.jwt ? `Bearer ${user.jwt}` : ''
             },
             // credentials: 'include',//this is to allow the client to send cookies
             body: JSON.stringify(user)

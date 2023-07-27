@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import ListProjects from "./listProjects";
 import AddProject from "./addProject";
 import Select from "react-select";
@@ -40,7 +40,6 @@ export default function Projects(): JSX.Element {
   const filterStatus = useAppSelector(selectFilterStatus);
 
   console.log(projects);
-
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {

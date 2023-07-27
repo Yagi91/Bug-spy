@@ -18,6 +18,7 @@ interface _ProjectMembers {
     name: string;
     email: string;
     role: string;
+    id: string;
 }
 
 
@@ -51,12 +52,26 @@ export const getProjectDetails = createAsyncThunk(
     }
 );
 
+
 export const updateProjectDetails = createAsyncThunk(
     "projectDetails/updateProjectDetails",
     async (project: any, thunkAPI) => {
         try {
             const updatedProject = await updateProject({ projectId: project.id as string, project: project });
             console.log(project);
+            return updatedProject;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const deleteProjectMember = createAsyncThunk(
+    "projectDetails/deleteProjectMember",
+    async (project: any, thunkAPI) => {
+        try {
+            const updatedProject = await updateProject({ projectId: project.id as string, project: project });
+            console.log("updated project", updatedProject);
             return updatedProject;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -137,6 +152,38 @@ export const projectDetailsSlice = createSlice({
             builder.addCase(action, (state, action) => {
                 state.loading = false;
             });
+        },
+        );
+        // [deleteProjectMember.pending, deleteProjectMember.fulfilled, deleteProjectMember.rejected].forEach((action) => {
+        //     console.log(' Action for members deletion ', action);
+        //     builder.addCase(action, (state, action) => {
+        //         console.log(' Payload for members deletion ', action.payload);
+        //         const members: _ProjectMembers[] = action.payload.members.map((member: any) => {
+        //             return {
+        //                 name: member.name,
+        //                 email: member.email,
+        //                 id: member._id,
+        //                 role: member.role,
+        //             };
+        //         });
+        //         state.projectMembers = members;
+        //         state.loading = false;
+        //     });
+        // }
+        // );
+        builder.addCase(deleteProjectMember.pending, (state, action) => {
+            console.log('Delete project member pending');
+            state.loading = true;
+        }
+        );
+        builder.addCase(deleteProjectMember.fulfilled, (state, action) => {
+            console.log(' Payload for members deletion ', action.payload);
+            state.loading = false;
+        }
+        );
+        builder.addCase(deleteProjectMember.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
         }
         );
     },
