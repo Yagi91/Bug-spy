@@ -11,7 +11,6 @@ import {
   deleteProjectDetails,
   updateProjectDetails,
   deleteProjectMember,
-  setProjectMembers,
 } from "./projectDetailSlice";
 import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
@@ -21,6 +20,7 @@ import { DoubleIconsText } from "./common";
 import { Props as EditFormProps } from "./edit";
 import EditForm from "./edit";
 import { getUsers, selectUsers } from "../profile/userSlice";
+import { create, update } from "../myTickets/api-bugs";
 
 interface Props {
   projectName: string;
@@ -100,29 +100,58 @@ export default function ProjectDetails({ projectName }: Props) {
   const handleAddingBug = function (): void {
     setAddingBug(!addingBug);
   };
+
+  const addBug = async function (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    e.preventDefault();
+    const name = e.currentTarget.tag.value;
+    const description = e.currentTarget.description.value;
+    const priority = e.currentTarget.priority.value;
+    const assignee = e.currentTarget.assignee.value;
+    const projectId = projectSummary?.id as string;
+    try {
+      let bug = await create({
+        name,
+        description,
+        priority,
+        project: projectId,
+        assignee,
+      });
+      if (bug.error) {
+        throw new Error(bug.error);
+      }
+      await dispatch(getProjectDetails(projectName as string));
+    } catch (error) {
+      console.error(error);
+    }
+
+    console.log({ name, description, priority, assignee });
+  };
+
   const handleAddingMembers = function (): void {
     setAddingMembers(!addingMembers);
   };
-  const handleAddMembers = (
+  const handleAddMembers = async (
     e: React.FormEvent<HTMLButtonElement>,
     members: { value: string; label: string }[]
-  ): void => {
+  ): Promise<void> => {
     if (members.length < 1) {
       handleAddingMembers();
       return;
     }
     console.log(members);
-    dispatch(setProjectMembers([...projectMembers]));
+    // await dispatch(setProjectMembers([...projectMembers]));
     const newMembersId = members.map((member) => member.value);
     const membersId = projectMembers.map((member) => member.id);
     const updatedMembersId = [...membersId, ...newMembersId];
-    dispatch(
+    await dispatch(
       updateProjectDetails({
         id: projectSummary?.id,
         members: updatedMembersId,
       })
     );
-    dispatch(getProjectDetails(projectName as string));
+    await dispatch(getProjectDetails(projectName as string));
     handleAddingMembers();
   };
 
@@ -135,9 +164,32 @@ export default function ProjectDetails({ projectName }: Props) {
     setEditFormFields(null);
   };
 
-  const handleEditBug = function (): void {
+  const handleEditBug = async function (props: {
+    title: string;
+    description: string;
+    priority: string;
+    progress: string;
+    id: string;
+  }): Promise<void> {
+    console.log(props);
+    const jwt = sessionStorage.getItem("jwt");
+    const bugChanges = {
+      name: props.title,
+      description: props.description,
+      status: props.progress,
+      priority: props.priority,
+    };
+    const bugId = props.id;
+    try {
+      let data = await update(bugId, { t: jwt }, bugChanges);
+      console.log(data);
+      await dispatch(getProjectDetails(projectName as string));
+    } catch (error) {
+      console.log(error);
+    }
     handleCloseEdit();
   };
+
   const handleEditProject = async function (props: {
     title: string;
     description: string;
@@ -158,7 +210,6 @@ export default function ProjectDetails({ projectName }: Props) {
   };
 
   const possibleMembers = React.useMemo(() => {
-    console.log("in here");
     return users.filter((user) => {
       for (let i = 0; i < projectMembers.length; i++) {
         if (
@@ -177,6 +228,12 @@ export default function ProjectDetails({ projectName }: Props) {
       return { value: member._id, label: member.name };
     });
   }, [possibleMembers]);
+
+  const assigneeOptions = React.useMemo(() => {
+    return projectMembers.map((member) => {
+      return { value: member.id, label: member.name };
+    });
+  }, [projectMembers]);
 
   return (
     <div className="flex h-full w-full flex-col border">
@@ -321,14 +378,18 @@ export default function ProjectDetails({ projectName }: Props) {
           </button>
           {addingBug && (
             <Modal>
-              <AddBugForm handleCancel={handleAddingBug} />
+              <AddBugForm
+                handleCancel={handleAddingBug}
+                handleSubmit={addBug}
+                select2={assigneeOptions}
+              />
             </Modal>
           )}
         </div>
         <ul className="flex w-full flex-col font-light">
           {projectBugs.map((bug): JSX.Element => {
             return (
-              <li key={bug.name} className="border-b text-left">
+              <li key={bug.id} className="border-b text-left">
                 <DoubleIconsText
                   title={bug.name}
                   secondIcon="edit"
@@ -352,6 +413,7 @@ export default function ProjectDetails({ projectName }: Props) {
                         { value: "Medium", label: "Medium" },
                         { value: "High", label: "High" },
                       ],
+                      id: bug.id,
                     })
                   }
                 />

@@ -9,6 +9,7 @@ type Option = {
 };
 
 export interface Props {
+  id?: string;
   defVal1?: string;
   defVal2?: string;
   option1?: Option[];
@@ -20,6 +21,7 @@ export interface Props {
 }
 
 const EditForm = ({
+  id,
   defVal1,
   defVal2,
   option1,
@@ -41,9 +43,10 @@ const EditForm = ({
     if (!dispatchValues) return;
     dispatchValues({
       progress: select1?.value,
-      status: select2?.value,
+      priority: select2?.value,
       title: text1,
       description: text2,
+      id: id,
     });
   };
 

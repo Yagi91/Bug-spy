@@ -23,7 +23,7 @@ type options = {
 interface Props {
   select1?: options[];
   select2?: options[];
-  handleSubmit?: (e: React.FormEvent<HTMLButtonElement>) => void;
+  handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   handleCancel?: () => void;
 }
 
@@ -37,16 +37,19 @@ export const AddBugForm = ({
   // const [selectedAssignee, setSelectedAssignee] = React.useState("1");
 
   return (
-    <form className="flex w-[500px] flex-col gap-3 rounded-[12px] border bg-white px-2 py-5">
+    <form
+      onSubmit={handleSubmit}
+      onReset={handleCancel}
+      className="flex w-[500px] flex-col gap-3 rounded-[12px] border bg-white px-2 py-5"
+    >
       <SimpleInput
         label="Title"
-        name="title"
-        type="text"
+        name="tag" //TODO: know why name does not accept a value of title or name
+        type=""
         placeholder="Title"
         max={25}
         required={true}
         extraClass="w-full"
-        // containerClass="w-1/2"
       />
       <SimpleInput
         label="Description"
@@ -56,12 +59,12 @@ export const AddBugForm = ({
         max={75}
         required={true}
         extraClass="w-full"
-        // containerClass="w-1/2"
       />
       <Select
+        name="priority"
         required={true}
         options={select1}
-        placeholder="Select Role..."
+        placeholder="Select Priority..."
         onChange={(e) => console.log(e)}
         styles={{
           control: (baseStyles, state) => ({
@@ -79,6 +82,7 @@ export const AddBugForm = ({
         }}
       />
       <Select
+        name="assignee"
         required={true}
         options={select2}
         placeholder="Assignee..."
@@ -100,17 +104,12 @@ export const AddBugForm = ({
         }}
       />
       <div className="flex gap-2">
-        <button
-          type="submit"
-          className="btn-primary w-32"
-          onClick={handleSubmit}
-        >
+        <button type="submit" className="btn-primary w-32">
           Add Bug
         </button>
         <button
           type="reset"
           className="btn-primary flex w-32 justify-center bg-secondary-500 hover:bg-secondary-600"
-          onClick={handleCancel}
         >
           <span className="material-symbols-outlined">close</span>
           <span>Close</span>
