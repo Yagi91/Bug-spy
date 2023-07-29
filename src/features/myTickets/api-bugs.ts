@@ -37,26 +37,39 @@ const list = async (signal: any) => {
             method: 'GET',
             signal: signal,//signal is used to abort the fetch request when the component unmounts
         });
-        return await response.json();
-    } catch (err) {
+
+        const data = await response.json();
+        if (response.status >= 400) {
+            throw new Error(data.error || 'Could not register user');
+        }
+        return data;
+
+    } catch (err: any) {
         console.error(err);
+        throw new Error(err);
     }
 };
 
-const read = async (params: any, credentials: any, signal: any) => {
+const listByUser = async (userId: string, credentials: any, signal: any) => {
+    console.log("listByUser", { userId, credentials, signal });
     try {
-        let response = await fetch(config.backendUrl + '/api/users/' + params.userId, {
+        let response = await fetch(config.backendUrl + '/api/bugs/' + userId, {
             method: 'GET',
             signal: signal,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + credentials.t
             }
         });
-        return await response.json();
-    } catch (err) {
+
+        const data = await response.json();
+        if (response.status >= 400) {
+            throw new Error(data.error || 'Could not register user');
+        }
+        return data;
+    } catch (err: any) {
         console.error(err);
+        throw new Error(err);
     }
 };
 
@@ -77,20 +90,6 @@ const update = async (bugId: string, credentials: any, bug: any) => {
     }
 };
 
-const remove = async (params: any, credentials: any) => {
-    try {
-        let response = await fetch('/api/users/' + params.userId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + credentials.t,
-            }
-        });
-        return await response.json();
-    } catch (err) {
-        console.error(err);
-    }
-};
 
-export { create, list, read, update, remove }
+
+export { create, list, update, listByUser }

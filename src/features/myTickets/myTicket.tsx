@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { _ProjectBug } from "../common/types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import {
   selectMyTickets,
   selectMyTicketsError,
@@ -13,12 +13,20 @@ const MyTickets = () => {
   const myTickets = useAppSelector(selectMyTickets);
   const myTicketsError = useAppSelector(selectMyTicketsError);
   const myTicketsLoading = useAppSelector(selectMyTicketsLoading);
+  const { userId } = useParams<{ userId: string }>(); //this is the name of the project
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchMyTickets("Mary"));
-  }, [dispatch]);
+    const id = userId as string;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const jwt = (sessionStorage.getItem("jwt") as string) || "";
+    dispatch(fetchMyTickets({ userId: id, jwt, signal }));
+    // return () => {
+    //   controller.abort();
+    // };
+  }, [dispatch, userId]);
 
   function badgeColor(status: string): string {
     switch (status) {
@@ -44,10 +52,10 @@ const MyTickets = () => {
           {myTickets.map((bug): JSX.Element => {
             return (
               <li
-                key={bug.id}
+                key={bug.created}
                 className="border-b px-2 py-3 text-left hover:bg-gray-100"
               >
-                <NavLink to={`projects/${bug.project}`}>
+                <NavLink to={`/projects/${bug.project?.name}`}>
                   <h2 className="text-base font-semibold">{bug.name}</h2>
                   <p className="break words w-3/5 truncate text-sm">
                     {bug.description}{" "}

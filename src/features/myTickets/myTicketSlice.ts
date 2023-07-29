@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { _ProjectBug } from "../common/types";
+import { listByUser as fetchBugs } from "./api-bugs";
 
 interface _MyTicketsState {
     myTickets: _ProjectBug[];
@@ -14,62 +15,14 @@ const initialState: _MyTicketsState = {
     error: null,
 };
 
-const dummyBugs: _ProjectBug[] = [
-    {
-        name: "Bug 1",
-        id: "1",
-        description: "Sample Bug Description",
-        priority: "High",
-        status: "Open",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-        type: "bug",
-        assignee: "Mary",
-        project: "Project-5",
-    },
-    {
-        name: "Bug 2",
-        id: "2",
-        description: "Sample Bug Description",
-        priority: "Medium",
-        status: "Open",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-        type: "bug",
-        assignee: "Mary",
-        project: "Project-2",
-    },
-    {
-        name: "Bug 3",
-        id: "3",
-        description: "Sample Bug Description",
-        priority: "Low",
-        status: "Open",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-        type: "bug",
-        assignee: "Mary",
-        project: "Project-3",
-    },
-    {
-        name: "Bug 4",
-        id: "4",
-        description: "Sample Bug Description",
-        priority: "High",
-        status: "Open",
-        created: "2020-10-10",
-        updated: "2020-10-10",
-        type: "bug",
-        assignee: "John",
-        project: "Project-4",
-    }
-];
-
 export const fetchMyTickets = createAsyncThunk(
     "myTickets/fetchMyTickets",
-    async (id: string, thunkAPI) => {
+    async ({ userId, jwt, signal }: { userId: string, jwt: string, signal: any }, thunkAPI) => {
         try {
-            const filteredBugs = dummyBugs.filter((bug) => bug.assignee?.includes(id));
+            console.log("fetchMyTickets", { userId, jwt, signal });
+            const credentials = { t: jwt };
+            const filteredBugs = await fetchBugs(userId, credentials, signal);
+            console.log("filteredBugs", filteredBugs);
             return filteredBugs;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);

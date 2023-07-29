@@ -8,5 +8,8 @@ export interface _ProjectBug {
     updated: string;
     type?: "bug" | "feature" | "task";
     assignee?: string;
-    project?: string;
+    project?: {
+        name: string;
+        id: string;
+    };
 }
