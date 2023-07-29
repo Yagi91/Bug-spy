@@ -10,6 +10,6 @@ export interface _ProjectBug {
     assignee?: string;
     project?: {
         name: string;
-        id: string;
+        _id: string;
     };
 }

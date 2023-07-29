@@ -389,7 +389,7 @@ export default function ProjectDetails({ projectName }: Props) {
         <ul className="flex w-full flex-col font-light">
           {projectBugs.map((bug): JSX.Element => {
             return (
-              <li key={bug.id} className="border-b text-left">
+              <li key={bug.id} className="border-b text-left" id={bug.id}>
                 <DoubleIconsText
                   title={bug.name}
                   secondIcon="edit"

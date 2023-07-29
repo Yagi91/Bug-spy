@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { _ProjectBug } from "../common/types";
 import { NavLink, useParams } from "react-router-dom";
 import {
   selectMyTickets,
@@ -55,7 +54,9 @@ const MyTickets = () => {
                 key={bug.created}
                 className="border-b px-2 py-3 text-left hover:bg-gray-100"
               >
-                <NavLink to={`/projects/${bug.project?.name}`}>
+                <NavLink
+                  to={`/projects/${bug.project?.name}/#${bug.project?._id}`}
+                >
                   <h2 className="text-base font-semibold">{bug.name}</h2>
                   <p className="break words w-3/5 truncate text-sm">
                     {bug.description}{" "}
