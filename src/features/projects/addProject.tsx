@@ -15,20 +15,6 @@ interface option {
   isDisabled?: boolean;
 }
 
-const dummyOptions: readonly option[] = [
-  { value: "Mary", label: "Mary" },
-  { value: "John", label: "John" },
-  { value: "Bob", label: "Bob" },
-  { value: "Jane", label: "Jane" },
-  { value: "Joe", label: "Joe" },
-  { value: "Sally", label: "Sally" },
-  { value: "Sue", label: "Sue" },
-  { value: "Tom", label: "Tom" },
-  { value: "Tim", label: "Tim" },
-  { value: "Bill", label: "Bill" },
-  { value: "Jill", label: "Jill" },
-];
-
 // This code renders a form for creating a new project.
 // The form consists of the following fields:
 export default function AddProject({
@@ -72,7 +58,7 @@ export default function AddProject({
         <Select
           name="options"
           required
-          options={dummyOptions}
+          options={options}
           value={selectedOptions}
           isSearchable={true}
           isMulti

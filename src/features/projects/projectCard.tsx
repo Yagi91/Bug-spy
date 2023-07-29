@@ -4,7 +4,10 @@ export interface Props {
   name: string;
   totalBugs: number;
   created: string;
-  admin: string;
+  admin: {
+    name: string;
+    _id: string;
+  };
   progress: "Completed" | "Ongoing";
   handleClick: (
     event: React.MouseEvent<HTMLTableRowElement>,
@@ -31,7 +34,7 @@ export default function ProjectsCard({
       onClick={(e) => handleClick(e, name, _id)}
     >
       <td className="px-3 py-2 text-left">{name}</td>
-      <td className="px-3 py-2 text-left">{admin}</td>
+      <td className="px-3 py-2 text-left">{admin.name || "hello"}</td>
       <td className="px-3 py-2 text-left">{created}</td>
       <td className="px-3 py-2 text-left">{totalBugs}</td>
       <td className="px-3 py-2 text-left text-xs sm:text-base">{progress}</td>

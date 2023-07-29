@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import ListProjects from "./listProjects";
 import AddProject from "./addProject";
 import Select from "react-select";
@@ -22,6 +22,7 @@ import {
   ProjectState,
   addNewProject,
 } from "./projectSlice";
+import { getUsers } from "../profile/userSlice";
 const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
   value: val,
   label: val,
@@ -32,7 +33,8 @@ export default function Projects(): JSX.Element {
 
   const user = useAppSelector((state) => state.auth.userInfo.name);
 
-  const userEmail = useAppSelector((state) => state.auth.userInfo.email);
+  const userId = useAppSelector((state) => state.auth.userInfo._id);
+  const users = useAppSelector((state) => state.user.users);
 
   const projects = useAppSelector(selectProjects);
   const sort = useAppSelector(selectSort);
@@ -46,6 +48,13 @@ export default function Projects(): JSX.Element {
     console.log("fetching");
     dispatch(fetchProjects());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (users.length > 0) return;
+    const controller = new AbortController();
+    const signal = controller.signal;
+    dispatch(getUsers(signal));
+  }, [dispatch, users.length]);
 
   const filteredProjects = React.useMemo(() => {
     if (projects.length > 0) {
@@ -61,14 +70,14 @@ export default function Projects(): JSX.Element {
         })
         .filter((projects) => {
           if (filterOwner === "All Projects") return true;
-          if (filterOwner === "My Projects" && projects.admin === user)
+          if (filterOwner === "My Projects" && projects.admin._id === userId)
             return true;
           return false;
         });
       return filtered;
     }
     return [];
-  }, [projects, filterStatus, filterOwner, user]);
+  }, [projects, filterStatus, filterOwner, userId]);
 
   const sortedProjects = React.useMemo(() => {
     console.log("sorting");
@@ -77,7 +86,7 @@ export default function Projects(): JSX.Element {
       if (sort === "Most bugs") return b.totalBugs - a.totalBugs;
       if (sort === "Newest")
         return new Date(b.created).getTime() - new Date(a.created).getTime();
-      if (sort === "Admin") return a.admin.localeCompare(b.admin);
+      if (sort === "Admin") return a.admin.name.localeCompare(b.admin.name);
       return 0;
     });
   }, [filteredProjects, sort]);
@@ -88,7 +97,7 @@ export default function Projects(): JSX.Element {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const selectedMembers = formData.getAll("options") as string[];
-    const admin = (userEmail as string) || "jane";
+    const admin = userId as string;
     formData.append("admin", admin);
     const newProject = { name, description, selectedMembers, admin };
     dispatch(addNewProject(newProject));
@@ -115,6 +124,15 @@ export default function Projects(): JSX.Element {
       dispatch(filterProjectsOwner("All Projects"));
     }
   };
+  const sortAndFilterMembersOptions = React.useMemo(() => {
+    return users
+      .filter((user) => user._id !== userId)
+      .map((user) => ({
+        value: user._id,
+        label: user.name,
+        isDisabled: user._id === userId,
+      }));
+  }, [users, userId]);
 
   return (
     <section className="flex h-full w-full flex-col gap-1 p-1">
@@ -141,6 +159,7 @@ export default function Projects(): JSX.Element {
             <AddProject
               handleCancel={handleShowAddProject}
               handleSubmit={handleAddProjects}
+              options={sortAndFilterMembersOptions}
             />
           </Modal>
         )}

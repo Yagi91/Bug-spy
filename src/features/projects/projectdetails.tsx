@@ -11,6 +11,7 @@ import {
   deleteProjectDetails,
   updateProjectDetails,
   deleteProjectMember,
+  clearProjectDetails,
 } from "./projectDetailSlice";
 import { setConfirmModal } from "../common/confirmSlice";
 import { IconButton, Details, CommentSection, Modal } from "./common";
@@ -45,6 +46,9 @@ export default function ProjectDetails({ projectName }: Props) {
 
   useEffect(() => {
     dispatch(getProjectDetails(projectName as string));
+    return () => {
+      dispatch(clearProjectDetails());
+    };
   }, [dispatch, projectName]);
 
   useEffect(() => {
@@ -122,11 +126,15 @@ export default function ProjectDetails({ projectName }: Props) {
         throw new Error(bug.error);
       }
       await dispatch(getProjectDetails(projectName as string));
+      // clear all the form fields
+      e.currentTarget.tag.value = "";
+      e.currentTarget.description.value = "";
+      e.currentTarget.priority.value = "";
+      e.currentTarget.assignee.value = "";
+      // handleAddingBug();
     } catch (error) {
       console.error(error);
     }
-
-    console.log({ name, description, priority, assignee });
   };
 
   const handleAddingMembers = function (): void {

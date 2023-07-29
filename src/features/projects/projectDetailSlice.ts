@@ -103,6 +103,14 @@ export const projectDetailsSlice = createSlice({
             state.projectBugs = [];
             state.loading = true;
             state.error = null;
+        },
+        clearProjectDetails: (state) => {
+            state.projectSummary = null;
+            state.projectMembers = [];
+            state.projectBugs = [];
+            state.loading = true;
+            state.error = null;
+
         }
     },
     extraReducers: (builder) => {
@@ -154,23 +162,6 @@ export const projectDetailsSlice = createSlice({
             });
         },
         );
-        // [deleteProjectMember.pending, deleteProjectMember.fulfilled, deleteProjectMember.rejected].forEach((action) => {
-        //     console.log(' Action for members deletion ', action);
-        //     builder.addCase(action, (state, action) => {
-        //         console.log(' Payload for members deletion ', action.payload);
-        //         const members: _ProjectMembers[] = action.payload.members.map((member: any) => {
-        //             return {
-        //                 name: member.name,
-        //                 email: member.email,
-        //                 id: member._id,
-        //                 role: member.role,
-        //             };
-        //         });
-        //         state.projectMembers = members;
-        //         state.loading = false;
-        //     });
-        // }
-        // );
         builder.addCase(deleteProjectMember.pending, (state, action) => {
             console.log('Delete project member pending');
             state.loading = true;
@@ -189,7 +180,7 @@ export const projectDetailsSlice = createSlice({
     },
 });
 
-export const { setProjectDetails, setProjectMembers, setProjectBugs, setLoading, deleteProjectDetails } = projectDetailsSlice.actions;
+export const { setProjectDetails, setProjectMembers, setProjectBugs, setLoading, deleteProjectDetails, clearProjectDetails } = projectDetailsSlice.actions;
 
 export const selectProjectSummary = (state: RootState) => state.projectDetails.projectSummary;
 export const selectProjectMembers = (state: RootState) => state.projectDetails.projectMembers;

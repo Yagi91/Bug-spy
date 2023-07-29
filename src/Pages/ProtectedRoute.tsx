@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { auth } from "../features/auth/auth-helper";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ export default function PrivateRoute() {
   const { userInfo } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const isAuthenticated = auth.isAuthenticated();
+  const navigate = useNavigate();
 
   // if jwt is present in session storage, but user info is not in redux store, then fetch user info by dispatching a login action
 
@@ -19,17 +20,8 @@ export default function PrivateRoute() {
   }, [userInfo._id, dispatch, isAuthenticated]);
 
   if (!isAuthenticated) {
-    return (
-      <div className="unauthorized">
-        <h1>Unauthorized :(</h1>
-        <p>Please log in to view this page</p>
-        <span>
-          <NavLink replace to="/login">
-            Login
-          </NavLink>
-        </span>
-      </div>
-    );
+    // navigate and replace
+    navigate("/login", { replace: true });
   }
   return <Outlet />;
 }
