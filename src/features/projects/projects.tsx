@@ -31,7 +31,7 @@ const sortOptions = ["Name", "Most bugs", "Newest", "Admin"].map((val) => ({
 export default function Projects(): JSX.Element {
   const [showAddProject, setShowAddProject] = React.useState(false);
 
-  const user = useAppSelector((state) => state.auth.userInfo.name);
+  // const user = useAppSelector((state) => state.auth.userInfo.name);
 
   const userId = useAppSelector((state) => state.auth.userInfo._id);
   const users = useAppSelector((state) => state.user.users);

@@ -54,9 +54,7 @@ export default function ListProjects({ projects, floatingButton }: Props) {
         </thead>
         <tbody>
           {projects.map((project) => {
-            // let Created={formatDate(new Date(project.Created))};
             let projectDate = formatDate(new Date(project.created));
-            // project.Created = projectDate;
             return (
               <>
                 <ProjectsCard
