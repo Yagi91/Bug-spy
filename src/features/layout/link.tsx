@@ -22,7 +22,8 @@ export default function Link({ path, name, icon, id }: Props): JSX.Element {
         style={(isActive) => {
           // The color will be green if the NavLink is active, and empty otherwise.
           return {
-            color: isActive.isActive ? "#4CAF50" : "",
+            color: isActive.isActive ? "#1E88E5" : "",
+            backgroundColor: isActive.isActive ? "rgb(238, 238, 238)" : "",
           };
         }}
       >

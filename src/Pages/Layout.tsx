@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import Link from "../features/layout/link";
 import ConfirmModal from "../features/common/confirm_modal";
 import { logout as logoutAction } from "../features/auth/authSlice";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
 
 //This is the layout for the app. It is a flex container with two children. The first child is a nav bar that is a flex container with two children. The second child is the outlet for the routes.
 export default function Layout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { _id } = useAppSelector((state) => state.auth.userInfo);
   const handleLogout = () => {
     try {
       dispatch(logoutAction());
@@ -30,7 +30,7 @@ export default function Layout() {
             icon="list_alt"
           />
           <Link
-            path="/my-tickets"
+            path={`/my-tickets/${_id}`}
             id="my-tickets"
             name="My Tickets"
             icon="bug_report"

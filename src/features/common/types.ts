@@ -2,10 +2,11 @@ export interface _ProjectBug {
     name: string;
     id: string;
     description: string;
-    priority: string;
-    status: string;
+    priority: "High" | "Medium" | "Low";
+    status: "Open" | "Closed";
     created: string;
     updated: string;
     type?: "bug" | "feature" | "task";
-    assignee?: string[];
+    assignee?: string;
+    project?: string;
 }
