@@ -35,7 +35,12 @@ export default function Layout() {
             name="My Tickets"
             icon="bug_report"
           />
-          <Link path="/profile" id="profile" name="Profile" icon="person" />
+          <Link
+            path={`/profile/${_id}`}
+            id="profile"
+            name="Profile"
+            icon="person"
+          />
         </div>
         <div
           className="border-r-2 border-neutral-300 p-2 sm:w-full sm:border-r-0 sm:border-t-2"

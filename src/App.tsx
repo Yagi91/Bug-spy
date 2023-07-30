@@ -17,6 +17,7 @@ import Layout, { AppLayout } from "./Pages/Layout";
 import RegisterPage from "./Pages/RegisterPage";
 import ErrorBoundary from "./Pages/ErrorBoundary";
 import Home from "./Pages/Home";
+import ProfilePage from "./Pages/ProfilePage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
           <Route path="/projects" element={<ProjectPage />} />
           <Route path="/projects/:name" element={<ProjectDetailsPage />} />
           <Route path="/my-tickets/:userId" element={<MyTicketsPage />} />
+          <Route path="/profile/:userId" element={<ProfilePage />} />
         </Route>
       </Route>
     </Route>
