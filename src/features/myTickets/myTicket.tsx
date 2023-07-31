@@ -46,7 +46,7 @@ const MyTickets = () => {
         <h1 className="text-left text-xl font-bold">My Tickets</h1>
         <p className="text-left text-gray-400">Issues/Bugs assigned to you</p>
       </div>
-      <div className="w-full flex-1 overflow-y-auto rounded-[12px] bg-white">
+      <div className="w-full flex-1 overflow-y-auto rounded-md border bg-white shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
         <ul className="flex w-full flex-col font-light">
           {myTickets.map((bug): JSX.Element => {
             return (

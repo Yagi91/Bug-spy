@@ -1,11 +1,10 @@
 import config from "../../config";
 
-const backEnd = 'http://localhost:5000';
 
 const create = async (user: { name: string, password: string, email: string, role?: string }) => {
     console.log(user);
     try {
-        let response = await fetch(backEnd + '/api/users/', {
+        let response = await fetch(config.backendUrl + '/api/users/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -37,9 +36,16 @@ const list = async (signal: any) => {
             method: 'GET',
             signal: signal,//signal is used to abort the fetch request when the component unmounts
         });
+        if (response.status === 404) {
+            throw new Error("Check Internet Connection");
+        }
+        if (response.status >= 400) {
+            throw new Error("Error getting users");
+        }
         return await response.json();
-    } catch (err) {
+    } catch (err: any) {
         console.error(err);
+        throw new Error(err);
     }
 };
 
@@ -54,15 +60,19 @@ const read = async (params: any, credentials: any, signal: any) => {
                 'Authorization': 'Bearer ' + credentials.t
             }
         });
+        if (response.status >= 400) {
+            throw new Error("Error getting user");
+        }
         return await response.json();
-    } catch (err) {
+    } catch (err: any) {
         console.error(err);
+        throw new Error(err);
     }
 };
 
 const update = async (params: any, credentials: any, user: any) => {
     try {
-        let response = await fetch('/api/users/' + params.userId, {
+        let response = await fetch(config.backendUrl + '/api/users/' + params.userId, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -71,15 +81,24 @@ const update = async (params: any, credentials: any, user: any) => {
             },
             body: JSON.stringify(user)
         });
-        return await response.json();
-    } catch (err) {
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+        if (response.status === 404 || response.status === 500) {
+            throw new Error("Check Internet Connection");
+        }
+        if (response.status >= 400) {
+            throw new Error("Error updating user");
+        }
+        return data;
+    } catch (err: any) {
         console.error(err);
+        throw new Error(err);
     }
 };
 
 const remove = async (params: any, credentials: any) => {
     try {
-        let response = await fetch('/api/users/' + params.userId, {
+        let response = await fetch(config.backendUrl + '/api/users/' + params.userId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

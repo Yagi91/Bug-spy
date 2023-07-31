@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { list, read } from "./api-user";
+import { list, read, update } from "./api-user";
 
 interface UserState {
     user: User;
@@ -36,8 +36,8 @@ export const getUser = createAsyncThunk(
     "user/getUser",
     async (userId: string, thunkAPI) => {
         try {
-            const state = thunkAPI.getState() as RootState;
-            const credentials = { t: state.auth.userToken };
+            const token = sessionStorage.getItem("jwt")?.toString() || '';//get the token from the session storage
+            const credentials = { t: JSON.parse(token as string) };//convert the token to JSON
             const controller = new AbortController();
             const signal = controller.signal;
             const user = await read({ userId: userId }, credentials, signal);
@@ -52,15 +52,10 @@ export const updateUser = createAsyncThunk(
     "user/updateUser",
     async (user: User, thunkAPI) => {
         try {
-            const updatedUser = await fetch(`http://localhost:5000/api/users/${user._id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user),
-            });
-            const data = await updatedUser.json();
-            return data;
+            const token = sessionStorage.getItem("jwt")?.toString() || '';
+            const credentials = { t: JSON.parse(token as string) };
+            const updatedUser = await update({ userId: user._id }, credentials, user);
+            return updatedUser;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
         }
@@ -78,6 +73,8 @@ export const deleteUser = createAsyncThunk(
                 },
             });
             const data = await deletedUser.json();
+            if (data.error) { throw new Error(data.error) }
+            console.log(data);
             return data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -108,6 +105,9 @@ export const userSlice = createSlice({
                 role: "",
                 _id: "",
             };
+        },
+        clearError: (state) => {
+            state.error = "";
         }
     },
     extraReducers: (builder) => {
@@ -124,14 +124,20 @@ export const userSlice = createSlice({
         });
         builder.addCase(updateUser.pending, (state) => {
             state.loading = true;
+            state.error = "";
         });
         builder.addCase(updateUser.fulfilled, (state, { payload }) => {
             state.user = payload;
             state.loading = false;
         });
         builder.addCase(updateUser.rejected, (state, { payload }) => {
+            // if payload string contains 11000 error code, then the email is already taken
+            if (payload?.toString().includes("11000")) {
+                state.error = "Email is already taken";
+            } else {
+                state.error = payload as string;
+            }
             state.loading = false;
-            state.error = payload as string;
         });
         builder.addCase(deleteUser.pending, (state) => {
             state.loading = true;
@@ -162,9 +168,11 @@ export const userSlice = createSlice({
 });
 
 
-export const { clearUser } = userSlice.actions;
+export const { clearUser, clearError } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user.user;
 export const selectUsers = (state: RootState) => state.user.users;
+export const selectLoading = (state: RootState) => state.user.loading;
+export const selectError = (state: RootState) => state.user.error;
 
 export default userSlice.reducer;

@@ -113,6 +113,12 @@ export const authSlice = createSlice({
         state.error = error;
       }
     },
+    setUserInfo: (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, _id: string }>) => {
+      state.userInfo.email = action.payload.email;
+      state.userInfo.name = action.payload.name;
+      state.userInfo.role = action.payload.role;
+      state.userInfo._id = action.payload._id;
+    },
   },
   extraReducers(builder) {
     //Handle async actions for login and register
@@ -182,7 +188,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { changeAuthType, error, logout } = authSlice.actions;
+export const { changeAuthType, error, logout, setUserInfo } = authSlice.actions;
 
 export const selectAuthType = (state: RootState) => state.auth.authType;
 export const selectStatus = (state: RootState) => state.auth.status;
