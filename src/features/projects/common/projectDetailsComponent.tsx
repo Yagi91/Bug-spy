@@ -106,19 +106,19 @@ const ProjectDetailsComponent = ({
   };
 
   return (
-    <div className="mt-2 flex w-full items-center justify-around gap-2 px-3 sm:justify-start">
+    <div className="my-2 flex w-full items-center items-center justify-end gap-8 px-3 sm:justify-start sm:gap-2">
       <IconButton
         icon="person_add"
         text="Add Member"
         handleClick={handleAddingMembers}
+        spanClass="bg-neutral-300 rounded-full"
       />
       {addingMembers && (
         <Modal>
-          {" "}
           <AddMembers
             handleSubmit={handleAddMembers}
             options={membersOptions}
-          />{" "}
+          />
         </Modal>
       )}
       <div className="relative">
@@ -126,6 +126,7 @@ const ProjectDetailsComponent = ({
           icon="groups"
           text="Members"
           handleClick={() => setShowMembers(!showMembers)}
+          spanClass="bg-neutral-300 rounded-full"
         />
         <ul
           className={`dropdown min-h-12 invisible absolute right-1/2 min-w-full -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
@@ -171,6 +172,8 @@ const ProjectDetailsComponent = ({
             })
           )
         }
+        buttonClass="bg-neutral-300 text-neutral-800 hover:bg-neutral-400"
+        spanClass="bg-secondary-200 text-secondary-800 rounded-full"
       />
     </div>
   );

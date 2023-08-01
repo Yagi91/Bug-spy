@@ -40,3 +40,19 @@ export function formatDate(date: string): string {
     }
     return "Just now";
 }
+
+export function formatDateShorthand(date: Date) {
+    let day: string | number = date.getDate();
+    let month: string | number = date.getMonth() + 1;
+    let year: string | number = date.getFullYear();
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    year = year.toString().substr(-2); // 2021 => 21
+
+    return `${day}/${month}/${year}`;
+}

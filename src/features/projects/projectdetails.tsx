@@ -110,7 +110,7 @@ export default function ProjectDetails({ projectName }: Props) {
 
   return (
     <div className="flex h-full w-full flex-col">
-      <header className="mb-1 h-[180px]">
+      <header className="mb-1 flex h-[180px] flex-col">
         {loading ? (
           <p>Loading...</p>
         ) : error ? (

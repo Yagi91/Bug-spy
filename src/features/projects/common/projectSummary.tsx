@@ -8,7 +8,7 @@ import {
   updateProjectDetails,
 } from "../projectDetailSlice";
 import React from "react";
-import { progressBadge } from "../../common/utils";
+import { formatDateShorthand, progressBadge } from "../../common/utils";
 
 interface Props {
   handleOpenEdit: (formField: EditFormProps) => void;
@@ -52,7 +52,7 @@ const ProjectSummary = ({
   };
   //   TODO: Add the admin field to the projectSummary slice to render the admin name
   return (
-    <div className="rounded-[12px] bg-white px-3 py-1">
+    <div className="flex flex-1 flex-col justify-between rounded-[12px] bg-white px-3 py-1">
       <DoubleIconsText
         title={projectSummary?.name || ""}
         firstIcon="arrow_back_ios_new"
@@ -84,22 +84,24 @@ const ProjectSummary = ({
           <EditForm {...editFormFields} />
         </Modal>
       )}
-      <p className="text-left text-sm font-normal">
+      <p className="text-md text-left font-normal">
         {projectSummary?.description}
       </p>
       <p
         className={
-          "w-fit px-1 text-left text-xs " +
+          "w-fit rounded-full px-1 text-left text-sm " +
           progressBadge(projectSummary?.progress as string)
         }
       >
         {projectSummary?.progress}
       </p>
-      <p className="text-left text-[9px] text-gray-500">
-        Started: {projectSummary?.created}
+      <p className="text-left text-[12px] text-gray-500">
+        Started:{" "}
+        {formatDateShorthand(new Date(projectSummary?.created as string))}
       </p>
-      <p className="text-left text-[9px] text-gray-500">
-        Updated: {projectSummary?.updated}
+      <p className="text-left text-[12px] text-gray-500">
+        Updated:{" "}
+        {formatDateShorthand(new Date(projectSummary?.updated as string))}
       </p>
     </div>
   );

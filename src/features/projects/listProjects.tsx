@@ -1,6 +1,7 @@
 import React from "react";
 import ProjectsCard, { Props as cardsProps } from "./projectCard";
 import { useNavigate } from "react-router-dom";
+import { formatDateShorthand } from "../common/utils";
 export type ListProjectsProps = Omit<cardsProps, "handleClick">; // { name: string, description: string, id: string } handleClick is not needed here
 
 interface Props {
@@ -19,22 +20,6 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     navigate(`/projects/${name}`);
   };
 
-  function formatDate(date: Date) {
-    let day: string | number = date.getDate();
-    let month: string | number = date.getMonth() + 1;
-    let year: string | number = date.getFullYear();
-
-    if (day < 10) {
-      day = "0" + day;
-    }
-    if (month < 10) {
-      month = "0" + month;
-    }
-    year = year.toString().substr(-2); // 2021 => 21
-
-    return `${month}/${year}`;
-  }
-
   return (
     <div className="mt-4 overflow-x-scroll rounded-lg border bg-white text-neutral-900 sm:overflow-hidden">
       <table className="w-full table-auto lg:table-fixed">
@@ -52,7 +37,7 @@ export default function ListProjects({ projects, floatingButton }: Props) {
         </thead>
         <tbody>
           {projects.map((project) => {
-            let projectDate = formatDate(new Date(project.created));
+            let projectDate = formatDateShorthand(new Date(project.created));
             return (
               <>
                 <ProjectsCard
