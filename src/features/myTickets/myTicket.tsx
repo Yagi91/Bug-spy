@@ -3,16 +3,16 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { NavLink, useParams } from "react-router-dom";
 import {
   selectMyTickets,
-  selectMyTicketsError,
-  selectMyTicketsLoading,
+  // selectMyTicketsError,
+  // selectMyTicketsLoading,
   fetchMyTickets,
 } from "./myTicketSlice";
-import { badgeColor } from "../common/utils";
+import { badgeColor, formatDate } from "../common/utils";
 
 const MyTickets = () => {
   const myTickets = useAppSelector(selectMyTickets);
-  const myTicketsError = useAppSelector(selectMyTicketsError);
-  const myTicketsLoading = useAppSelector(selectMyTicketsLoading);
+  // const myTicketsError = useAppSelector(selectMyTicketsError);
+  // const myTicketsLoading = useAppSelector(selectMyTicketsLoading);
   const { userId } = useParams<{ userId: string }>(); //this is the name of the project
 
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ const MyTickets = () => {
                     </p>
                     <div className="text-sm">
                       <span
-                        className={`material-symbols-outlined leading-0 mr-1 text-xs ${
+                        className={`material-symbols-outlined solid leading-0 mr-1 text-xs ${
                           bug.status === "Open"
                             ? "text-secondary-400"
                             : "text-accent-400"
@@ -68,8 +68,8 @@ const MyTickets = () => {
                     </div>
                   </div>
                   <div className="flex justify-between text-xs text-neutral-400">
-                    <p>Created: {bug.created}</p>
-                    <p>Updated: {bug.updated}</p>
+                    <p>{formatDate(bug.created)}</p>
+                    <p>{formatDate(bug.updated)}</p>
                   </div>
                 </NavLink>
               </li>

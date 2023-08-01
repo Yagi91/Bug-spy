@@ -20,3 +20,23 @@ export function badgeColor(status: string): string {
             return "bg-accent-500";
     }
 }
+
+export function formatDate(date: string): string {
+    //ex 4 days ago or mins ago or hours ago
+    const now = new Date();
+    const created = new Date(date);
+    const diff = now.getTime() - created.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const mins = Math.floor(diff / (1000 * 60));
+    if (days > 0) {
+        return `${days} days ago`;
+    }
+    if (hours > 0) {
+        return `${hours} hours ago`;
+    }
+    if (mins > 0) {
+        return `${mins} mins ago`;
+    }
+    return "Just now";
+}
