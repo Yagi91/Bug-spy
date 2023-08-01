@@ -12,7 +12,7 @@ interface option {
   isDisabled?: boolean;
 }
 
-interface Props {
+export interface Props {
   handleSubmit: (
     e: React.FormEvent<HTMLButtonElement>,
     selected: option[]
