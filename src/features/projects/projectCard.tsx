@@ -1,4 +1,5 @@
 import React from "react";
+import { progressBadge } from "../common/utils";
 
 export interface Props {
   name: string;
@@ -38,16 +39,6 @@ export default function ProjectsCard({
     }
     let newName = name[0].toUpperCase() + name.slice(1);
     return newName;
-  };
-
-  const progressBadge = (progress: string) => {
-    if (progress === "Completed") {
-      return "bg-accent-100 text-accent-800";
-    }
-    if (progress === "Ongoing") {
-      return "bg-yellow-100 text-yellow-800";
-    }
-    return "bg-gray-100 text-gray-800";
   };
 
   return (

@@ -30,7 +30,7 @@ export function SearchBar(): JSX.Element {
 export const Modal = ({ children }: any) => {
   return (
     <div
-      className={`fixed inset-0 z-40 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
+      className={`fixed inset-0 z-50 flex items-center justify-center border bg-neutral-600 bg-opacity-30 p-2 shadow-xl transition-all`}
     >
       {children}
     </div>

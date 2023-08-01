@@ -9,7 +9,6 @@ import {
   selectError,
   getProjectDetails,
   deleteProjectDetails,
-  deleteProjectMember,
   clearProjectDetails,
 } from "./projectDetailSlice";
 import { Props as EditFormProps } from "./edit";
@@ -64,34 +63,6 @@ export default function ProjectDetails({ projectName }: Props) {
     return;
   };
 
-  const deleteMember = async function (
-    e: React.MouseEvent<HTMLButtonElement>
-  ): Promise<void> {
-    e.preventDefault();
-    const id = e.currentTarget.value;
-    console.log(id);
-    const filterProjectMembersId = (projectMembers: any) => {
-      const membersID: string[] = [];
-      for (let i = 0; i < projectMembers.length; i++) {
-        if (projectMembers[i].id !== id) {
-          membersID.push(projectMembers[i].id);
-        }
-      }
-      return membersID;
-    };
-    const updatedMembersId = filterProjectMembersId(projectMembers);
-    dispatch(
-      deleteProjectMember({
-        id: projectSummary?.id as string,
-        members: updatedMembersId,
-      })
-    );
-    //update the project members
-    dispatch(getProjectDetails(projectName as string));
-    console.log("%d Member Deleted", id);
-    return;
-  };
-
   const handleAddingBug = function (): void {
     setAddingBug(!addingBug);
   };
@@ -138,7 +109,7 @@ export default function ProjectDetails({ projectName }: Props) {
   }, [projectMembers]);
 
   return (
-    <div className="flex h-full w-full flex-col border">
+    <div className="flex h-full w-full flex-col">
       <header className="mb-1 h-[180px]">
         {loading ? (
           <p>Loading...</p>
@@ -156,7 +127,6 @@ export default function ProjectDetails({ projectName }: Props) {
         )}
         <ProjectDetailsComponent
           showMembers={showMembers}
-          deleteMember={deleteMember}
           deleteProject={deleteProject}
           setShowMembers={setShowMembers}
           projectName={projectName}

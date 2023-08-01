@@ -7,6 +7,7 @@ import {
   selectMyTicketsLoading,
   fetchMyTickets,
 } from "./myTicketSlice";
+import { badgeColor } from "../common/utils";
 
 const MyTickets = () => {
   const myTickets = useAppSelector(selectMyTickets);
@@ -22,23 +23,7 @@ const MyTickets = () => {
     const signal = controller.signal;
     const jwt = (sessionStorage.getItem("jwt") as string) || "";
     dispatch(fetchMyTickets({ userId: id, jwt, signal }));
-    // return () => {
-    //   controller.abort();
-    // };
   }, [dispatch, userId]);
-
-  function badgeColor(status: string): string {
-    switch (status) {
-      case "Low":
-        return "bg-accent-100 text-accent-800";
-      case "Medium":
-        return "bg-yellow-100 text-yellow-800";
-      case "High":
-        return "bg-secondary-100 text-secondary-800";
-      default:
-        return "bg-accent-500";
-    }
-  }
 
   return (
     <div className="flex w-full flex-col p-2 ">

@@ -24,7 +24,6 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     let month: string | number = date.getMonth() + 1;
     let year: string | number = date.getFullYear();
 
-    // Add leading zeros to the day and month digits if they are less than 10.
     if (day < 10) {
       day = "0" + day;
     }
@@ -33,7 +32,6 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     }
     year = year.toString().substr(-2); // 2021 => 21
 
-    // return `${day}/${month}/${year}`;
     return `${month}/${year}`;
   }
 

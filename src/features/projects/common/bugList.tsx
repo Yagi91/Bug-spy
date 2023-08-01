@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { badgeColor } from "../../common/utils";
 import { create } from "../../myTickets/api-bugs";
 import { AddBugForm } from "../addBug";
 import { CommentSection, Details, DoubleIconsText, Modal } from "../common";
@@ -62,7 +63,7 @@ const BugList = ({
   };
 
   return (
-    <div className="height grow rounded-2xl border bg-white p-3">
+    <div className="flex flex-1 flex-col overflow-y-auto rounded-2xl border bg-white p-3">
       <div className="flex justify-between">
         <DoubleIconsText
           title="Bug List"
@@ -122,10 +123,16 @@ const BugList = ({
                 }
               />
               <div className="flex justify-between gap-2">
-                <p>{bug.priority}</p>
+                <p
+                  className={
+                    "w-fit rounded-[50px] px-2 " + badgeColor(bug.priority)
+                  }
+                >
+                  {bug.priority}
+                </p>
                 <div className="text-sm">
                   <span
-                    className={`material-symbols-outlined leading-0 mr-1 text-xs ${
+                    className={`material-symbols-outlined solid leading-0 mr-1 text-xs ${
                       bug.status === "Open"
                         ? "text-secondary-400"
                         : "text-accent-400"
@@ -137,7 +144,7 @@ const BugList = ({
                 </div>
               </div>
               <p>Created: {bug.created}</p>
-              <Details summary="View Description & Comment">
+              <Details summary="Description & Messages">
                 <p className="p-2 text-sm">{bug.description}</p>
                 <CommentSection />
               </Details>

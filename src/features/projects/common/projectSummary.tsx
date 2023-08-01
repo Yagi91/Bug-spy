@@ -8,6 +8,7 @@ import {
   updateProjectDetails,
 } from "../projectDetailSlice";
 import React from "react";
+import { progressBadge } from "../../common/utils";
 
 interface Props {
   handleOpenEdit: (formField: EditFormProps) => void;
@@ -50,7 +51,7 @@ const ProjectSummary = ({
     handleCloseEdit();
   };
   return (
-    <div className="rounded-[12px] border bg-white px-3 py-1">
+    <div className="rounded-[12px] bg-white px-3 py-1">
       <DoubleIconsText
         title={projectSummary?.name || ""}
         firstIcon="arrow_back_ios_new"
@@ -82,15 +83,22 @@ const ProjectSummary = ({
           <EditForm {...editFormFields} />
         </Modal>
       )}
-      <p className="text-left text-xs">{projectSummary?.description}</p>
-      <p className="text-left text-xs capitalize">
-        Admin: {projectSummary?.admin}
+      <p className="text-left text-sm font-normal">
+        {projectSummary?.description}
       </p>
-      <p className="text-left text-xs">{projectSummary?.progress}</p>
-      <p className="text-left text-[8px] italic opacity-60">
-        Created: {projectSummary?.created}
+      {/* <p className="text-left text-xs">{projectSummary?.admin}</p> */}
+      <p
+        className={
+          "w-fit px-1 text-left text-xs " +
+          progressBadge(projectSummary?.progress as string)
+        }
+      >
+        {projectSummary?.progress}
       </p>
-      <p className="text-left text-[8px] italic opacity-60">
+      <p className="text-left text-[9px] text-gray-500">
+        Started: {projectSummary?.created}
+      </p>
+      <p className="text-left text-[9px] text-gray-500">
         Updated: {projectSummary?.updated}
       </p>
     </div>
