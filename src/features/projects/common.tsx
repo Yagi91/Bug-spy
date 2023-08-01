@@ -117,7 +117,7 @@ export function AnimatedRadioGroup({
 }: AnimatedRadioGroupProps) {
   return (
     // <div className="grid h-max w-80 grid-cols-4 space-x-2 rounded-xl bg-neutral-200 p-1">
-    <div className="flex h-fit rounded-xl bg-neutral-200 p-1">
+    <div className="flex h-fit rounded-2xl bg-neutral-200 p-1">
       {options?.map((option, i) => (
         <div className="grow" key={option}>
           <input
@@ -131,17 +131,17 @@ export function AnimatedRadioGroup({
           />
           <label
             htmlFor={option}
-            className="block cursor-pointer select-none rounded-xl p-1 text-center peer-checked:bg-primary-500 peer-checked:font-bold peer-checked:text-white"
+            className="block flex cursor-pointer select-none items-center rounded-xl p-1 text-center peer-checked:bg-primary-500 peer-checked:font-bold peer-checked:text-white"
           >
             {icons[i] ? (
               <>
-                <span className="hidden sm:inline">{option}</span>
-                <span className="material-symbols-outlined text-xs sm:hidden">
+                <span className="hidden px-2 sm:inline">{option}</span>
+                <span className="material-symbols-outlined px-2 text-sm leading-none sm:hidden">
                   {icons[i]}
                 </span>
               </>
             ) : (
-              <span>{option}</span>
+              <span className="px-4">{option}</span>
             )}
           </label>
         </div>

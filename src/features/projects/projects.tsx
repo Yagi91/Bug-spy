@@ -185,6 +185,10 @@ export default function Projects(): JSX.Element {
                 borderWidth: "1px",
                 textAlign: "left",
               }),
+              option: (baseStyles, state) => ({
+                ...baseStyles,
+                textAlign: "left",
+              }),
             }}
           />
           <SortComponent
