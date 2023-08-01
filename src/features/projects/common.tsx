@@ -84,7 +84,7 @@ export function SwitchToggle({
           checked={checked}
           id="toggle"
           onChange={handleChange}
-          className="toggle-checkbox absolute block h-6 w-6 cursor-pointer appearance-none rounded-full border-4 border-primary-500 bg-white transition-all checked:right-0 checked:border-white checked:bg-primary-700 focus:ring-8 checked:active:ring-primary-500"
+          className="toggle-checkbox absolute block h-6 w-6 cursor-pointer appearance-none rounded-full border-4 border-neutral-300 bg-white transition-all checked:right-0 checked:border-primary-500 checked:bg-white"
         />
         <label
           htmlFor="toggle"
