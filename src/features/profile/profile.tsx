@@ -164,7 +164,7 @@ export default function Profile({ userId }: Props): JSX.Element {
             </p>
           </form>
         </div>
-        <div className="rounded-md border bg-white px-3 py-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+        <div className="mb-24 rounded-md border bg-white px-3 py-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] sm:mb-0">
           <h2 className="text-left text-lg font-bold text-neutral-800">
             Language & Time
           </h2>

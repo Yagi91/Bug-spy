@@ -111,7 +111,7 @@ const BugList = ({
           </Modal>
         )}
       </div>
-      <ul className="flex w-full flex-col font-light">
+      <ul className="mb-20 flex w-full flex-col font-light">
         {projectBugs.map((bug): JSX.Element => {
           return (
             <li key={bug.id} className="border-b text-left" id={bug.id}>
