@@ -62,6 +62,26 @@ const BugList = ({
     }
   };
 
+  function formatDate(date: string): string {
+    //ex 4 days ago or mins ago or hours ago
+    const now = new Date();
+    const created = new Date(date);
+    const diff = now.getTime() - created.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const mins = Math.floor(diff / (1000 * 60));
+    if (days > 0) {
+      return `${days} days ago`;
+    }
+    if (hours > 0) {
+      return `${hours} hours ago`;
+    }
+    if (mins > 0) {
+      return `${mins} mins ago`;
+    }
+    return "Just now";
+  }
+
   return (
     <div className="flex flex-1 flex-col overflow-y-auto rounded-2xl border bg-white p-3">
       <div className="flex justify-between">
@@ -143,7 +163,7 @@ const BugList = ({
                   {bug.status}
                 </div>
               </div>
-              <p>Created: {bug.created}</p>
+              <p>{formatDate(bug.created)}</p>
               <Details summary="Description & Messages">
                 <p className="p-2 text-sm">{bug.description}</p>
                 <CommentSection />

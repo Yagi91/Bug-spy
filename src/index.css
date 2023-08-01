@@ -69,7 +69,7 @@ body {
   visibility: visible;
   transform: translate(50%, 8px);
   opacity: 1;
-  z-index: 99;
+  z-index: 10;
 }
 
 .det summary svg {

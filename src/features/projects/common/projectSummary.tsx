@@ -50,6 +50,7 @@ const ProjectSummary = ({
     navigate(`/projects/${title}`, { replace: true });
     handleCloseEdit();
   };
+  //   TODO: Add the admin field to the projectSummary slice to render the admin name
   return (
     <div className="rounded-[12px] bg-white px-3 py-1">
       <DoubleIconsText
@@ -86,7 +87,6 @@ const ProjectSummary = ({
       <p className="text-left text-sm font-normal">
         {projectSummary?.description}
       </p>
-      {/* <p className="text-left text-xs">{projectSummary?.admin}</p> */}
       <p
         className={
           "w-fit px-1 text-left text-xs " +

@@ -128,7 +128,7 @@ const ProjectDetailsComponent = ({
           handleClick={() => setShowMembers(!showMembers)}
         />
         <ul
-          className={`dropdown min-h-12 invisible absolute right-1/2 -z-50 min-w-full -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
+          className={`dropdown min-h-12 invisible absolute right-1/2 min-w-full -translate-y-10 translate-x-1/2 rounded-xl border bg-white px-2 py-3 text-xs text-neutral-900 shadow-md transition-all sm:text-sm ${
             showMembers && "show"
           }`}
         >
