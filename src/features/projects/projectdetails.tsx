@@ -122,6 +122,7 @@ export default function ProjectDetails({ projectName }: Props) {
               handleOpenEdit={handleOpenEdit}
               showEdit={showEdit}
               editFormFields={editFormFields}
+              totalBugs={projectBugs.length}
             />
           )
         )}

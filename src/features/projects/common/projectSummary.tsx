@@ -11,6 +11,7 @@ import React from "react";
 import { formatDateShorthand, progressBadge } from "../../common/utils";
 
 interface Props {
+  totalBugs: number;
   handleOpenEdit: (formField: EditFormProps) => void;
   handleCloseEdit: () => void;
   showEdit: boolean;
@@ -18,6 +19,7 @@ interface Props {
 }
 
 const ProjectSummary = ({
+  totalBugs = 0,
   handleOpenEdit,
   handleCloseEdit,
   showEdit,
@@ -84,9 +86,13 @@ const ProjectSummary = ({
           <EditForm {...editFormFields} />
         </Modal>
       )}
+      <p className=" text-md text-left font-normal capitalize">
+        {projectSummary?.admin.name}
+      </p>
       <p className="text-md text-left font-normal">
         {projectSummary?.description}
       </p>
+      <p className="text-md text-left font-normal">{"Bugs " + totalBugs}</p>
       <p
         className={
           "w-fit rounded-full px-1 text-left text-sm " +

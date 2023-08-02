@@ -7,7 +7,7 @@ import { getProject, deleteProject, updateProject } from "./api-projects";
 interface _ProjectSummary {
     name: string;
     description: string;
-    admin: string;
+    admin: { _id: string; name: string };
     progress: string;
     created: string;
     updated: string;

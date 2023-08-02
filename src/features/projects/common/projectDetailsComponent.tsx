@@ -38,7 +38,7 @@ const ProjectDetailsComponent = ({
       for (let i = 0; i < projectMembers.length; i++) {
         if (
           user._id === projectMembers[i].id &&
-          user.name !== projectSummary?.admin
+          user.name !== projectSummary?.admin.name
         ) {
           return false;
         }
