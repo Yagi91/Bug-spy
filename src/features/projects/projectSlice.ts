@@ -22,8 +22,7 @@ export const fetchProjects = createAsyncThunk(
     async (action, thunkAPI) => {
         try {
             const _projects = await getProjects();
-            console.log(_projects);
-            // return defaultProjects;
+            // console.log(_projects);
             return _projects;
         }
         catch (error: any) {
@@ -44,10 +43,10 @@ interface AddNewProjectProps {
 export const addNewProject = createAsyncThunk(
     "project/addNewProject",
     async ({ name, description, selectedMembers, admin }: AddNewProjectProps, thunkAPI) => {
-        console.log('Async thunk of addingProject');
+        // console.log('Async thunk of addingProject');
         try {
             const newProject = await createProject({ name, description, members: selectedMembers, admin });
-            console.log("new project", newProject);
+            // console.log("new project", newProject);
             return newProject;
         }
         catch (error: any) {
@@ -81,22 +80,23 @@ export const projectSlice = createSlice({
         });
         builder.addCase(fetchProjects.fulfilled, (state, action) => {
             state.projects = action.payload;
-            console.log("initial list", state.projects.length);
+            // console.log("initial list", state.projects.length);
         });
         builder.addCase(fetchProjects.rejected, (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
         });
         builder.addCase(addNewProject.pending, (state) => {
-            console.log("Adding new project");
+            // console.log("Adding new project");
         });
         builder.addCase(addNewProject.fulfilled, (state, action) => {
             // state.projects = [action.payload, ...state.projects];
         });
         builder.addCase(addNewProject.rejected, (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
         });
     }
 });
+
 
 export const { sortProjects, filterProjectsStatus, filterProjectsOwner } = projectSlice.actions;
 

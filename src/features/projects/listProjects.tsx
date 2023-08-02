@@ -5,7 +5,10 @@ import { formatDateShorthand } from "../common/utils";
 import { Modal } from "./common";
 import QuickEdit from "./common/quickEdit";
 import { useAppDispatch } from "../../app/hooks";
-import { updateProjectDetails } from "./projectDetailSlice";
+import {
+  deleteProjectDetails,
+  updateProjectDetails,
+} from "./projectDetailSlice";
 import { fetchProjects } from "./projectSlice";
 export type ListProjectsProps = Omit<cardsProps, "handleClick">; // { name: string, description: string, id: string } handleClick is not needed here
 
@@ -50,7 +53,10 @@ export default function ListProjects({ projects, floatingButton }: Props) {
   const handleCancelEdit = (e: React.FormEvent<HTMLFormElement>) => {
     handleShowQuickEdit();
   };
-  const handleDeleteEdit = () => {
+  const handleDeleteEdit = async () => {
+    await dispatch(deleteProjectDetails(quickEditFields?._id as string));
+    await dispatch(fetchProjects());
+    setQuickEditFields(null);
     handleShowQuickEdit();
   };
 

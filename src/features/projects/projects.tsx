@@ -91,7 +91,7 @@ export default function Projects(): JSX.Element {
     });
   }, [filteredProjects, sort]);
 
-  const handleAddProjects = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddProjects = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
@@ -100,9 +100,11 @@ export default function Projects(): JSX.Element {
     const admin = userId as string;
     formData.append("admin", admin);
     const newProject = { name, description, selectedMembers, admin };
-    dispatch(addNewProject(newProject));
+    await dispatch(addNewProject(newProject));
+    await dispatch(fetchProjects());
     handleShowAddProject();
     console.log(newProject);
+    return;
   };
 
   const handleShowAddProject = () => {
