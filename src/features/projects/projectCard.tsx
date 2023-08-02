@@ -60,7 +60,7 @@ export default function ProjectsCard({
         <button
           type="button"
           className="btn-primary flex h-10 w-[87px] items-center justify-around p-2"
-          onClick={(e) => handleEdit(e, { name, progress })}
+          onClick={(e) => handleEdit(e, { name, progress, _id })}
         >
           <span className="material-symbols-outlined line block -translate-y-0.5 ">
             edit_square

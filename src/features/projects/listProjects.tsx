@@ -5,6 +5,8 @@ import { formatDateShorthand } from "../common/utils";
 import { Modal } from "./common";
 import QuickEdit from "./common/quickEdit";
 import { useAppDispatch } from "../../app/hooks";
+import { updateProjectDetails } from "./projectDetailSlice";
+import { fetchProjects } from "./projectSlice";
 export type ListProjectsProps = Omit<cardsProps, "handleClick">; // { name: string, description: string, id: string } handleClick is not needed here
 
 interface Props {
@@ -17,10 +19,11 @@ export default function ListProjects({ projects, floatingButton }: Props) {
   const [quickEditFields, setQuickEditFields] = React.useState<{
     name: string;
     progress: string;
-  } | null>({ name: "", progress: "" });
+    _id: string;
+  } | null>({ name: "", progress: "", _id: "" });
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch;
+  const dispatch = useAppDispatch();
 
   const handleClick = (
     e: React.MouseEvent<HTMLTableRowElement>,
@@ -37,7 +40,10 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     handleShowQuickEdit();
     setQuickEditFields(props);
   };
-  const handleSubmitEdit = (props: any) => {
+  const handleSubmitEdit = async (props: any) => {
+    let updatedProj = { ...props, id: quickEditFields?._id };
+    await dispatch(updateProjectDetails(updatedProj));
+    await dispatch(fetchProjects());
     setQuickEditFields(null);
     handleShowQuickEdit();
   };

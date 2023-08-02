@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { SimpleInput } from "../../common/common";
 import Select from "react-select";
 
@@ -25,7 +25,21 @@ const QuickEdit = ({
   selectOptions,
 }: Props) => {
   const [newName, setNewName] = useState<Props["name"]>("");
-  const [newStatus, setStatus] = useState<string>("");
+  const [newStatus, setStatus] = useState<string>(status);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    const disableDisabled = (): boolean => {
+      if (
+        (!newName ||
+          newName.toLocaleLowerCase() === name.toLocaleLowerCase()) &&
+        newStatus === status
+      )
+        return true;
+      return false;
+    };
+    setIsDisabled(disableDisabled());
+  }, [name, newName, newStatus, status]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewName(e.target.value);
@@ -34,17 +48,15 @@ const QuickEdit = ({
   const submitting = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const updated = {
-      name: newName,
+      name: newName || name,
       status: newStatus,
     };
-    if (newName !== "") updated.name = name;
-    if (newStatus !== "") updated.status = status;
-    return handleSubmit(updated);
-  };
-  const disableDisabled = (): boolean => {
-    if (name === newName && status === newStatus) return true;
-    if (newName === "" && newStatus === "") return true;
-    return false;
+    if (newName === name && status === newStatus) {
+      return;
+    }
+    handleSubmit(updated);
+    e.currentTarget.reset();
+    return;
   };
 
   return (
@@ -66,8 +78,7 @@ const QuickEdit = ({
           name="name"
           value={newName}
           handleChange={handleChange}
-          required={true}
-          placeholder={newName}
+          placeholder={name}
           max={25}
           extraClass="w-full"
         />
@@ -96,7 +107,7 @@ const QuickEdit = ({
           <button
             type="submit"
             className="mr-2 w-fit rounded-xl bg-primary-600 px-4 py-2 font-bold text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={disableDisabled()}
+            disabled={isDisabled}
           >
             Confirm
           </button>
