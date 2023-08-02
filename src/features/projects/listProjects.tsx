@@ -2,6 +2,9 @@ import React from "react";
 import ProjectsCard, { Props as cardsProps } from "./projectCard";
 import { useNavigate } from "react-router-dom";
 import { formatDateShorthand } from "../common/utils";
+import { Modal } from "./common";
+import QuickEdit from "./common/quickEdit";
+import { useAppDispatch } from "../../app/hooks";
 export type ListProjectsProps = Omit<cardsProps, "handleClick">; // { name: string, description: string, id: string } handleClick is not needed here
 
 interface Props {
@@ -10,7 +13,14 @@ interface Props {
 }
 
 export default function ListProjects({ projects, floatingButton }: Props) {
+  const [showQuickEdit, setShowQuickEdit] = React.useState<boolean>(false);
+  const [quickEditFields, setQuickEditFields] = React.useState<{
+    name: string;
+    progress: string;
+  } | null>({ name: "", progress: "" });
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch;
 
   const handleClick = (
     e: React.MouseEvent<HTMLTableRowElement>,
@@ -18,6 +28,24 @@ export default function ListProjects({ projects, floatingButton }: Props) {
   ) => {
     e.preventDefault();
     navigate(`/projects/${name}`);
+  };
+  const handleShowQuickEdit = () => {
+    setShowQuickEdit(!showQuickEdit);
+  };
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>, props: any) => {
+    e.stopPropagation();
+    handleShowQuickEdit();
+    setQuickEditFields(props);
+  };
+  const handleSubmitEdit = (props: any) => {
+    setQuickEditFields(null);
+    handleShowQuickEdit();
+  };
+  const handleCancelEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleShowQuickEdit();
+  };
+  const handleDeleteEdit = () => {
+    handleShowQuickEdit();
   };
 
   return (
@@ -47,6 +75,7 @@ export default function ListProjects({ projects, floatingButton }: Props) {
                   handleClick={(e) => {
                     handleClick(e, project.name);
                   }}
+                  handleEdit={handleEdit}
                 />
               </>
             );
@@ -54,6 +83,21 @@ export default function ListProjects({ projects, floatingButton }: Props) {
         </tbody>
       </table>
       {floatingButton}
+      {showQuickEdit && (
+        <Modal>
+          <QuickEdit
+            handleSubmit={handleSubmitEdit}
+            handleCancel={handleCancelEdit}
+            handleDelete={handleDeleteEdit}
+            name={quickEditFields?.name as string}
+            status={quickEditFields?.progress as "Ongoing" | "Completed"}
+            selectOptions={[
+              { value: "Ongoing", label: "Ongoing" },
+              { value: "Completed", label: "Completed" },
+            ]}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

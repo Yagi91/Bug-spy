@@ -15,7 +15,7 @@ export interface Props {
     name: string,
     _id: string
   ) => void;
-  handleEdit?: (event: React.MouseEvent<HTMLDivElement>) => void; //has to stop propagation to prevent the parent li from being clicked
+  handleEdit: (event: React.MouseEvent<HTMLButtonElement>, props: any) => void; //has to stop propagation to prevent the parent li from being clicked
   _id: string;
 }
 
@@ -29,10 +29,6 @@ export default function ProjectsCard({
   handleEdit,
   _id,
 }: Props): JSX.Element {
-  const handleClickEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    // if (typeof handleEdit === "function") return handleEdit(e);
-  };
   const formatName = (name: string, clip: boolean) => {
     if (name.length > 30 && clip) {
       return name.slice(0, 20) + "...";
@@ -56,15 +52,15 @@ export default function ProjectsCard({
         </span>
       </td>
       <td
-        onClick={(e) => {
-          if (typeof handleEdit === "function") return handleEdit(e);
-        }}
+        // onClick={(e) => {
+        //   if (typeof handleEdit === "function") return handleEdit(e);
+        // }}
         className="hidden justify-end px-1 py-2 lg:flex"
       >
         <button
           type="button"
           className="btn-primary flex h-10 w-[87px] items-center justify-around p-2"
-          onClick={handleClickEdit}
+          onClick={(e) => handleEdit(e, { name, progress })}
         >
           <span className="material-symbols-outlined line block -translate-y-0.5 ">
             edit_square

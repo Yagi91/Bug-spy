@@ -3,16 +3,9 @@ import Select from "react-select";
 import { SimpleInput } from "../common/common";
 
 const priorityOptions = [
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
-];
-
-const assigneeOptions = [
-  { value: "1", label: "John" },
-  { value: "2", label: "Jane" },
-  { value: "3", label: "Joe" },
-  { value: "4", label: "Sally" },
+  { value: "Low", label: "Low" },
+  { value: "Medium", label: "Medium" },
+  { value: "High", label: "High" },
 ];
 
 type options = {
@@ -29,13 +22,10 @@ interface Props {
 
 export const AddBugForm = ({
   select1 = priorityOptions,
-  select2 = assigneeOptions,
+  select2,
   handleSubmit,
   handleCancel,
 }: Props) => {
-  // const [selectedPriority, setSelectedPriority] = React.useState("low");
-  // const [selectedAssignee, setSelectedAssignee] = React.useState("1");
-
   return (
     <form
       onSubmit={handleSubmit}
