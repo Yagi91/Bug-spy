@@ -138,7 +138,7 @@ export default function Projects(): JSX.Element {
 
   return (
     <section className="flex h-full w-full flex-col gap-1 p-1">
-      <header className="flex justify-between bg-white py-2">
+      <header className="flex justify-between rounded-[12px] bg-white px-1 py-2">
         <SearchBar />
         <button
           className="btn-primary hidden items-center text-center text-[13px] sm:flex md:text-base"
@@ -167,7 +167,7 @@ export default function Projects(): JSX.Element {
         )}
       </header>
       <div>
-        <div className="flex items-center justify-evenly gap-1 border-b-2 bg-white py-2 text-xs sm:justify-start sm:gap-4 sm:text-sm md:text-sm">
+        <div className="flex items-center justify-evenly gap-1 rounded-xl border-b-2 bg-white px-1 py-2 text-xs sm:justify-start sm:gap-4 sm:text-sm md:text-sm">
           <Select
             options={sortOptions}
             onChange={(option: { value: string; label: string } | null) =>
