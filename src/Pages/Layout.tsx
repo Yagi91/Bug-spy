@@ -20,7 +20,7 @@ export default function Layout() {
   };
 
   return (
-    <div className="container relative mx-auto flex h-full flex-col-reverse border sm:flex-row">
+    <div className="container relative mx-auto flex h-full flex-col-reverse sm:flex-row">
       <nav className="fixed bottom-6 z-40 flex h-[60px] w-[99%] flex-row-reverse items-center justify-center rounded-full border bg-white py-5 font-bold text-neutral-900 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px] sm:relative sm:bottom-0 sm:h-auto sm:h-full sm:w-60 sm:flex-col sm:justify-between sm:rounded-sm sm:shadow-none">
         <div className="flex w-11/12 justify-around gap-4 p-2 sm:flex-col sm:justify-between">
           <Link

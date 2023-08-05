@@ -54,7 +54,7 @@ const ProjectSummary = ({
   };
   //   TODO: Add the admin field to the projectSummary slice to render the admin name
   return (
-    <div className="flex flex-1 flex-col justify-between rounded-[12px] bg-white px-3 py-1">
+    <div className="flex flex-1 flex-col justify-between rounded-[12px] border bg-white px-3 py-1">
       <DoubleIconsText
         title={projectSummary?.name || ""}
         firstIcon="arrow_back_ios_new"

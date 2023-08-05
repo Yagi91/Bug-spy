@@ -185,7 +185,7 @@ export const IconButton = ({
       </button>
       <span
         className={
-          "material-symbols-outlined line marker block cursor-pointer p-2 sm:hidden " +
+          "material-symbols-outlined line marker block cursor-pointer border p-2 sm:hidden " +
           spanClass
         }
         onClick={handleClick}

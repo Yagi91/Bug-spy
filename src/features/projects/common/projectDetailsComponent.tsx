@@ -106,7 +106,7 @@ const ProjectDetailsComponent = ({
   };
 
   return (
-    <div className="my-2 flex w-full items-center items-center justify-end gap-8 px-3 sm:justify-start sm:gap-2">
+    <div className="my-2 flex w-full items-center items-center justify-end gap-8 rounded-[12px] border bg-white px-3 py-2 sm:justify-start sm:gap-2">
       <IconButton
         icon="person_add"
         text="Add Member"

@@ -156,12 +156,28 @@ export const projectDetailsSlice = createSlice({
             state.loading = false;
             state.error = action.error.message;
         });
-        [updateProjectDetails.pending, updateProjectDetails.fulfilled, updateProjectDetails.rejected].forEach((action) => {
-            builder.addCase(action, (state, action) => {
-                state.loading = false;
-            });
-        },
+        builder.addCase(updateProjectDetails.pending, (state, action) => {
+            console.log('Update project pending');
+            state.loading = true;
+        }
         );
+        builder.addCase(updateProjectDetails.fulfilled, (state, action) => {
+            const { name, description, progress, updated } = action.payload;
+            if (state.projectSummary) {
+                state.projectSummary.name = name;
+                state.projectSummary.description = description;
+                state.projectSummary.progress = progress;
+                state.projectSummary.updated = updated;
+            }
+            state.loading = false;
+        }
+        );
+        builder.addCase(updateProjectDetails.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+        }
+        );
+
         builder.addCase(deleteProjectMember.pending, (state, action) => {
             console.log('Delete project member pending');
             state.loading = true;
