@@ -21,7 +21,7 @@ const MyTickets = () => {
     const id = userId as string;
     const controller = new AbortController();
     const signal = controller.signal;
-    const jwt = (sessionStorage.getItem("jwt") as string) || "";
+    const jwt = sessionStorage.getItem("jwt")?.toString() || "";
     dispatch(fetchMyTickets({ userId: id, jwt, signal }));
   }, [dispatch, userId]);
 

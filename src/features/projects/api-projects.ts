@@ -7,7 +7,7 @@ const getProjects = async () => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || '')
             }
         });
 
@@ -36,7 +36,7 @@ const getProject = async (params: { projectId: string }) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || '')
             }
         });
         if (response.status >= 400) {
@@ -57,7 +57,7 @@ const createProject = async (project: any) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || '')
             },
             body: JSON.stringify(project)
         });
@@ -77,12 +77,17 @@ const updateProject = async (params: { projectId: string, project: any }) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || '')
             },
             body: JSON.stringify(params.project)
         });
         console.log(response);
-        return await response.json();
+        let data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
+        };
+        console.log(data);
+        return data;
     } catch (err) {
         console.error(err);
         return err;
@@ -96,7 +101,7 @@ const deleteProject = async (params: { projectId: string }) => {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('jwt')
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || '')
             }
         });
         return await response.json();

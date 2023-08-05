@@ -44,7 +44,11 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     setQuickEditFields(props);
   };
   const handleSubmitEdit = async (props: any) => {
-    let updatedProj = { ...props, id: quickEditFields?._id };
+    let updatedProj = {
+      name: props.name,
+      progress: props.status,
+      id: quickEditFields?._id,
+    };
     await dispatch(updateProjectDetails(updatedProj));
     await dispatch(fetchProjects());
     setQuickEditFields(null);
@@ -54,7 +58,7 @@ export default function ListProjects({ projects, floatingButton }: Props) {
     handleShowQuickEdit();
   };
   const handleDeleteEdit = async () => {
-    await dispatch(deleteProjectDetails(quickEditFields?._id as string));
+    dispatch(deleteProjectDetails(quickEditFields?._id as string));
     await dispatch(fetchProjects());
     setQuickEditFields(null);
     handleShowQuickEdit();

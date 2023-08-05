@@ -84,7 +84,7 @@ export default function ProjectDetails({ projectName }: Props) {
     id: string;
   }): Promise<void> {
     console.log(props);
-    const jwt = sessionStorage.getItem("jwt");
+    const jwt = sessionStorage.getItem("jwt")?.toString() as string;
     const bugChanges = {
       name: props.title,
       description: props.description,
@@ -93,7 +93,7 @@ export default function ProjectDetails({ projectName }: Props) {
     };
     const bugId = props.id;
     try {
-      let data = await update(bugId, { t: jwt }, bugChanges);
+      let data = await update(bugId, { t: JSON.parse(jwt) }, bugChanges);
       console.log(data);
       await dispatch(getProjectDetails(projectName as string));
     } catch (error) {

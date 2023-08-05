@@ -10,6 +10,7 @@ const create = async (bug: { name: string, description: string, priority: string
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + JSON.parse(sessionStorage.getItem("jwt")?.toString() || ''),
             },
             body: JSON.stringify(bug)
         }
@@ -59,6 +60,7 @@ const listByUser = async (userId: string, credentials: any, signal: any) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + JSON.parse(credentials.t),
             }
         });
 
