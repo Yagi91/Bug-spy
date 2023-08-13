@@ -43,7 +43,7 @@ export default function LoginScreen({ authType }: Props) {
   return (
     <div>
       <p className="text-left">
-        Test Account:[cam@ex.com] password:[1234asdAA]
+        Test Account:[carl@bug-spy.com] password:[1234asdAA]
       </p>
       <section className="flex h-fit items-center gap-3 rounded-md border bg-white p-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
         <div className=" hidden w-1/2 sm:block">

@@ -52,7 +52,6 @@ const ProjectSummary = ({
     navigate(`/projects/${title}`, { replace: true });
     handleCloseEdit();
   };
-  //   TODO: Add the admin field to the projectSummary slice to render the admin name
   return (
     <div className="flex flex-1 flex-col justify-between rounded-[12px] border bg-white px-3 py-1">
       <DoubleIconsText

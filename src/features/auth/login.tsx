@@ -14,7 +14,7 @@ export default function LogIn({
   error,
   handleChange,
 }: Props) {
-  const isLoggedIn = loginStatus === "Success";
+  // const isLoggedIn = loginStatus === "Success";
   const isLoading = loginStatus === "Loading";
 
   // if (isLoggedIn) return <h1>Login Success</h1>;
