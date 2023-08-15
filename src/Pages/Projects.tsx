@@ -1,10 +1,13 @@
-import React from 'react';
-import Projects from '../features/projects/projects';
+import React from "react";
+import Projects from "../features/projects/projects";
+import { useTitle } from "../features/common/customHooks";
 
 export default function ProjectsPage() {
-    return (
-        <>
-            <Projects />
-        </>
-    )
+  useTitle("Bug Spy - Projects");
+
+  return (
+    <>
+      <Projects />
+    </>
+  );
 }

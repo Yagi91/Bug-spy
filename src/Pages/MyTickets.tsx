@@ -1,11 +1,12 @@
-import React from 'react';
-import MyTickets from '../features/myTickets/myTicket';
-
+import React from "react";
+import MyTickets from "../features/myTickets/myTicket";
+import { useTitle } from "../features/common/customHooks";
 
 export default function MyTicketsPage() {
-    return (
-        <>
-            <MyTickets />
-        </>
-    );
+  useTitle("Bug Spy - My Tickets: See all the bugs assigned to you");
+  return (
+    <>
+      <MyTickets />
+    </>
+  );
 }
