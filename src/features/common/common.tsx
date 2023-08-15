@@ -14,6 +14,7 @@ interface Props {
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   extraInfo?: string;
   containerClass?: string;
+  isDisabled?: boolean;
 }
 
 export function SimpleInput({
@@ -30,6 +31,7 @@ export function SimpleInput({
   max,
   pattern,
   extraInfo,
+  isDisabled,
 }: Props): JSX.Element {
   return (
     <>
@@ -46,6 +48,7 @@ export function SimpleInput({
           pattern={pattern}
           name={name}
           value={value}
+          disabled={isDisabled}
         />
         {extraInfo && (
           <span className="block text-left text-xs font-light">
@@ -57,23 +60,23 @@ export function SimpleInput({
   );
 }
 
-interface ConfirmModalProps{
-  handleYes:(e:React.MouseEvent<HTMLButtonElement>)=>void;
-  handleNo:(e:React.MouseEvent<HTMLButtonElement>)=>void;
+interface ConfirmModalProps {
+  handleYes: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleNo: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const ConfirmModal = ({
-  handleYes,
-  handleNo
-}:ConfirmModalProps) => {
-
-  return(
-    <div className='bg-white'>
+export const ConfirmModal = ({ handleYes, handleNo }: ConfirmModalProps) => {
+  return (
+    <div className="bg-white">
       <h1>Confirm Action</h1>
       <div className="flex">
-        <button className="btn-primary" onClick={handleYes}>Yes</button>
-        <button className="btn-primary" onClick={handleNo}>No</button>
+        <button className="btn-primary" onClick={handleYes}>
+          Yes
+        </button>
+        <button className="btn-primary" onClick={handleNo}>
+          No
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};

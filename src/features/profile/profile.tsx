@@ -114,6 +114,7 @@ export default function Profile({ userId }: Props): JSX.Element {
                 dispatch(clearError());
                 setNewEmail(e.target.value);
               }}
+              isDisabled={true}
             />
             <Select
               options={[
