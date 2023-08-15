@@ -1,6 +1,7 @@
 import config from "../../config";
 
 const getProjects = async () => {
+    console.log(config.backendUrl + '/api/projects/');
     try {
         let response = await fetch(config.backendUrl + '/api/projects/', {
             method: 'GET',

@@ -1,4 +1,5 @@
-const backendUrl = "http://localhost:5000";
+import config from "../../config";
+const backendUrl = "https://bug-spy-server.ew.r.appspot.com"
 
 const signin = async (user: { email: string, password: string, jwt?: string }) => {
     try {
@@ -22,7 +23,7 @@ const signin = async (user: { email: string, password: string, jwt?: string }) =
 
 const signout = async () => {
     try {
-        let response = await fetch(backendUrl + '/auth/signout/', { method: 'GET' });
+        let response = await fetch(config.backendUrl + '/auth/signout/', { method: 'GET' });
         return await response.json();
     } catch (err) {
         console.error(err);
