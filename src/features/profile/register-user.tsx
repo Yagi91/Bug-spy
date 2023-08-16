@@ -45,9 +45,20 @@ export default function RegisterScreen() {
     console.log({ name, role, email, password });
     try {
       if (isPasswordValid && password === passwordCheck) {
-        await create({ name, role, email, password });
-        setValues({ ...values, open: true, error: "" });
-        navigate("/");
+        await create({ name, role, email, password }).then((data) => {
+          if (data.error) {
+            setValues({ ...values, error: data.error });
+          } else {
+            setValues({
+              ...values,
+              error: "",
+              open: true,
+              name: "",
+              email: "",
+            });
+            navigate("/login");
+          }
+        });
       } else if (!isPasswordValid) {
         throw new Error(
           "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
