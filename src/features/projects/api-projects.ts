@@ -1,7 +1,6 @@
 import config from "../../config";
 
 const getProjects = async () => {
-    console.log(config.backendUrl + '/api/projects/');
     try {
         let response = await fetch(config.backendUrl + '/api/projects/', {
             method: 'GET',
@@ -30,7 +29,6 @@ const getProjects = async () => {
 
 //ProjectID refers to either the id of the project or details/projectName
 const getProject = async (params: { projectId: string }) => {
-    console.log(params.projectId);
     try {
         let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'GET',
@@ -51,7 +49,6 @@ const getProject = async (params: { projectId: string }) => {
 }
 
 const createProject = async (project: any) => {
-    console.log('payload body', project.name);
     try {
         let response = await fetch(config.backendUrl + '/api/projects/', {
             method: 'POST',
@@ -62,7 +59,6 @@ const createProject = async (project: any) => {
             },
             body: JSON.stringify(project)
         });
-        console.log('response', response);
         return await response.json();
     } catch (err) {
         console.error(err);
@@ -71,7 +67,6 @@ const createProject = async (project: any) => {
 }
 
 const updateProject = async (params: { projectId: string, project: any }) => {
-    console.log('payload body', params.project);
     try {
         let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'PUT',
@@ -82,12 +77,10 @@ const updateProject = async (params: { projectId: string, project: any }) => {
             },
             body: JSON.stringify(params.project)
         });
-        console.log(response);
         let data = await response.json();
         if (data.error) {
             throw new Error(data.error);
         };
-        console.log(data);
         return data;
     } catch (err) {
         console.error(err);
@@ -96,7 +89,6 @@ const updateProject = async (params: { projectId: string, project: any }) => {
 }
 
 const deleteProject = async (params: { projectId: string }) => {
-    console.log('payload body', params.projectId);
     try {
         let response = await fetch(config.backendUrl + '/api/projects/' + params.projectId, {
             method: 'DELETE',

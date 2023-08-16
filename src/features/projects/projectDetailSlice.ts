@@ -44,7 +44,6 @@ export const getProjectDetails = createAsyncThunk(
     async (projectName: string, thunkAPI) => {
         try {
             const project = await getProject({ projectId: `details/${projectName}` });
-            console.log(project);
             return project;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -58,7 +57,6 @@ export const updateProjectDetails = createAsyncThunk(
     async (project: any, thunkAPI) => {
         try {
             const updatedProject = await updateProject({ projectId: project.id as string, project: project });
-            console.log(project);
             return updatedProject;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -71,7 +69,6 @@ export const deleteProjectMember = createAsyncThunk(
     async (project: any, thunkAPI) => {
         try {
             const updatedProject = await updateProject({ projectId: project.id as string, project: project });
-            console.log("updated project", updatedProject);
             return updatedProject;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -157,7 +154,6 @@ export const projectDetailsSlice = createSlice({
             state.error = action.error.message;
         });
         builder.addCase(updateProjectDetails.pending, (state, action) => {
-            console.log('Update project pending');
             state.loading = true;
         }
         );
@@ -179,12 +175,10 @@ export const projectDetailsSlice = createSlice({
         );
 
         builder.addCase(deleteProjectMember.pending, (state, action) => {
-            console.log('Delete project member pending');
             state.loading = true;
         }
         );
         builder.addCase(deleteProjectMember.fulfilled, (state, action) => {
-            console.log(' Payload for members deletion ', action.payload);
             state.loading = false;
         }
         );

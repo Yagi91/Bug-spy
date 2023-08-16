@@ -16,7 +16,6 @@ export const confirmSlice = createSlice({
     initialState,
     reducers: {
         setConfirmModal: (state, action: PayloadAction<ConfirmModalState>) => {
-            console.log("setConfirmModal", action.payload);
             state.display = action.payload.display;
             state.onConfirm = action.payload.onConfirm;
         },

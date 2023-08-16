@@ -3,7 +3,6 @@ import config from "../../config";
 const backEnd = 'http://localhost:5000';
 
 const create = async (bug: { name: string, description: string, priority: string, assignee: string, project: string }) => {
-    console.log(bug);
     try {
         let response = await fetch(backEnd + '/api/bugs/', {
             method: 'POST',
@@ -20,7 +19,6 @@ const create = async (bug: { name: string, description: string, priority: string
         }
 
         const data = await response.json();
-        console.log("data", data);
         if (response.status >= 400) {
             throw new Error(data.error || 'Could not register user');
         }
@@ -52,7 +50,6 @@ const list = async (signal: any) => {
 };
 
 const listByUser = async (userId: string, credentials: any, signal: any) => {
-    console.log("listByUser", { userId, credentials, signal });
     try {
         let response = await fetch(config.backendUrl + '/api/bugs/' + userId, {
             method: 'GET',

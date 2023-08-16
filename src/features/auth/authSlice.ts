@@ -30,11 +30,9 @@ export const loginUser = createAsyncThunk(
   ) => {
     try {
       const user = await signin({ email, password, jwt });
-      console.log("in the async thunk");
       if (user.error) { throw new Error(user.error) }
       return user;
     } catch (error: any) {
-      console.log("in here");
       if (error.response && error.response.data.message) {
         return thunkAPI.rejectWithValue(error.response.data.message);
       }
@@ -91,13 +89,11 @@ export const authSlice = createSlice({
       action: PayloadAction<"Login" | "Register">
     ) => {
       state.authType = action.payload;
-      console.log("New authType is %s", state.authType);
     },
     error: (state: AuthState, action: PayloadAction<string>) => {//Handle errors
       state.error = action.payload;
     },
     logout: (state: AuthState) => {
-      console.log("Logging out");
       try {
         auth.clearJWT(() => {
           state.userInfo.email = null;
@@ -109,7 +105,6 @@ export const authSlice = createSlice({
           state.userToken = null;
         });
       } catch (error: any) {
-        console.log(error);
         state.error = error;
       }
     },
@@ -124,13 +119,11 @@ export const authSlice = createSlice({
     //Handle async actions for login and register
     builder.addCase(loginUser.pending, (state) => {
       state.status = "Loading";
-      console.log("Loading");
       state.error = "";
     });
     builder.addCase(
       loginUser.fulfilled,
       (state: AuthState, action: PayloadAction<{ email: string, role: string, name: string, token: string, _id: string }>) => {
-        console.log(' in the login user fulfilled ');
         auth.authenticate(action.payload.token, () => {
           state.userInfo.email = action.payload.email;
           state.userInfo.name = action.payload.name;
@@ -139,7 +132,6 @@ export const authSlice = createSlice({
           state.userToken = action.payload.token;
           state.status = "Success";
         });
-        console.log("success fulfilled", state.userInfo);
       }
     );
     builder.addCase(loginUser.rejected, (state, { payload }) => {
@@ -148,13 +140,11 @@ export const authSlice = createSlice({
     });
     builder.addCase(registerUser.pending, (state) => {
       state.status = "Loading";
-      console.log("Loading");
       state.error = "";
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.status = "Success";
       state.userInfo.email = action.payload.email;
-      console.log("success fulfilled", state.userInfo.email);
       state.userInfo.name = action.payload.name;
       state.userInfo.role = action.payload.role;
     });
@@ -165,7 +155,6 @@ export const authSlice = createSlice({
 
     builder.addCase(loginWithJWT.pending, (state) => {
       state.status = "Loading";
-      console.log("Loading");
       state.error = "";
     }
     );
@@ -176,7 +165,6 @@ export const authSlice = createSlice({
       state.userInfo._id = action.payload._id;
       state.userToken = action.payload.token;
       state.status = "Success";
-      console.log("success fulfilled", state.userInfo);
     }
     );
     builder.addCase(loginWithJWT.rejected, (state, { payload }) => {

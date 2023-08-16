@@ -82,7 +82,6 @@ const ProjectDetailsComponent = ({
   ): Promise<void> {
     e.preventDefault();
     const id = e.currentTarget.value;
-    console.log(id);
     const filterProjectMembersId = (projectMembers: any) => {
       const membersID: string[] = [];
       for (let i = 0; i < projectMembers.length; i++) {
@@ -101,7 +100,6 @@ const ProjectDetailsComponent = ({
     );
     //update the project members
     dispatch(getProjectDetails(projectName as string));
-    console.log("%d Member Deleted", id);
     return;
   };
 

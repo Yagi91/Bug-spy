@@ -28,21 +28,6 @@ export default function RegisterScreen() {
     const password: string = event.currentTarget.password.value;
     const passwordCheck: string = event.currentTarget["password-check"].value;
     const isPasswordValid = passwordFormatChecker(password);
-    // if (isPasswordValid && password === passwordCheck) {
-    //   //Hit the backend and submit the form
-    //   dispatch(
-    //     registerUser({ email: email.toLocaleLowerCase(), password, role, name })
-    //   );
-    // } else if (!isPasswordValid) {
-    //   errorAction(
-    //     "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, and one number"
-    //   );
-    //   return;
-    // } else if (password !== passwordCheck) {
-    //   errorAction("Passwords do not match");
-    //   return;
-    // }
-    console.log({ name, role, email, password });
     try {
       if (isPasswordValid && password === passwordCheck) {
         await create({ name, role, email, password });

@@ -1,9 +1,8 @@
 import config from "../../config";
-const backendUrl = "https://bug-spy-server.ew.r.appspot.com"
 
 const signin = async (user: { email: string, password: string, jwt?: string }) => {
     try {
-        let response = await fetch(backendUrl + '/auth/signin/', {
+        let response = await fetch(config.backendUrl + '/auth/signin/', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -14,10 +13,8 @@ const signin = async (user: { email: string, password: string, jwt?: string }) =
             body: JSON.stringify(user)
         });
         const data = await response.json();
-        console.log("data:", data);
         return data;
     } catch (err) {
-        console.error(err);
     }
 };
 
@@ -26,7 +23,6 @@ const signout = async () => {
         let response = await fetch(config.backendUrl + '/auth/signout/', { method: 'GET' });
         return await response.json();
     } catch (err) {
-        console.error(err);
         return err;
     }
 }

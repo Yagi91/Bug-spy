@@ -56,7 +56,6 @@ export default function RegisterForm({
           name={"userRole"}
           options={options}
           placeholder="Select Role..."
-          // onChange={(e) => console.log(e)}
           styles={{
             control: (baseStyles, state) => ({
               ...baseStyles,

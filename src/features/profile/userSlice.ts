@@ -74,7 +74,6 @@ export const deleteUser = createAsyncThunk(
             });
             const data = await deletedUser.json();
             if (data.error) { throw new Error(data.error) }
-            console.log(data);
             return data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);
@@ -155,7 +154,6 @@ export const userSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(getUsers.fulfilled, (state, { payload }) => {
-            console.log(payload)
             state.users = payload;
             state.loading = false;
         });

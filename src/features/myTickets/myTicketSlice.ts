@@ -19,10 +19,8 @@ export const fetchMyTickets = createAsyncThunk(
     "myTickets/fetchMyTickets",
     async ({ userId, jwt, signal }: { userId: string, jwt: string, signal: any }, thunkAPI) => {
         try {
-            console.log("fetchMyTickets", { userId, jwt, signal });
             const credentials = { t: jwt };
             const filteredBugs = await fetchBugs(userId, credentials, signal);
-            console.log("filteredBugs", filteredBugs);
             return filteredBugs;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.message);

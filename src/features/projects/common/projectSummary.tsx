@@ -40,7 +40,6 @@ const ProjectSummary = ({
     progress: string;
   }): Promise<void> {
     const { title, description, progress } = props;
-    console.log(" handleEditProject ", title, description, progress);
     await dispatch(
       updateProjectDetails({
         name: title,

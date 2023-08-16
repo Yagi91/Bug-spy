@@ -116,7 +116,6 @@ export function AnimatedRadioGroup({
   icons,
 }: AnimatedRadioGroupProps) {
   return (
-    // <div className="grid h-max w-80 grid-cols-4 space-x-2 rounded-xl bg-neutral-200 p-1">
     <div className="flex h-fit rounded-2xl bg-neutral-200 p-1">
       {options?.map((option, i) => (
         <div className="grow" key={option}>
@@ -314,21 +313,3 @@ export const DoubleIconsText = ({
     </div>
   );
 };
-
-// interface ConfirmModalProps{
-//   handleYes:()=>void;
-//   handleNo:()=>void;
-// }
-
-// const ConfirmModal = () => {
-
-//   return(
-//     <div className='bg-white'>
-//       <h1>Confirm Action</h1>
-//       <div className="flex">
-//         <button className="btn-primary"onClick={handleYes}>Yes</button>
-//         <button className="btn-primary"onClick={handleNo}>No</button>
-//       </div>
-//     </div>
-//   )
-// }

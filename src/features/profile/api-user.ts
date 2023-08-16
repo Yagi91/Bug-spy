@@ -2,7 +2,6 @@ import config from "../../config";
 
 
 const create = async (user: { name: string, password: string, email: string, role?: string }) => {
-    console.log(user);
     try {
         let response = await fetch(config.backendUrl + '/api/users/', {
             method: 'POST',
@@ -18,7 +17,6 @@ const create = async (user: { name: string, password: string, email: string, rol
         }
 
         const data = await response.json();
-        console.log("data", data);
         if (response.status >= 400) {
             throw new Error(data.error || 'Could not register user');
         }

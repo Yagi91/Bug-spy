@@ -34,7 +34,7 @@ export const AddBugForm = ({
     >
       <SimpleInput
         label="Title"
-        name="tag" //TODO: know why name does not accept a value of title or name
+        name="tag"
         type=""
         placeholder="Title"
         max={25}
@@ -55,7 +55,6 @@ export const AddBugForm = ({
         required={true}
         options={select1}
         placeholder="Select Priority..."
-        onChange={(e) => console.log(e)}
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
@@ -77,7 +76,6 @@ export const AddBugForm = ({
         options={select2}
         placeholder="Assignee..."
         isSearchable={true}
-        onChange={(e) => console.log(e)}
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,

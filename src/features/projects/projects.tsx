@@ -41,11 +41,9 @@ export default function Projects(): JSX.Element {
   const filterOwner = useAppSelector(selectFilterOwner);
   const filterStatus = useAppSelector(selectFilterStatus);
 
-  console.log(projects);
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    console.log("fetching");
     dispatch(fetchProjects());
   }, [dispatch]);
 
@@ -58,7 +56,6 @@ export default function Projects(): JSX.Element {
 
   const filteredProjects = React.useMemo(() => {
     if (projects.length > 0) {
-      console.log("filtering");
       const filtered = projects
         .filter((project) => {
           if (filterStatus === "All") return true;
@@ -80,7 +77,6 @@ export default function Projects(): JSX.Element {
   }, [projects, filterStatus, filterOwner, userId]);
 
   const sortedProjects = React.useMemo(() => {
-    console.log("sorting");
     return [...filteredProjects].sort((a, b) => {
       if (sort === "Name") return a.name.localeCompare(b.name);
       if (sort === "Most bugs") return b.totalBugs - a.totalBugs;
@@ -103,7 +99,6 @@ export default function Projects(): JSX.Element {
     await dispatch(addNewProject(newProject));
     await dispatch(fetchProjects());
     handleShowAddProject();
-    console.log(newProject);
     return;
   };
 

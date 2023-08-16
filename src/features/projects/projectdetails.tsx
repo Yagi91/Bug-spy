@@ -50,16 +50,11 @@ export default function ProjectDetails({ projectName }: Props) {
     const controller = new AbortController();
     const signal = controller.signal;
     dispatch(getUsers(signal));
-    // return () => {
-    //   controller.abort();
-    // };
   }, [dispatch, users.length]);
 
   const deleteProject = async function (): Promise<void> {
-    console.log("Deleting Project");
     dispatch(deleteProjectDetails(projectSummary?.id as string));
     navigate(-1);
-    console.log("Project Deleted");
     return;
   };
 
@@ -83,7 +78,6 @@ export default function ProjectDetails({ projectName }: Props) {
     progress: string;
     id: string;
   }): Promise<void> {
-    console.log(props);
     const jwt = sessionStorage.getItem("jwt")?.toString() as string;
     const bugChanges = {
       name: props.title,
@@ -94,11 +88,8 @@ export default function ProjectDetails({ projectName }: Props) {
     const bugId = props.id;
     try {
       let data = await update(bugId, { t: JSON.parse(jwt) }, bugChanges);
-      console.log(data);
       await dispatch(getProjectDetails(projectName as string));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     handleCloseEdit();
   };
 
