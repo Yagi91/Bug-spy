@@ -15,12 +15,12 @@ const create = async (user: { name: string, password: string, email: string, rol
         if (response.status === 404) {
             throw new Error("Check Internet Connection");
         }
-
         const data = await response.json();
-        if (response.status >= 400) {
-            throw new Error(data.error || 'Could not register user');
-        }
 
+        if (data.error) throw new Error(data.error);
+        if (response.status >= 400) {
+            throw new Error('Could not register user');
+        }
         return await data;
     } catch (err: any) {
         console.error("Error details:", err.message);

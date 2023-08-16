@@ -13,8 +13,13 @@ const signin = async (user: { email: string, password: string, jwt?: string }) =
             body: JSON.stringify(user)
         });
         const data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
+        }
         return data;
-    } catch (err) {
+    } catch (err: any) {
+        console.error(err);
+        throw new Error(err.message);
     }
 };
 
