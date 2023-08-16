@@ -32,7 +32,11 @@ export default function LoginScreen({ authType }: Props) {
         }
       );
       return;
-    } else return console.log("Email or password is invalid");
+    } else {
+      console.log("Email or password is invalid");
+      dispatch(errorAction("Email or password is invalid"));
+      return;
+    }
   };
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (error) {
