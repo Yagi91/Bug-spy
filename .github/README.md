@@ -41,11 +41,11 @@ Maybe you can mention me or this repo in the acknowledgements too
 <h4>
     <a href="https://bug-spy.vercel.app/">View Demo</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template">Documentation</a>
+    <a href="https://github.com/Yagi91/Bug-spy#readme">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
+    <a href="./.github/ISSUE_TEMPLATE/bug_report.md">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
+    <a href="./.github/ISSUE_TEMPLATE/feature_request.md">Request Feature</a>
   </h4>
 </div>
 
@@ -84,8 +84,12 @@ Maybe you can mention me or this repo in the acknowledgements too
 
 ### :camera: Screenshots
 
-<div align="center"> 
-  <img src="./assets/project.jpg" alt="screenshot" />
+<div align="center" styles="display:flex">
+<figure>
+  <img src="./assets/project.jpg" alt="screenshot" width="49%" />
+  <img src="./assets/register 2.jpg" alt="screenshot" width="49%" />
+  <figcaption>Main Project Dashboard with Register Page</figcaption>
+</figure>
 </div>
 
 <!-- TechStack -->
@@ -366,7 +370,7 @@ Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-te
 
 ## :warning: License
 
-Distributed under the MIT License. See LICENSE.txt for more information.
+Distributed under the CC License. See LICENSE.txt for more information.
 
 <!-- Contact -->
 
