@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { badgeColor } from "../../common/utils";
 import { create } from "../../myTickets/api-bugs";
 import { AddBugForm } from "../addBug";
-import { CommentSection, Details, DoubleIconsText, Modal } from "../common";
+import { CommentSection,CommentSection2, Details, DoubleIconsText, Modal } from "../common";
 import { getProjectDetails, selectProjectSummary } from "../projectDetailSlice";
 
 interface Props {
@@ -164,9 +164,9 @@ const BugList = ({
                 </div>
               </div>
               <p>{formatDate(bug.created)}</p>
-              <Details summary="Description & Messages">
+              <Details summary="Description & Comments">
                 <p className="p-2 text-sm">{bug.description}</p>
-                <CommentSection />
+                <CommentSection2 />
               </Details>
             </li>
           );
