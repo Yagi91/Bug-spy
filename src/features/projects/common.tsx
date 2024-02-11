@@ -270,8 +270,8 @@ export const CommentSection = () => {
 
 export const CommentSection2 = () => {
   return (
-    <section className="bg-neutral-300 py-8 rounded-lg lg:py-16 antialiased">
-      <div className="max-w-2xl px-4">
+    <section className="bg-neutral-300 py-8 rounded-lg lg:py-16 antialiased h-96 overflow-y-auto">
+      <div className="max-w-full px-4">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg lg:text-2xl font-bold text-gray-500">Discussion (20)</h2>
         </div>
