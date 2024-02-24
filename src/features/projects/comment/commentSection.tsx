@@ -20,15 +20,16 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "failed" | "succeeded">('idle');
   const [newCommentText, setNewCommentText] = useState<string>("");
+  const [activeReplyId, setActiveReplyId] = useState<string|null>("");
 
   const userId = useAppSelector((state) => state.auth.userInfo._id);
-  console.log(isOpen, bugId);
+
   useEffect(() => {
     async function fetchComments(bugId: string) {
-      setStatus('loading');
       try {
         console.log('bugId', bugId);
         const data: CommentProps[] = await getBugsComments({bugId});
+        console.log('data', data);
         setComments(data);
         setStatus("succeeded");
       }
@@ -37,7 +38,10 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
         setError(err as string);
       }
     }
-    if(status === 'idle'&& isOpen){fetchComments(bugId);}
+    if(status === 'idle'&& isOpen){
+      setStatus('loading');
+      fetchComments(bugId);
+    }
 
   }, [ bugId, status, isOpen]);
 
@@ -63,7 +67,7 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
       setError(error as string);
     }
   }
-
+  console.log('status', status);
   const handleSubmitReply = useCallback(async (props: SubmitCommentprops) => {
     try {
       const reply: CommentProps = await createComment(props);
@@ -141,8 +145,15 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
         </form>
         {status === 'loading' && <h2 className="text-center font-bold">Loading...</h2>}
         {status === 'failed' && <h2 className="text-center font-bold">Failed to load comments</h2>}
-        {status === 'succeeded' && comments.length > 0 ? comments.map((comment) => <Comment comment={comment} handleRemove={handleRemoveComment}>{<ReplyForm createReply={handleSubmitReply} userId={userId as string} parentId={comment._id as string} bugId={comment.bug} />}</Comment>) : <h2 className="text-center font-bold">No Comments yet</h2>}
-        {/* {comments.length > 0 ? comments.map((comment) => <Comment comment={comment} handleRemove={handleRemoveComment}>{<ReplyForm createReply={handleSubmitReply} userId={userId as string} parentId={comment._id as string} bugId={comment.bug} />}</Comment>) : <h2 className="text-center font-bold">No Comments</h2>} */}
+        {status === 'succeeded' && comments.length > 0 ? (
+          comments.map((comment) => (
+            <Comment comment={comment} handleRemove={handleRemoveComment}>
+              {<ReplyForm createReply={handleSubmitReply} userId={userId as string} parentId={comment._id as string} bugId={comment.bug} setActive={setActiveReplyId} active={activeReplyId} />}
+            </Comment>
+          ))
+        ) : (
+          status !== 'loading' && <h2 className="text-center font-bold">No Comments yet</h2>
+        )}
       </div>
     </section>
   )
@@ -230,30 +241,36 @@ function Comment({ comment, extraClasses, handleRemove, children }: { comment: C
   )
 }
 
-const ReplyForm = ({ parentId, bugId, userId, createReply }: { userId: string, parentId: string, bugId: string, createReply?: (props: Omit<CommentProps, "user"> & { user: string }) => Promise<void> }) => {
+const ReplyForm = ({ parentId, bugId, userId, createReply, active, setActive }: { userId: string, parentId: string, bugId: string, createReply?: (props: Omit<CommentProps, "user"> & { user: string }) => Promise<void>, active?:string|null, setActive?:(props: string|null ) => void }) => {
+
   const [replyText, setReplyText] = useState<string>("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const textAreaRef = useRef<HTMLDivElement>(null);
+  // const textAreaRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active === parentId) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  }, [active, parentId]);
 
 
   const handleSubmitReply = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log('clicked button, isVisible:', isVisible);
     setIsVisible(!isVisible);
+    if(!isVisible && parentId!==active){
+      setActive && setActive(parentId);
+    }
     if (isVisible && replyText) {
-      setReplyText(""); // Clear the input field
       if (createReply) {
         await createReply({ bug: bugId, text: replyText, user: userId, parentComment: parentId });
       }
+      setReplyText("");
+      setActive && setActive(null);
     }
   }
-
-  // const handleTransitionEnd = () => {
-  //   if (isVisible && textAreaRef.current) {
-  //     textAreaRef.current.focus();
-  //   }
-  // };
 
   console.log('isVisible', isVisible);
   return (
