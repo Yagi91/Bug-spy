@@ -56,3 +56,10 @@ export function formatDateShorthand(date: Date) {
 
     return `${day}/${month}/${year}`;
 }
+
+export function formatDateLong(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    return formattedDate.replace(/\b(\d{1,2})(th|nd|rd|st)\b/g, '$1$2');
+  }

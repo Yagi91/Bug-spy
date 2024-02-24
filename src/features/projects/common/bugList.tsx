@@ -2,7 +2,8 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { badgeColor } from "../../common/utils";
 import { create } from "../../myTickets/api-bugs";
 import { AddBugForm } from "../addBug";
-import { CommentSection,CommentSection2, Details, DoubleIconsText, Modal } from "../common";
+import {Details, DoubleIconsText, Modal } from "../common";
+import CommentSection from "../comment/commentSection";
 import { getProjectDetails, selectProjectSummary } from "../projectDetailSlice";
 
 interface Props {
@@ -84,7 +85,7 @@ const BugList = ({
 
   return (
     <div className="flex flex-1 flex-col overflow-y-auto rounded-2xl border bg-white p-3">
-      <div className="flex justify-between">
+      <div className="flex mb-8 justify-between">
         <DoubleIconsText
           title="Bug List"
           firstIcon="bug_report"
@@ -164,10 +165,13 @@ const BugList = ({
                 </div>
               </div>
               <p>{formatDate(bug.created)}</p>
-              <Details summary="Description & Comments">
+              <Details key={bug.id} summary="Description & Comments" bugId={bug.id} commentSection={(props:{isOpen:boolean, bugId:string}) => <CommentSection {...props} />} >
                 <p className="p-2 text-sm">{bug.description}</p>
-                <CommentSection2 />
               </Details>
+              {/* <Details summary="Description & Comments">
+                <p className="p-2 text-sm">{bug.description}</p>
+                <CommentSection bugId={bug.id} isOpen={false}/>
+              </Details> */}
             </li>
           );
         })}

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */ // This line is required for VSCode to recognize the config file
 const colors = require("tailwindcss/colors");
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx,html}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx,html}", 'node_modules/flowbite-react/lib/esm/**/*.js'],
   theme: {
     extend: {
       colors: {
@@ -13,7 +13,10 @@ module.exports = {
       fontFamily: {
         inter: ["Inter Variable", "sans-serif"],
       },
+      transitionProperty: {
+        'width': 'width',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('flowbite/plugin')],
 };
