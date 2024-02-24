@@ -57,7 +57,6 @@ const BugList = ({
       e.currentTarget.description.value = "";
       e.currentTarget.priority.value = "";
       e.currentTarget.assignee.value = "";
-      // handleAddingBug();
     } catch (error) {
       console.error(error);
     }
@@ -68,9 +67,17 @@ const BugList = ({
     const now = new Date();
     const created = new Date(date);
     const diff = now.getTime() - created.getTime();
+    const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 30 * 12));
+    const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const mins = Math.floor(diff / (1000 * 60));
+    if (years > 0) {
+      return `${years} years ago`;
+    }
+    if (months > 0) {
+      return `${months} months ago`;
+    }
     if (days > 0) {
       return `${days} days ago`;
     }
@@ -143,6 +150,7 @@ const BugList = ({
                   })
                 }
               />
+              <p>Assigned to <span className="capitalize font-normal">{bug.assignee.name}</span></p>
               <div className="flex justify-between gap-2">
                 <p
                   className={
@@ -168,10 +176,6 @@ const BugList = ({
               <Details key={bug.id} summary="Description & Comments" bugId={bug.id} commentSection={(props:{isOpen:boolean, bugId:string}) => <CommentSection {...props} />} >
                 <p className="p-2 text-sm">{bug.description}</p>
               </Details>
-              {/* <Details summary="Description & Comments">
-                <p className="p-2 text-sm">{bug.description}</p>
-                <CommentSection bugId={bug.id} isOpen={false}/>
-              </Details> */}
             </li>
           );
         })}

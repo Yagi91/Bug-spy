@@ -13,7 +13,7 @@ import {
 } from "./projectDetailSlice";
 import { Props as EditFormProps } from "./edit";
 import { getUsers, selectUsers } from "../profile/userSlice";
-import { update } from "../myTickets/api-bugs";
+// import { update } from "../myTickets/api-bugs";
 import BugList from "./common/bugList";
 import ProjectSummary from "./common/projectSummary";
 import ProjectDetailsComponent from "./common/projectDetailsComponent";
@@ -78,16 +78,16 @@ export default function ProjectDetails({ projectName }: Props) {
     progress: string;
     id: string;
   }): Promise<void> {
-    const jwt = sessionStorage.getItem("jwt")?.toString() as string;
-    const bugChanges = {
-      name: props.title,
-      description: props.description,
-      status: props.progress,
-      priority: props.priority,
-    };
-    const bugId = props.id;
+    // const jwt = sessionStorage.getItem("jwt")?.toString() as string;
+    // const bugChanges = {
+    //   name: props.title,
+    //   description: props.description,
+    //   status: props.progress,
+    //   priority: props.priority,
+    // };
+    // const bugId = props.id;
     try {
-      let data = await update(bugId, { t: JSON.parse(jwt) }, bugChanges);
+      // let data = await update(bugId, { t: JSON.parse(jwt) }, bugChanges);
       await dispatch(getProjectDetails(projectName as string));
     } catch (error) {}
     handleCloseEdit();
@@ -98,7 +98,6 @@ export default function ProjectDetails({ projectName }: Props) {
       return { value: member.id, label: member.name };
     });
   }, [projectMembers]);
-
   return (
     <div className="flex h-full w-full flex-col">
       <header className="mb-1 flex h-fit flex-col">

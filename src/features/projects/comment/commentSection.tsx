@@ -246,7 +246,6 @@ const ReplyForm = ({ parentId, bugId, userId, createReply, active, setActive }: 
   const [replyText, setReplyText] = useState<string>("");
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  // const textAreaRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (active === parentId) {
       setIsVisible(true);

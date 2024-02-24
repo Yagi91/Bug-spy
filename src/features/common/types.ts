@@ -7,7 +7,7 @@ export interface _ProjectBug {
     created: string;
     updated: string;
     type?: "bug" | "feature" | "task";
-    assignee?: string;
+    assignee?: {name: string, _id: string};
     project?: {
         name: string;
         _id: string;

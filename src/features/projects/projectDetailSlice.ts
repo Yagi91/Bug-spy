@@ -133,6 +133,7 @@ export const projectDetailsSlice = createSlice({
                     created: bug.created,
                     updated: bug.updated,
                     id: bug._id,
+                    assignee: bug.assignee,
                 };
             });
             const members: _ProjectMembers[] = action.payload.members.map((member: any) => {
@@ -143,7 +144,6 @@ export const projectDetailsSlice = createSlice({
                     role: member.role,
                 };
             });
-
             state.projectSummary = project;
             state.projectMembers = members;
             state.projectBugs = bugs;
