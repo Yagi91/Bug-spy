@@ -15,7 +15,7 @@ export default function Layout() {
       dispatch(logoutAction());
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 

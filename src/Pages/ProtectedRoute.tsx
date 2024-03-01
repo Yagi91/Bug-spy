@@ -14,7 +14,7 @@ export default function PrivateRoute() {
 
   useEffect(() => {
     if (isAuthenticated && !userInfo._id) {
-      console.log("dispatching login with jwt action");
+      // console.log("dispatching login with jwt action");
       dispatch(loginWithJWT(isAuthenticated));
     }
   }, [userInfo._id, dispatch, isAuthenticated]);

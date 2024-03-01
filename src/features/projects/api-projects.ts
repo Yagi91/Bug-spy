@@ -21,7 +21,7 @@ const getProjects = async () => {
 
         return await response.json();
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return err;
     }
 }
@@ -43,7 +43,7 @@ const getProject = async (params: { projectId: string }) => {
         }
         return await response.json();
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return err;
     }
 }
@@ -61,7 +61,7 @@ const createProject = async (project: any) => {
         });
         return await response.json();
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return err;
     }
 }
@@ -83,7 +83,7 @@ const updateProject = async (params: { projectId: string, project: any }) => {
         };
         return data;
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return err;
     }
 }
@@ -99,7 +99,7 @@ const deleteProject = async (params: { projectId: string }) => {
         });
         return await response.json();
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         return err;
     }
 }

@@ -52,7 +52,6 @@ export default function RegisterScreen() {
         throw new Error("Passwords do not match");
       }
     } catch (error: any) {
-      console.log("error:", error.message);
       setValues({ ...values, error: error.message ? error.message : "" });
     }
   };

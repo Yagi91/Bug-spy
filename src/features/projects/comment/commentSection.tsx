@@ -50,7 +50,7 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
   }
   type SubmitCommentprops = Omit<CommentProps, "user"> & { user: string };
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("submitting comment");
+    // console.log("submitting comment");
     e.preventDefault();
     const newComment: SubmitCommentprops = {
       bug: bugId,
@@ -63,11 +63,11 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
       setComments([...comments, comment]);
       setNewCommentText(""); // Clear the input field
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setError(error as string);
     }
   }
-  console.log('status', status);
+  // console.log('status', status);
   const handleSubmitReply = useCallback(async (props: SubmitCommentprops) => {
     try {
       const reply: CommentProps = await createComment(props);
@@ -90,7 +90,7 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
       setComments((prevComments) => addReplyToComments(prevComments));
 
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setError(error as string);
     }
   }, []);
@@ -100,7 +100,7 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
 
       const data = await deleteComment({ commentId });
 
-      console.log(data);
+      // console.log(data);
       // Update the comments state with the new comment
       const removeComment = (id: string, comments: CommentProps[]): CommentProps[] => {
         return comments.reduce((acc, comment) => {
@@ -116,12 +116,12 @@ export const CommentSection = ({ bugId, isOpen }: { bugId: string, isOpen:boolea
 
       setComments(prevComments => removeComment(commentId, prevComments));
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setError(error as string);
     }
   }
 
-  console.log("comments", comments);
+  // console.log("comments", comments);
 
   return (
     <section className="bg-neutral-300 py-8 rounded-lg lg:py-16 antialiased h-64 overflow-y-auto">
@@ -184,7 +184,7 @@ function Comment({ comment, extraClasses, handleRemove, children }: { comment: C
   // Close the dropdown if the user clicks outside of it
   const handleClickOutside = (event: any) => {
     if (parentRef.current && !parentRef.current.contains(event.target)) {
-      console.log("click outside");
+      // console.log("click outside");
       const dropdown = ref.current;
       dropdown?.classList.add("hidden");
     }
@@ -257,7 +257,7 @@ const ReplyForm = ({ parentId, bugId, userId, createReply, active, setActive }: 
 
   const handleSubmitReply = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log('clicked button, isVisible:', isVisible);
+    // console.log('clicked button, isVisible:', isVisible);
     setIsVisible(!isVisible);
     if(!isVisible && parentId!==active){
       setActive && setActive(parentId);
@@ -271,7 +271,7 @@ const ReplyForm = ({ parentId, bugId, userId, createReply, active, setActive }: 
     }
   }
 
-  console.log('isVisible', isVisible);
+  // console.log('isVisible', isVisible);
   return (
     <form className="w-full transiton flex items-center mt-1 space-x-2">
       <div className={`bg-gray-300 overflow-hidden transition-all duration-500 ${isVisible ? 'w-full max-w-full' : 'w-0 max-w-0 overflow-hidden'}`} >

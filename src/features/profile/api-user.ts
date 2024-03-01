@@ -23,7 +23,6 @@ const create = async (user: { name: string, password: string, email: string, rol
         }
         return await data;
     } catch (err: any) {
-        console.error("Error details:", err.message);
         throw new Error(err);
     }
 };
@@ -42,7 +41,6 @@ const list = async (signal: any) => {
         }
         return await response.json();
     } catch (err: any) {
-        console.error(err);
         throw new Error(err);
     }
 };
@@ -63,7 +61,6 @@ const read = async (params: any, credentials: any, signal: any) => {
         }
         return await response.json();
     } catch (err: any) {
-        console.error(err);
         throw new Error(err);
     }
 };
@@ -89,7 +86,6 @@ const update = async (params: any, credentials: any, user: any) => {
         }
         return data;
     } catch (err: any) {
-        console.error(err);
         throw new Error(err);
     }
 };
@@ -105,8 +101,8 @@ const remove = async (params: any, credentials: any) => {
             }
         });
         return await response.json();
-    } catch (err) {
-        console.error(err);
+    } catch (err: any) {
+        throw new Error(err);
     }
 };
 

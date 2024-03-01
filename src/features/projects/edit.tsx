@@ -38,8 +38,8 @@ const EditForm = ({
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("submitting");
-    console.log(select1, select2, text1, text2);
+    // console.log("submitting");
+    // console.log(select1, select2, text1, text2);
     if (!dispatchValues) return;
     dispatchValues({
       progress: select1?.value,

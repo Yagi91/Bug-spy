@@ -3,16 +3,13 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { NavLink, useParams } from "react-router-dom";
 import {
   selectMyTickets,
-  // selectMyTicketsError,
-  // selectMyTicketsLoading,
+
   fetchMyTickets,
 } from "./myTicketSlice";
 import { badgeColor, formatDate } from "../common/utils";
 
 const MyTickets = () => {
   const myTickets = useAppSelector(selectMyTickets);
-  // const myTicketsError = useAppSelector(selectMyTicketsError);
-  // const myTicketsLoading = useAppSelector(selectMyTicketsLoading);
   const { userId } = useParams<{ userId: string }>(); //this is the name of the project
 
   const dispatch = useAppDispatch();

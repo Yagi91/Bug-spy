@@ -23,7 +23,6 @@ const getBugsComments = async (params: { bugId: string}) => {
         }
         return data;
     } catch (err) {
-        console.error(err);
         throw err;
     }
 }
@@ -42,7 +41,6 @@ const createComment = async (params: { user:string, bug: string, text: string, p
         });
         return await response.json();
     } catch (err) {
-        console.error(err);
         return err;
     }
 }
@@ -58,7 +56,6 @@ const deleteComment = async (params: { commentId: string }) => {
         });
         return await response.json();
     } catch (err) {
-        console.error(err);
         return err;
     }
 }

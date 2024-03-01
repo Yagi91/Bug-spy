@@ -25,7 +25,6 @@ const create = async (bug: { name: string, description: string, priority: string
 
         return await data;
     } catch (err: any) {
-        console.error("Error details:", err.message);
         throw new Error(err);
     }
 };
@@ -44,7 +43,6 @@ const list = async (signal: any) => {
         return data;
 
     } catch (err: any) {
-        console.error(err);
         throw new Error(err);
     }
 };
@@ -67,7 +65,6 @@ const listByUser = async (userId: string, credentials: any, signal: any) => {
         }
         return data;
     } catch (err: any) {
-        console.error(err);
         throw new Error(err);
     }
 };
@@ -84,8 +81,8 @@ const update = async (bugId: string, credentials: any, bug: any) => {
             body: JSON.stringify(bug)
         });
         return await response.json();
-    } catch (err) {
-        console.error(err);
+    } catch (err: any) {
+        throw new Error(err);
     }
 };
 
